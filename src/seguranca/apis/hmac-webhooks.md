@@ -1,0 +1,1 @@
+# Assinaturas HMAC para Webhooks

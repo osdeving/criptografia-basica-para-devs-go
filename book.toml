@@ -1,0 +1,6 @@
+[book]
+authors = ["Willams Sousa"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Jwt Go Demo"
