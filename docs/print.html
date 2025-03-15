@@ -434,18 +434,28 @@ b64_4 = <span style="color:#ff9999;">100010</span>  (34 em decimal) →  Índice
 	return string(out)
 
 </code></pre>
-<p>Quando a entrada nã é múltiplo de 3 significa que ao sairmos do laço principal restará 1 ou 2 bytes. A especificação do Base64 exige que tenhamos 4 grupos fechados de 6 bits, que resultam 4 caracteres da tabela.</p>
-<p>Quando sobrar apenas 1 byte, teremos que agrupar em blocos de 6 bits e ter um total de 4 blocos. Como obter um total de 4 blocos de 6 bits com apenas 8 bits? A especificação diz que temos que pegar os 6 bits e obter qual o valor da tabela, para os 2 bits que sobrarem colocamos zeros <strong>à direita</strong> para completar 6 bits e então obtemos o valor na tabela e para os dois grupos restantes simplesmente consideramos o valor '='.</p>
-<p>Então temos que: O primeiro grupo de 6 bits do byte pega um valor normalmente da tabela, o outro valor é obtido completando os 2 bits que sobraram com quatro zeros à direita e os outros dois grupos de 6 bits consideramos o '=' para cada um.</p>
-<p>Quando sobram 2 bytes a regra é a mesma. Isto é, dos 16 bits teremos 2 valores <em>cheios</em> e os 4 bits que sobram recebem dois zeros à direita e, diferente do caso que sobra apenas 1 byte, nesse caso precisamos de apenas um '=' para completar o grupo de 4 valores uma vez que já temos 3 grupos prontos.</p>
-<p>P.ex.:</p>
-<p>Se tivermos 1 byte sobrando (A = 01000001 em binário = 65 em decimal), precismos transformar isso em 4 blocos de 6 bits. Então fazemos o seguinte:</p>
+<p>
+Quando a entrada nã é múltiplo de 3 significa que ao sairmos do laço principal restará 1 ou 2 bytes. A especificação do Base64 exige que tenhamos 4 grupos fechados de 6 bits, que resultam 4 caracteres da tabela. 
+</p>
+<p>
+Quando sobrar apenas 1 byte, teremos que agrupar em blocos de 6 bits e ter um total de 4 blocos. Como obter um total de 4 blocos de 6 bits com apenas 8 bits? A especificação diz que temos que pegar os 6 bits e obter qual o valor da tabela, para os 2 bits que sobrarem colocamos zeros **à direita** para completar 6 bits e então obtemos o valor na tabela e para os dois grupos restantes simplesmente consideramos o valor '='.
+</p>
+<p>
+Então temos que: O primeiro grupo de 6 bits do byte pega um valor normalmente da tabela, o outro valor é obtido completando os 2 bits que sobraram com quatro zeros à direita e os outros dois grupos de 6 bits consideramos o '=' para cada um.
+</p>
+<p>
+Quando sobram 2 bytes a regra é a mesma. Isto é, dos 16 bits teremos 2 valores _cheios_ e os 4 bits que sobram recebem dois zeros à direita e, diferente do caso que sobra apenas 1 byte, nesse caso precisamos de apenas um '=' para completar o grupo de 4 valores uma vez que já temos 3 grupos prontos.
+</p>
+<p>
+P.ex.:
+</p>
+<p>
+Se tivermos 1 byte sobrando (A = 01000001 em binário = 65 em decimal), precismos transformar isso em 4 blocos de 6 bits. Então fazemos o seguinte:
+</p>
 <pre>
 <span style="color:yellow">010000</span><span style="color:rebeccapurple">01</span><span style="color:red">0000</span><span style="color:lightblue">=</span><span style="color:lightgreen">=</span>
-<pre>
-
-Para os dois primeiros (coincidentemente) teremos o mesmo valor na b64table ('Q') e para os outros dois teremos o '='. Assim, ficamos com
-
+</pre>
+<p>Para os dois primeiros (coincidentemente) teremos o mesmo valor na b64table ('Q') e para os outros dois teremos o '='. Assim, ficamos com</p>
 <pre>
 <strong>QQ==</strong>
 </pre>
