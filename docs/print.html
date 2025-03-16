@@ -529,8 +529,179 @@ func main() {
 }
 </code></pre>
 <p>Curiosidade: nossa versão fica alguns ms mais lenta que a versão do Go, sintam-se à vontade para estudar a versão em Go, agora poderão entender todo o código!</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="hashing-e-sha-256"><a class="header" href="#hashing-e-sha-256">Hashing e SHA-256</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="checksum-e-crc---verificação-de-integridade"><a class="header" href="#checksum-e-crc---verificação-de-integridade">Checksum e CRC - Verificação de Integridade</a></h1>
 <h2 id="introdução"><a class="header" href="#introdução">Introdução</a></h2>
+<p>Na seção anterior, discutimos a codificação e o transporte de dados. Agora, avançamos para um aspecto essencial da transmissão e armazenamento de informações: a verificação de integridade. Esse processo garante que os dados recebidos são os mesmos que foram enviados, sem terem sido alterados ou corrompidos durante a transmissão ou armazenamento.</p>
+<p>A integridade dos dados pode ser comprometida por diversos fatores, como erros humanos, falhas sistêmicas (por exemplo, setores defeituosos em discos rígidos) ou perdas de pacotes em redes devido a interferências ou congestionamento.</p>
+<p>Para detectar essas falhas, foram desenvolvidos mecanismos como os checksums e os CRC (Cyclic Redundancy Check), que permitem identificar se os dados foram alterados de forma acidental.</p>
+<p>É importante diferenciar esses métodos das funções hash criptográficas, como MD5 e SHA-256, que abordaremos mais adiante neste livro. Enquanto checksums e CRCs são projetados para detectar erros acidentais, funções hash criptográficas garantem a integridade contra modificações intencionais, oferecendo resistência a ataques e manipulação maliciosa.</p>
+<p>Nesta seção, exploraremos como checksums simples podem ser utilizados para verificar integridade e, em seguida, como os CRC oferecem um método mais robusto para detectar erros em sistemas computacionais.</p>
+<h2 id="bit-de-paridade-parity-bit"><a class="header" href="#bit-de-paridade-parity-bit">Bit de Paridade (Parity Bit)</a></h2>
+<p>Parity bit é um código de detecção de erros em que um bit extra é adicionado ao final da mensagem para garantir que o número total de bits "1" seja par (paridade par) ou ímpar (paridade ímpar). Se um único bit for invertido durante a transmissão, o receptor perceberá a inconsistência e poderá solicitar o reenvio.</p>
+<p>Exemplo de paridade par:</p>
+<pre><code>Mensagem original: 10101110 (8 bits)
+Número de bits "1": 5
+Bit de paridade: 1 (para tornar o total par)
+Mensagem transmitida: 101011101
+</code></pre>
+<p>Se um erro ocorrer e inverter um bit:</p>
+<pre><code>Recebido: 101001101 (erro no terceiro bit)
+Número de bits "1": 4 → Inconsistência detectada.
+</code></pre>
+<p>Embora simples, a paridade tem limitações: não detecta erros em um número par de bits invertidos, tornando-a inadequada para muitas aplicações.</p>
+<p>Como alternativa, poderíamos enviar a mensagem duas vezes e comparar ambas as cópias. No entanto, isso dobra o consumo de banda e não garante detecção total de erros se ambas as cópias forem corrompidas de forma idêntica.</p>
+<p>O ideal é encontrar um código de verificação que minimize o custo de transmissão e maximize a capacidade de detecção de erros. Os dois métodos mais utilizados são:</p>
+<ul>
+<li>Checksums – Somam os valores dos bytes da mensagem e armazenam o resultado junto com os dados.</li>
+<li>Cyclic Redundancy Check (CRC) – Usa operações matemáticas sobre polinômios para gerar um código de verificação mais robusto.</li>
+</ul>
+<p>Nos próximos tópicos, exploraremos esses métodos em detalhes, mostrando suas implementações e aplicações.</p>
+<h2 id="checksum"><a class="header" href="#checksum">Checksum</a></h2>
+<p>O checksum é a forma mais simples de verificação de integridade, sendo calculado somando os valores dos bytes ou palavras de um dado e armazenando essa soma junto com os dados. Ao receber ou ler os dados, a soma é recalculada e comparada com o checksum armazenado. Se os valores diferirem, isso indica um erro na transmissão ou no armazenamento.</p>
+<h3 id="exemplo-de-checksum-simples-soma-de-bytes"><a class="header" href="#exemplo-de-checksum-simples-soma-de-bytes">Exemplo de Checksum Simples (Soma de Bytes)</a></h3>
+<p>Vamos criar uma implementação básica de checksum em Go, somando os valores dos bytes da mensagem e calculando o módulo 256 para manter um valor fixo de 8 bits.</p>
+<pre><code class="language-go">package main
+
+import (
+	"fmt"
+)
+
+// Função de checksum simples (soma dos bytes módulo 256)
+func SimpleChecksum(data []byte) byte {
+	var checksum byte = 0
+	for _, b := range data {
+		checksum += b
+	}
+	return checksum
+}
+
+func main() {
+	data := []byte("HELLO")
+	fmt.Printf("Checksum de 'HELLO': 0x%X\n", SimpleChecksum(data))
+}
+</code></pre>
+<p>Um algorítmo simples como o demonstrado acima possui algumas limitações importantes:</p>
+<ul>
+<li>Não detecta trocas na ordem dos bytes (ABC e CBA geram o mesmo checksum)</li>
+<li>Colisões serão frequentes (diferentes mensagens podem gerar o mesmo valor de checksum)</li>
+<li>Não detecta alguns tiopos de erro bit a bit</li>
+</ul>
+<p>Para resolver esses problemas, foram criadas versões mais sofisticadas, como o CRC.</p>
+<h2 id="checksum-no-udpip"><a class="header" href="#checksum-no-udpip">Checksum no UDP/IP</a></h2>
+<p>O protocolo UDP (User Datagram Protocol) e o cabeçalho IP (Internet Protocol) utilizam um checksum baseado em complemento de um, que é uma técnica mais avançada do que a simples soma de bytes. Esse método melhora a detecção de erros, sendo amplamente usado na transmissão de pacotes de rede.</p>
+<p>Como o checksum do UDP/IP funciona?</p>
+<ul>
+<li>A mensagem (ou cabeçalho IP) é dividida em blocos de 16 bits.</li>
+<li>Os blocos são somados usando aritmética de complemento de um.</li>
+<li>O complemento de um do resultado final é armazenado como o checksum.</li>
+<li>No destino, o receptor soma todos os blocos novamente, incluindo o checksum recebido.</li>
+<li>Se o resultado for 0xFFFF, os dados são considerados íntegros; caso contrário, há erro na transmissão.</li>
+</ul>
+<p>Isso permite detectar a maioria dos erros comuns em transmissões de rede.</p>
+<h3 id="implementação-do-checksum-udpip-em-go"><a class="header" href="#implementação-do-checksum-udpip-em-go">Implementação do Checksum UDP/IP em Go</a></h3>
+<pre><code class="language-go">package main
+
+import (
+	"encoding/binary"
+	"fmt"
+)
+
+// Função para calcular o checksum do UDP/IP usando complemento de um
+func UDPChecksum(data []byte) uint16 {
+	var sum uint32
+
+	// Processa os dados em blocos de 16 bits
+	for i := 0; i &lt; len(data)-1; i += 2 {
+		word := binary.BigEndian.Uint16(data[i : i+2]) // Converte dois bytes em um uint16
+		sum += uint32(word)
+	}
+
+	// Se o número de bytes for ímpar, adiciona o último byte com padding
+	if len(data)%2 != 0 {
+		sum += uint32(data[len(data)-1]) &lt;&lt; 8
+	}
+
+	// Adiciona os "overflows" da soma (carry bits)
+	for (sum &gt;&gt; 16) &gt; 0 {
+		sum = (sum &amp; 0xFFFF) + (sum &gt;&gt; 16)
+	}
+
+	// Retorna o complemento de um do resultado final
+	return uint16(^sum)
+}
+
+func main() {
+	data := []byte("HELLOUDP")
+	checksum := UDPChecksum(data)
+	fmt.Printf("Checksum UDP de 'HELLOUDP': 0x%X\n", checksum)
+}
+
+</code></pre>
+<p>Essa implementação reflete como os protocolos UDP e IP realizam a verificação de integridade, garantindo que os pacotes de rede cheguem corretamente ao destino.</p>
+<h2 id="crc---cyclic-redundancy-check"><a class="header" href="#crc---cyclic-redundancy-check">CRC - Cyclic Redundancy Check</a></h2>
+<p>O CRC (Cyclic Redundancy Check) é um método de detecção de erros baseado em operações matemáticas sobre polinômios binários. Em vez de apenas somar valores, o CRC trata os dados como um número binário e divide esse número por um polinômio pré-determinado, registrando o resto da divisão como código de verificação.</p>
+<p>O CRC é amplamente usado em:</p>
+<ul>
+<li>Transmissões de rede (Ethernet, Wi-Fi)</li>
+<li>Armazenamento de arquivos (ZIP, RAR)</li>
+<li>Sistemas embarcados (CD-ROM, comunicações seriais)</li>
+</ul>
+<h3 id="implementação-do-crc-8-em-go"><a class="header" href="#implementação-do-crc-8-em-go">Implementação do CRC-8 em Go</a></h3>
+<p>O CRC-8 é uma das versões mais simples, usando um polinômio de 8 bits.</p>
+<pre><code class="language-go">package main
+
+import (
+	"fmt"
+)
+
+// Tabela CRC-8 para polinômio 0x07 (x^8 + x^2 + x + 1)
+var crc8Table [256]byte
+
+// Inicializa a tabela CRC-8
+func init() {
+	const poly = byte(0x07)
+	for i := 0; i &lt; 256; i++ {
+		crc := byte(i)
+		for j := 0; j &lt; 8; j++ {
+			if (crc &amp; 0x80) != 0 {
+				crc = (crc &lt;&lt; 1) ^ poly
+			} else {
+				crc &lt;&lt;= 1
+			}
+		}
+		crc8Table[i] = crc
+	}
+}
+
+// Calcula CRC-8 para um conjunto de dados
+func CRC8(data []byte) byte {
+	crc := byte(0)
+	for _, b := range data {
+		crc = crc8Table[crc^b]
+	}
+	return crc
+}
+
+func main() {
+	data := []byte("HELLO")
+	fmt.Printf("CRC-8 de 'HELLO': 0x%X\n", CRC8(data))
+}
+</code></pre>
+<p>O CRC, diferente do checksum, detecta trocas na ordem dos bytes, detecta erros simples de mútiplos bits errados e possui menor taxa de colisões. Mas o CRC-8 não é reistente a ataques maliciosos (não deve ser usado para segurança) e pode falhar na detecção de alguns padrões específicos de erro se o polinômio não for bem escolhido.</p>
+<h2 id="variações-do-crc"><a class="header" href="#variações-do-crc">Variações do CRC</a></h2>
+<p>CRC-16
+CRC-32
+CRC-64
+Adler-32
+Fletcher-16/32</p>
+<p>Cada algoritmo tem um nível diferente de eficiência e resistência a erros. CRC-32, por exemplo, é usado no ZIP e no protocolo de rede Ethernet devido à sua confiabilidade e baixo custo computacional.</p>
+<h2 id="diferença-entre-checksum-crc-e-funções-hash"><a class="header" href="#diferença-entre-checksum-crc-e-funções-hash">Diferença entre Checksum, CRC e Funções Hash</a></h2>
+<h3 id="conclusão"><a class="header" href="#conclusão">Conclusão</a></h3>
+<p>O checksum é uma técnica básica e eficiente para detecção de erros simples, mas tem falhas para detecção de padrões mais complexos. O CRC usa divisão polinomial para criar uma verificação mais robusta contra corrupção de dados, sendo amplamente utilizado em redes e armazenamento. Nenhum desses métodos deve ser confundido com funções hash criptográficas, que garantem segurança contra alterações intencionais nos dados.</p>
+<p>Se queremos segurança contra modificações maliciosas, devemos usar HMAC, SHA-256 ou outras funções hash seguras.</p>
+<p>Agora que entendemos essas formas de verificação de integridade fraca, podemos avançar para a família MD (Message Digest), que evolui de checksums simples para funções hash mais sofisticadas.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="hashing-e-sha-256"><a class="header" href="#hashing-e-sha-256">Hashing e SHA-256</a></h1>
+<h2 id="introdução-1"><a class="header" href="#introdução-1">Introdução</a></h2>
 <p>Funções hash são operações matemáticas que transformam uma entrada de qualquer tamanho em uma saída de tamanho fixo. Para uma mesma entrada, a saída gerada será sempre a mesma.</p>
 <p>Uma das principais propriedades das funções hash é que a operação é irreversível, ou seja, não é possível obter a entrada original a partir da saída gerada.</p>
 <p>Além disso, o tamanho da saída é sempre fixo, independentemente do tamanho da entrada. Isso significa que uma entrada curta e uma entrada muito longa geram um hash com a mesma quantidade de bits.</p>
@@ -594,9 +765,74 @@ Saída de tamanho fixo: A saída sempre tem 256 valores possíveis, independente
 </code></pre>
 <p>Contudo, o espaço da saída ainda é muito pequeno, estamos limitando a saída a 32 bits. Para grandes volumes de dados as colisões ainda serão inevitáveis e o algorítmo também não é resistente a pré-imagem. Além disso, pequenas mudanças na entrada não afetam significativamente a saída (efeito avalanche).</p>
 <p>Esses exemplos foram um ótimo ponto de partida, mas a computação exigiu funções hash mais poderosas. Vamos analisar como os algoritmos evoluíram ao longo do tempo até chegarmos às soluções modernas, como o SHA-256.</p>
-<h2 id="famílias-de-algorítmos-message-digest"><a class="header" href="#famílias-de-algorítmos-message-digest">Famílias de Algorítmos Message Digest</a></h2>
-<h3 id="md2"><a class="header" href="#md2">MD2</a></h3>
-<p>O primeiro algorítmo que vamos discutir é conhecido como MD2, o primeiro da família MD (Message Digest) e foi desenvolvido por Ronald Rivest em 1989. Ele foi projetado especificamente para computadores de 8 bits. Apesar de ter sido uma inovação importante, o MD2 se tornou obsoleto com o tempo devido a ataques criptográficos bem-sucedidos. Suas principais características eram:</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="hashing-e-sha-256-1"><a class="header" href="#hashing-e-sha-256-1">Hashing e SHA-256</a></h1>
+<h2 id="introdução-2"><a class="header" href="#introdução-2">Introdução</a></h2>
+<p>Funções hash são operações matemáticas que transformam uma entrada de qualquer tamanho em uma saída de tamanho fixo. Para uma mesma entrada, a saída gerada será sempre a mesma.</p>
+<p>Uma das principais propriedades das funções hash é que a operação é irreversível, ou seja, não é possível obter a entrada original a partir da saída gerada.</p>
+<p>Além disso, o tamanho da saída é sempre fixo, independentemente do tamanho da entrada. Isso significa que uma entrada curta e uma entrada muito longa geram um hash com a mesma quantidade de bits.</p>
+<p>Embora seja esperado que entradas diferentes gerem hashes diferentes, existe a possibilidade de colisões, onde duas entradas distintas podem produzir o mesmo hash. A qualidade da função hash está diretamente ligada à sua capacidade de minimizar essas colisões.</p>
+<p>Para começar, vamos criar uma função hash simples e passar por todos os pontos mencionados acima. Nossa função hash vai fazer o seguinte: dada uma entrada, somamos os valores ASCII da entrada e dessa soma obtemos o módulo 256, ou seja, teremos sempre um valor entre 0 e 255 não importando o tamanho da entrada. Acompanhe:</p>
+<pre><code class="language-go">package main
+
+import (
+    "fmt"
+)
+
+func simpleHash(in string) int {
+    hash := 0
+    for _, char := range in {
+        hash += int(char)
+    }
+    return hash % 256
+}
+
+func main() {
+	input1 := "willams sousa"
+	input2 := "Go"
+	input3 := "xyz"
+
+    fmt.Printf("Hash de '%v':%v\n", input1, simpleHash(input1))
+    fmt.Printf("Hash de '%v':%v\n", input2, simpleHash(input2))
+    fmt.Printf("Hash de '%v':%v\n", input3, simpleHash(input3))
+}
+</code></pre>
+<p>Nosso simpleHash tem apenas 256 saídas possíveis, mas pode processar infinitas entradas distintas. Isso inevitavelmente leva a colisões, pois, pelo Princípio da Pomba (Pigeonhole Principle), há mais entradas possíveis do que saídas distintas.</p>
+<p>Por exemplo, todo palíndromo leva a colisões, pois a soma é uma operação comutativa, e a soma dos códigos ASCII dessas strings produz sempre o mesmo valor, independentemente da ordem dos caracteres. Mas esse problema não se restringe apenas a palíndromos. A string "wow" e "zft" também colidem, pois:</p>
+<ul>
+<li>"wow" → w=119, o=111, w=119 → 119 + 111 + 119 = 349</li>
+<li>"zft" → z=122, f=102, t=125 → 122 + 102 + 125 = 349</li>
+</ul>
+<p>Isso demonstra que a ordem dos caracteres não é levada em conta, resultando em muitas colisões.</p>
+<p>Propriedades de funções hash aplicadas ao simpleHash:</p>
+<ul>
+<li><input disabled="" type="checkbox" checked=""/>
+Determinística: Para a mesma entrada, sempre obtemos a mesma saída.</li>
+<li><input disabled="" type="checkbox"/>
+Irreversível: Nossa função não é verdadeiramente irreversível, pois permite encontrar entradas compatíveis facilmente.</li>
+<li><input disabled="" type="checkbox"/>
+Alta entropia e efeito avalanche: Pequenas mudanças na entrada não causam mudanças drásticas no hash.</li>
+<li><input disabled="" type="checkbox"/>
+Resistência à pré-imagem: Se tivermos o valor H, podemos facilmente encontrar um X tal que hash(X) = H, devido ao baixo espaço de saída.</li>
+<li><input disabled="" type="checkbox" checked=""/>
+Saída de tamanho fixo: A saída sempre tem 256 valores possíveis, independentemente do tamanho da entrada.</li>
+</ul>
+<p>Apesar disso, nosso algoritmo parece irreversível, mas pelos motivos errados! Devido à enorme incidência de colisões, não temos como saber qual foi a entrada exata que gerou determinada saída. Isso, porém, não é uma característica desejável em uma função hash criptográfica.</p>
+<p><img src="conceitos/images/image.png" alt="Simple Hash" /></p>
+<p>Podemos melhorar nossa função hash usando multiplicação por um fator primo melhorando a dispersão e reduzindo colisões triviais. P.ex:</p>
+<pre><code class="language-go">func betterHash(input string) int {
+    hash := 0
+    prime := 31 // Usar um número primo ajuda a dispersar os valores
+	for i, char := range input {
+		hash = hash*prime + int(char)
+	}
+	return hash &amp; 0xFFFFFFFF // tamanho fixo (32 bits)
+}
+</code></pre>
+<p>Contudo, o espaço da saída ainda é muito pequeno, estamos limitando a saída a 32 bits. Para grandes volumes de dados as colisões ainda serão inevitáveis e o algorítmo também não é resistente a pré-imagem. Além disso, pequenas mudanças na entrada não afetam significativamente a saída (efeito avalanche).</p>
+<p>Esses exemplos foram um ótimo ponto de partida, mas a computação exigiu funções hash mais poderosas. Vamos analisar como os algoritmos evoluíram ao longo do tempo até chegarmos às soluções modernas, como o SHA-256.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="família-de-algoritmos-md---message-digest"><a class="header" href="#família-de-algoritmos-md---message-digest">Família de Algoritmos MD - Message Digest</a></h1>
+<h2 id="md2"><a class="header" href="#md2">MD2</a></h2>
+<p>O primeiro algoritmo amplamente publicado da família MD (Message Digest) foi o MD2 e foi desenvolvido por Ronald Rivest em 1989 (não achei nenhuma publicação do MD1 nem do MD3). Ele foi projetado especificamente para computadores de 8 bits. Apesar de ter sido uma inovação importante, o MD2 se tornou obsoleto com o tempo devido a ataques criptográficos bem-sucedidos. Suas principais características eram:</p>
 <ul>
 <li>Tamanho da saída: 128 bits (16 bytes)</li>
 <li>Entrada de tamanho variável</li>
@@ -604,34 +840,187 @@ Saída de tamanho fixo: A saída sempre tem 256 valores possíveis, independente
 <li>Inseguro desde 2004 devido a ataques práticos</li>
 <li>Lento em hardware moderno devido à otimização para 8 bits</li>
 </ul>
-<h4 id="como-o-md2-funciona"><a class="header" href="#como-o-md2-funciona">Como o MD2 Funciona?</a></h4>
+<h3 id="como-o-md2-funciona"><a class="header" href="#como-o-md2-funciona">Como o MD2 Funciona?</a></h3>
 <p>A especificação do MD2 pode ser encontrada na RFC 1319. Esse algorítmo transforma qualquer entrada em um hash de 128bits. Ele faz isso seguindo 3 etapas principais:</p>
-<p>1 - Padding</p>
+<h4 id="1---padding"><a class="header" href="#1---padding">1 - Padding</a></h4>
 <p>Para garantir que o tamanho da entrada seja um múltiplo de 16 bytes, adicionamos bytes de padding no final. A regra é a seguinte:</p>
 <ul>
-<li>se o tamanho da mensagem já for múltiplo de 16, adicionamos 16 bytes de 0x10.</li>
-<li>se falta N bytes para completar 16, adicionamos N bytes do valor N</li>
+<li>se o tamanho da mensagem já for múltiplo de 16, adicionamos 16 bytes com o valor 0x10 (16 em decimal).</li>
+<li>se faltar N bytes para completar 16, adicionamos N bytes com o valor de N.</li>
 </ul>
 <p>Exemplo:</p>
-<pre>
-Entrada original: [41 42 43] = "ABC"
-Tamanho: 3 bytes
-Padding necessário: 16 - 3 = 13 bytes
-Resultado final: [41 42 43 0D 0D 0D 0D 0D 0D 0D 0D 0D 0D 0D 0D]
-</pre>
-<p>2 - Checksum</p>
+<p><img src="conceitos/images/padding-md2.png" alt="Padding MD2" /></p>
+<p>Ou seja:</p>
+<div class="table-wrapper"><table><thead><tr><th><strong>Etapa</strong></th><th><strong>Dados</strong></th></tr></thead><tbody>
+<tr><td><strong>Entrada original</strong></td><td>Hexa: <code>[41 42 43]</code> = <code>"ABC"</code></td></tr>
+<tr><td><strong>Tamanho</strong></td><td><strong>3 bytes</strong></td></tr>
+<tr><td><strong>Padding necessário</strong></td><td><code>16 - 3 = 13</code> bytes</td></tr>
+<tr><td><strong>Preenchimento</strong></td><td><strong>Faltam 13 bytes</strong>, então usamos <code>0x0D</code> (13)</td></tr>
+<tr><td><strong>Resultado final</strong></td><td><code>[41 42 43 0D 0D 0D 0D 0D 0D 0D 0D 0D 0D 0D 0D 0D]</code></td></tr>
+</tbody></table>
+</div>
+<p>Se a entrada tivesse 15 bytes, haveria um padding de 1 byte com o valor 0x01, se tivesse exatamente 16 bytes, faríamos um padding de mais 16 bytes com o valor 0x10 (16 em decimal), e assim por diante.</p>
+<h4 id="2---checksum"><a class="header" href="#2---checksum">2 - Checksum</a></h4>
 <p>O MD2 adiciona um checksum de 16 bytes, que é computado iterando sobre a mensagem e aplicando XOR com uma tabela de permutação.</p>
-<p>Essa tabela de permutação S-box (256 valores) foi escolhida manualmente por Rivest e usada para misturar os dados.</p>
-<p>A fórmula para calcular o checksum de 16 bytes é:</p>
-<pre><code>checksum[j] = checksum[j] XOR S(block[i] XOR checksum[j - 1])
+<p>Essa tabela de permutação S-box (256 valores) foi escolhida manualmente por Rivest e é baseada em uma permutação "aleatória" dos dígitos de Pi.</p>
+<p>Uma S-box (Substitution Box) é uma tabela de substituição não linear usada em criptografia para aumentar a confusão, um conceito fundamental introduzido por Claude Shannon em seu estudo seminal sobre teoria da criptografia (Shannon, 1949)[1].</p>
+<p>O objetivo do checksum no MD2 é adicionar redundância e garantir que qualquer alteração na mensagem original impacte significativamente o resultado final. O checksum não serve como verificação de integridade tradicional (como em CRCs), mas sim para aumentar a resistência do algoritmo contra colisões.</p>
+<h5 id="como-o-checksum-é-calculado"><a class="header" href="#como-o-checksum-é-calculado">Como o Checksum é Calculado?</a></h5>
+<p>A cada bloco de 16 bytes da mensagem (com padding já aplicado), percorremos byte a byte e atualizamos o checksum usando a tabela S-Box.</p>
+<p>O cálculo segue a seguinte fórmula:</p>
+<pre><code>C[j] = C[j] XOR S[M[i * 16 + j] XOR L]
+L = C[j]
 </code></pre>
-<p>Isso adiciona o efeito de difusão na mensagem antes da fase final.</p>
-<p>3 - Processamento Principal</p>
-<p>Agora pegamos a mensagem + checksum e a processamos usando uma permutação de 48 bytes, misturando os blocos de 16 bytes repetidamente.</p>
-<p>O buffer inicial (48 bytes) é atualizado 18 vezes para fortalecer a resistência a colisões.</p>
-<p>O MD2 não usa operações de bitwise complexas como rotação, apenas XOR e tabelas de substituição são usadas.</p>
-<h4 id="implementação-do-md2-em-go"><a class="header" href="#implementação-do-md2-em-go">Implementação do MD2 em Go</a></h4>
-<p>A tabela S-box define os bytes que serão permutados internamente.</p>
+<p>Onde:</p>
+<ul>
+<li>C[j] -&gt; byte j do checksum</li>
+<li>M[i * 16 + j] -&gt; byte j do bloco i da mensagem</li>
+<li>S[x] -&gt; S-Box, uma tabela de substituição com 256 valores, indexada pelo resultado do XOR</li>
+<li>L -&gt; Último valor atualizado do checksum, começando com 0.</li>
+</ul>
+<p>Veja um passo a passo com valores reais:</p>
+<p>Suponha que:</p>
+<ul>
+<li>C[3] = 0xA5</li>
+<li>M[3] = 0x7F</li>
+<li>L = 0x2C</li>
+<li>S[0x53] = 0xD4 (porque 0x7F XOR 0x2C = 0x53)</li>
+</ul>
+<p>Agora, aplicamos:</p>
+<pre><code>C[3] = C[3] XOR S[ M[3] XOR L ]
+     = 0xA5 XOR S[0x53]
+     = 0xA5 XOR 0xD4
+     = 0x71
+
+L = C[3] = 0x71
+
+</code></pre>
+<p>Essa fase adiciona o efeito de difusão na mensagem antes da fase final.</p>
+<p>A difusão é um conceito introduzido por Claude Shannon [Shannon, 1949] [1], onde pequenas mudanças na entrada devem se espalhar por toda a saída, dificultando a recuperação do texto original a partir do hash ou da cifra</p>
+<p>Após processar todos os blocos, os 16 bytes do checksum são anexados à mensagem.</p>
+<h5 id="implementação-em-go-1"><a class="header" href="#implementação-em-go-1">Implementação em Go</a></h5>
+<pre><code class="language-go">var SBox = [256]byte{
+	41, 46, 67, 201, 162, 216, 124, 1, 61, 54, 84, 161, 236, 240, 6, 19,
+	98, 167, 5, 243, 192, 199, 115, 140, 152, 147, 43, 217, 188, 76, 130, 202,
+	30, 155, 87, 60, 253, 212, 224, 22, 103, 66, 111, 24, 138, 23, 229, 18,
+	190, 78, 130, 235, 167, 56, 19, 64, 70, 57, 64, 195, 148, 36, 198, 28,
+	242, 101, 37, 149, 184, 120, 215, 68, 76, 168, 73, 226, 70, 32, 62, 203,
+	113, 107, 34, 82, 178, 175, 212, 81, 78, 100, 212, 180, 38, 186, 59, 113,
+	79, 52, 202, 51, 89, 197, 60, 22, 184, 79, 63, 174, 196, 142, 95, 35,
+	235, 221, 169, 128, 248, 105, 194, 54, 204, 134, 179, 227, 91, 225, 92, 239,
+	191, 138, 75, 209, 123, 112, 147, 131, 175, 148, 100, 245, 196, 56, 109, 92,
+	241, 241, 107, 206, 161, 24, 108, 72, 85, 176, 46, 130, 187, 20, 166, 76,
+	101, 150, 53, 216, 38, 244, 186, 155, 43, 80, 231, 49, 205, 18, 38, 141,
+	106, 169, 173, 89, 151, 152, 145, 232, 165, 29, 214, 32, 212, 185, 58, 5,
+	208, 141, 116, 55, 63, 158, 98, 164, 218, 228, 67, 193, 66, 56, 55, 96,
+	197, 61, 91, 164, 216, 21, 55, 249, 245, 77, 117, 193, 179, 75, 89, 217,
+	244, 51, 96, 191, 166, 63, 131, 250, 48, 219, 41, 56, 154, 81, 70, 196,
+	251, 140, 206, 36, 255, 96, 147, 158, 69, 48, 36, 136, 74, 95, 35, 94,
+	191, 249, 189, 14, 125, 77, 135, 55, 146, 147, 238, 93, 139, 140, 74, 38,
+	192, 89, 246, 116, 40, 158, 136, 171, 166, 123, 101, 26, 52, 36, 252, 176,
+	191, 226, 174, 121, 38, 160, 202, 64, 141, 197, 210, 251, 144, 45, 47, 157,
+	202, 121, 128, 192, 105, 111, 94, 108, 218, 158, 71, 89, 152, 76, 108, 188,
+	50, 203, 61, 117, 158, 140, 76, 144, 55, 199, 24, 97, 46, 24, 94, 82,
+	113, 72, 54, 86, 109, 98, 125, 204, 159, 107, 38, 249, 72, 36, 84, 113,
+	194, 250, 70, 161, 78, 245, 121, 158, 239, 190, 42, 222, 104, 63, 93, 106,
+	242, 216, 64, 122, 174, 210, 194, 79, 124, 55, 198, 156, 168, 40, 56, 156,
+	64, 54, 73, 87, 179, 51, 173, 40, 180, 199, 47, 105, 26, 43, 76, 174,
+	45, 195, 89, 147, 67, 252, 184, 248, 128, 137, 223, 62, 142, 119, 196, 32,
+	32, 129, 107, 244, 153, 178, 61, 134, 240, 144, 47, 226, 121, 69, 116, 48,
+	155, 158, 112, 164, 109, 140, 167, 220, 111, 115, 137, 187, 61, 122, 82, 194,
+	218, 102, 243, 99, 208, 172, 193, 141, 145, 226, 218, 162, 232, 64, 202, 47,
+	118, 164, 108, 173, 98, 217, 187, 178, 244, 130, 108, 78, 122, 84, 133, 150,
+}
+
+func computeChecksum(message []byte) [16]byte {
+	var checksum [16]byte
+	var L byte = 0 // Inicializa L com 0
+
+	// Percorre a mensagem em blocos de 16 bytes
+	for i := 0; i &lt; len(message); i += 16 {
+		for j := 0; j &lt; 16; j++ {
+			c := message[i+j]
+			checksum[j] ^= SBox[c^L] // Calcula o novo valor do checksum
+			L = checksum[j]           // Atualiza L para o próximo passo
+		}
+	}
+	return checksum
+}
+</code></pre>
+<h4 id="3---processamento-principal"><a class="header" href="#3---processamento-principal">3 - Processamento Principal</a></h4>
+<p>Agora pegamos a <strong>mensagem com padding</strong> e <strong>checksum</strong> e a processamos utilizando um buffer intermediário de <strong>48 bytes</strong>. O objetivo desta fase é misturar os dados de forma não linear para aumentar a resistência a colisões.</p>
+<p>Diferente de outros algoritmos como o MD4 e MD5, que usam operações de <strong>rotação bitwise</strong> para aumentar a difusão dos bits, o MD2 utiliza <strong>apenas operações XOR e tabelas de substituição</strong> (S-Box). Isso se deve ao fato de que ele foi projetado para <strong>arquiteturas de 8 bits</strong>, onde operações bitwise mais complexas poderiam ser ineficientes.</p>
+<h5 id="estrutura-do-buffer-de-48-bytes"><a class="header" href="#estrutura-do-buffer-de-48-bytes">Estrutura do Buffer de 48 Bytes</a></h5>
+<p>O <strong>buffer de processamento</strong> (<code>X</code>) é um array de <strong>48 bytes</strong>, onde os primeiros <strong>16 bytes</strong> armazenam o hash intermediário, os <strong>segundos 16 bytes</strong> armazenam um bloco da mensagem e os <strong>últimos 16 bytes</strong> contêm a mistura do bloco da mensagem com os primeiros 16 bytes.</p>
+<pre><code>X = [H(0) H(1) .. H(15) | M(0) M(1)... M(15) | H(0) XOR M(0), ... , H(15) XOR M(15)]
+</code></pre>
+<p>Onde:</p>
+<ul>
+<li><code>H</code> representa os primeiros 16 bytes do buffer, que armazenam o estado atual do hash.</li>
+<li><code>M</code> representa os 16 bytes do bloco da mensagem sendo processado.</li>
+</ul>
+<h5 id="etapas-do-processamento"><a class="header" href="#etapas-do-processamento">Etapas do Processamento</a></h5>
+<p>A cada <strong>bloco de 16 bytes</strong>, fazemos o seguinte:</p>
+<ol>
+<li><strong>Copiamos o bloco da mensagem (<code>M</code>) para os bytes 16 a 31</strong> do buffer.</li>
+<li><strong>Criamos a mistura dos primeiros 16 bytes (<code>H</code>) com o bloco <code>M</code></strong>, armazenando nos bytes 32 a 47.</li>
+<li>Executamos 18 rodadas de processamento, onde aplicamos XOR sequencialmente nos 48 bytes do buffer usando a tabela S-Box. O número 18 não foi escolhido arbitrariamente: ele está relacionado ao fato de que o MD2 foi projetado para rodar eficientemente em arquiteturas de 8 bits. Como a S-Box tem 256 valores possíveis (8 bits), e um bloco do MD2 possui 16 bytes, Rivest determinou que 18 rodadas forneciam difusão suficiente sem comprometer o desempenho em hardware de baixa capacidade. Esse valor foi escolhido de forma empírica para equilibrar segurança e eficiência computacional.</li>
+</ol>
+<p>Cada rodada segue esta fórmula:</p>
+<pre><code>X[j] = X[j] XOR SBox[T]
+T = X[j]
+</code></pre>
+<p>Sendo que <code>T</code> é um acumulador que começa em zero e é atualizado ao longo da iteração.</p>
+<p>Isso garante que o hash seja alterado a cada rodada, propagando as mudanças nos bytes de maneira não linear.</p>
+<h5 id="exemplo-de-transformação"><a class="header" href="#exemplo-de-transformação">Exemplo de Transformação</a></h5>
+<p>Suponha que o buffer <code>X</code> comece com:</p>
+<pre><code>X = [ A1 A2 ... A16 | B1 B2 ... B16 | C1 C2 ... C16 ]
+</code></pre>
+<p>Após aplicar a <strong>permutação com a S-Box</strong>, obtemos:</p>
+<pre><code>X' = [ P1 P2 ... P16 | Q1 Q2 ... Q16 | R1 R2 ... R16 ]
+</code></pre>
+<p>Essa transformação acontece <strong>18 vezes</strong>, garantindo uma alta difusão dos bits.</p>
+<p>A implementação do <strong>processamento principal</strong> segue abaixo:</p>
+<pre><code class="language-go">func processMD2Blocks(message []byte) [16]byte {
+	var X [48]byte // Buffer intermediário de 48 bytes
+
+	for i := 0; i &lt; len(message); i += 16 {
+		// Copia o bloco da mensagem para os bytes 16 a 31 do buffer
+		copy(X[16:32], message[i:i+16])
+
+		// Preenche os últimos 16 bytes com H ⊕ M
+		for j := 0; j &lt; 16; j++ {
+			X[32+j] = X[j] ^ X[16+j]
+		}
+
+		var T byte = 0
+
+		// 18 rodadas de processamento
+		for round := 0; round &lt; 18; round++ {
+			for j := 0; j &lt; 48; j++ {
+				X[j] ^= SBox[T] // Permutação não linear usando a S-Box
+				T = X[j]        // Atualiza T
+			}
+			T += byte(round) // Incrementa T a cada rodada
+		}
+	}
+
+	// O hash final é extraído dos primeiros 16 bytes do buffer X
+	var hash [16]byte
+	copy(hash[:], X[:16])
+	return hash
+}
+</code></pre>
+<h5 id="conceitos-aplicados"><a class="header" href="#conceitos-aplicados">Conceitos Aplicados</a></h5>
+<p>Este processamento principal do MD2 explora três princípios fundamentais da criptografia:</p>
+<p>Confusão ([Shannon, 1949][1])
+A permutação S-Box adiciona um grau de não linearidade ao algoritmo, tornando difícil estabelecer relações diretas entre a entrada e a saída.</p>
+<p>Difusão ([Shannon, 1949][1])
+Cada byte do hash final depende de todos os bytes da mensagem de entrada, devido à aplicação iterativa da S-Box e do XOR.</p>
+<p>Avalanche Effect
+Pequenas mudanças na entrada resultam em grandes mudanças no hash, pois cada rodada mistura bits de diferentes partes da mensagem.</p>
+<p>Após esse processo, os primeiros 16 bytes do buffer X formam o hash MD2 final.</p>
+<h3 id="implementação-completa-do-algoritmo-md2-em-go"><a class="header" href="#implementação-completa-do-algoritmo-md2-em-go">Implementação Completa do Algoritmo MD2 em Go</a></h3>
 <pre><code class="language-go">package main
 
 import (
@@ -702,10 +1091,10 @@ func main() {
 	fmt.Printf("MD2 Hash: %x\n", hash)
 }
 </code></pre>
-<h3 id="md4---a-evolução-do-message-digest"><a class="header" href="#md4---a-evolução-do-message-digest">MD4 - A Evolução do Message Digest</a></h3>
+<h2 id="md4---a-evolução-do-message-digest"><a class="header" href="#md4---a-evolução-do-message-digest">MD4 - A Evolução do Message Digest</a></h2>
 <p>O MD4 (Message Digest 4) foi desenvolvido por Ronald Rivest em 1990 como uma melhoria do MD2, projetado especificamente para processadores de 32 bits. Ele introduziu um novo modelo de operação baseado em três rodadas de funções não lineares, tornando-o muito mais rápido que o MD2.</p>
 <p>No entanto, o MD4 é extremamente fraco e foi quebrado rapidamente. Mesmo assim, sua estrutura inspirou diretamente o MD5 e SHA-1, servindo de base para os algoritmos de hash modernos e que veremos logo mais.</p>
-<h4 id="como-o-md4-funciona"><a class="header" href="#como-o-md4-funciona">Como o MD4 Funciona?</a></h4>
+<h3 id="como-o-md4-funciona"><a class="header" href="#como-o-md4-funciona">Como o MD4 Funciona?</a></h3>
 <p>A especificação do MD4 pode ser encontrada na RFC 1320. O algoritmo transforma qualquer entrada em um hash de 128 bits usando 3 rodadas de operações baseadas em soma modular e funções booleanas.</p>
 <p>O MD4 segue 4 etapas principais:</p>
 <p>1 - Padding</p>
@@ -749,92 +1138,111 @@ D = 0x10325476
 <p>Cada uma dessas funções é aplicada a cada bloco de 512 bits da mensagem, alterando os registradores A, B, C e D.</p>
 <p>4 - Hash Final</p>
 <p>Após todas as rodadas, os valores finais dos registradores A, B, C e D são concatenados para formar um hash de 128 bits (16 bytes).</p>
-<h4 id="implementação-do-md4-em-go"><a class="header" href="#implementação-do-md4-em-go">Implementação do MD4 em Go</a></h4>
+<h3 id="implementação-do-md4-em-go"><a class="header" href="#implementação-do-md4-em-go">Implementação do MD4 em Go</a></h3>
 <pre><code class="language-go">package main
 
 import (
-	"encoding/binary"
+	"crypto/md2"
+	"encoding/hex"
 	"fmt"
+	"golang.org/x/crypto/md2" // Biblioteca oficial do Go para MD2
 )
 
-func leftRotate(x uint32, n uint) uint32 {
-	return (x &lt;&lt; n) | (x &gt;&gt; (32 - n))
+// Tabela de permutação S-box (definida na RFC 1319)
+var SBox = [256]byte{
+	41, 46, 67, 201, 162, 216, 124, 1, 61, 54, 84, 161, 236, 240, 6, 19,
+	98, 167, 5, 243, 192, 199, 115, 140, 152, 147, 43, 217, 188, 76, 130, 202,
+	30, 155, 87, 60, 253, 212, 224, 22, 103, 66, 111, 24, 138, 23, 229, 18,
+	190, 78, 130, 235, 167, 56, 19, 64, 70, 57, 64, 195, 148, 36, 198, 28,
+	242, 101, 37, 149, 184, 120, 215, 68, 76, 168, 73, 226, 70, 32, 62, 203,
+	113, 107, 34, 82, 178, 175, 212, 81, 78, 100, 212, 180, 38, 186, 59, 113,
+	79, 52, 202, 51, 89, 197, 60, 22, 184, 79, 63, 174, 196, 142, 95, 35,
+	235, 221, 169, 128, 248, 105, 194, 54, 204, 134, 179, 227, 91, 225, 92, 239,
+	191, 138, 75, 209, 123, 112, 147, 131, 175, 148, 100, 245, 196, 56, 109, 92,
+	241, 241, 107, 206, 161, 24, 108, 72, 85, 176, 46, 130, 187, 20, 166, 76,
+	101, 150, 53, 216, 38, 244, 186, 155, 43, 80, 231, 49, 205, 18, 38, 141,
+	106, 169, 173, 89, 151, 152, 145, 232, 165, 29, 214, 32, 212, 185, 58, 5,
+	208, 141, 116, 55, 63, 158, 98, 164, 218, 228, 67, 193, 66, 56, 55, 96,
+	197, 61, 91, 164, 216, 21, 55, 249, 245, 77, 117, 193, 179, 75, 89, 217,
+	244, 51, 96, 191, 166, 63, 131, 250, 48, 219, 41, 56, 154, 81, 70, 196,
 }
 
-// Funções F, G e H do MD4
-func F(x, y, z uint32) uint32 { return (x &amp; y) | (^x &amp; z) }
-func G(x, y, z uint32) uint32 { return (x &amp; y) | (x &amp; z) | (y &amp; z) }
-func H(x, y, z uint32) uint32 { return x ^ y ^ z }
-
-// Transformação principal do MD4
-func md4Transform(state *[4]uint32, block []byte) {
-	var X [16]uint32
-	for i := 0; i &lt; 16; i++ {
-		X[i] = binary.LittleEndian.Uint32(block[i*4:])
+// Aplicar Padding conforme RFC 1319
+func md2Padding(input []byte) []byte {
+	paddingSize := 16 - (len(input) % 16)
+	padding := make([]byte, paddingSize)
+	for i := range padding {
+		padding[i] = byte(paddingSize)
 	}
-
-	a, b, c, d := state[0], state[1], state[2], state[3]
-
-	// Primeira rodada
-	a = leftRotate(a+F(b, c, d)+X[0], 3)
-	d = leftRotate(d+F(a, b, c)+X[1], 7)
-	c = leftRotate(c+F(d, a, b)+X[2], 11)
-	b = leftRotate(b+F(c, d, a)+X[3], 19)
-
-	// Segunda rodada
-	a = leftRotate(a+G(b, c, d)+X[0]+0x5A827999, 3)
-	d = leftRotate(d+G(a, b, c)+X[4]+0x5A827999, 5)
-	c = leftRotate(c+G(d, a, b)+X[8]+0x5A827999, 9)
-	b = leftRotate(b+G(c, d, a)+X[12]+0x5A827999, 13)
-
-	// Terceira rodada
-	a = leftRotate(a+H(b, c, d)+X[0]+0x6ED9EBA1, 3)
-	d = leftRotate(d+H(a, b, c)+X[8]+0x6ED9EBA1, 9)
-	c = leftRotate(c+H(d, a, b)+X[4]+0x6ED9EBA1, 11)
-	b = leftRotate(b+H(c, d, a)+X[12]+0x6ED9EBA1, 15)
-
-	state[0] += a
-	state[1] += b
-	state[2] += c
-	state[3] += d
+	return append(input, padding...)
 }
 
-func md4(input []byte) [16]byte {
-	// Padding
-	length := len(input)
-	padding := []byte{0x80}
-	for (len(input)+len(padding))%64 != 56 {
-		padding = append(padding, 0x00)
+// Calcular Checksum
+func md2Checksum(message []byte) [16]byte {
+	var checksum [16]byte
+	var L byte = 0
+
+	for i := 0; i &lt; len(message); i += 16 {
+		for j := 0; j &lt; 16; j++ {
+			checksum[j] ^= SBox[message[i+j]^L]
+			L = checksum[j]
+		}
 	}
 
-	lengthBits := make([]byte, 8)
-	binary.LittleEndian.PutUint64(lengthBits, uint64(length*8))
+	return checksum
+}
 
-	input = append(input, padding...)
-	input = append(input, lengthBits...)
+// Aplicar Transformação Principal
+func md2Transform(message []byte) [16]byte {
+	var X [48]byte
 
-	// Inicializar registradores
-	var state = [4]uint32{0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476}
+	for i := 0; i &lt; len(message); i += 16 {
+		copy(X[16:32], message[i:i+16])
+		for j := 0; j &lt; 16; j++ {
+			X[32+j] = X[j] ^ X[16+j]
+		}
 
-	// Processar blocos de 512 bits (64 bytes)
-	for i := 0; i &lt; len(input); i += 64 {
-		md4Transform(&amp;state, input[i:i+64])
+		var T byte = 0
+		for round := 0; round &lt; 18; round++ {
+			for j := 0; j &lt; 48; j++ {
+				X[j] ^= SBox[T]
+				T = X[j]
+			}
+			T += byte(round)
+		}
 	}
 
-	// Converter saída para 16 bytes
 	var hash [16]byte
-	for i := 0; i &lt; 4; i++ {
-		binary.LittleEndian.PutUint32(hash[i*4:], state[i])
-	}
+	copy(hash[:], X[:16])
 	return hash
 }
 
-func main() {
-	data := []byte("Mensagem de teste")
-	hash := md4(data)
-	fmt.Printf("MD4 Hash: %x\n", hash)
+// Função principal MD2
+func MD2(input []byte) [16]byte {
+	padded := md2Padding(input)
+	checksum := md2Checksum(padded)
+	message := append(padded, checksum[:]...)
+	return md2Transform(message)
 }
 
+// Função para comparar com a implementação oficial
+func compareWithLibrary(input string) {
+	hash := MD2([]byte(input))
+	fmt.Printf("Nosso MD2: %x\n", hash)
+
+	libHash := md2.New()
+	libHash.Write([]byte(input))
+	fmt.Printf("MD2 OpenSSL: %x\n", libHash.Sum(nil))
+}
+
+func main() {
+	testInput := "Mensagem de teste"
+	compareWithLibrary(testInput)
+}
+
+</code></pre>
+<p>Podemos comparar também com o openssl para ver se a mensagem bate:</p>
+<pre><code class="language-bash">echo -n "Mensagem de teste" | openssl md2
 </code></pre>
 <h4 id="ataques-contra-o-md4"><a class="header" href="#ataques-contra-o-md4">Ataques Contra o MD4</a></h4>
 <p>O MD4 foi um grande avanço na época, mas também teve falhas graves de segurança. Aqui, exploramos os ataques mais relevantes que levaram à sua obsolescência.</p>
@@ -851,7 +1259,7 @@ Ele explorou fraquezas estruturais nas três rodadas do MD4, usando um método c
 <p>Esse ataque é catastrófico para aplicações que dependem de integridade, como assinaturas digitais.</p>
 <p>4 - Ataque a Senhas no NTLM (Windows)</p>
 <p>O MD4 foi usado no NTLM (Microsoft Windows Authentication). Como os ataques de colisão e pré-imagem são rápidos, foi possível quebrar senhas NTLM em milissegundos.</p>
-<h4 id="implementando-um-ataque-de-colisão-contra-md4-em-go"><a class="header" href="#implementando-um-ataque-de-colisão-contra-md4-em-go">Implementando um Ataque de Colisão Contra MD4 em Go</a></h4>
+<h3 id="implementando-um-ataque-de-colisão-contra-md4-em-go"><a class="header" href="#implementando-um-ataque-de-colisão-contra-md4-em-go">Implementando um Ataque de Colisão Contra MD4 em Go</a></h3>
 <p>Vamos gerar duas mensagens diferentes com o mesmo hash.</p>
 <pre><code class="language-go">package main
 
@@ -883,28 +1291,50 @@ func main() {
 
 </code></pre>
 <h3 id="md5"><a class="header" href="#md5">MD5</a></h3>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="família-de-algoritmos-des---data-encryption-standard"><a class="header" href="#família-de-algoritmos-des---data-encryption-standard">Família de Algoritmos DES - Data Encryption Standard</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="família-de-algoritmos-sha---secure-hash-algorithms"><a class="header" href="#família-de-algoritmos-sha---secure-hash-algorithms">Família de Algoritmos SHA - Secure Hash Algorithms</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="pbkdf2-argon2-e-scrypt---hash-para-senhas"><a class="header" href="#pbkdf2-argon2-e-scrypt---hash-para-senhas">PBKDF2, Argon2 e Scrypt - Hash para Senhas</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="algorítmos-de-criptografia"><a class="header" href="#algorítmos-de-criptografia">Algorítmos de Criptografia</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="des---data-encryption-standard"><a class="header" href="#des---data-encryption-standard">DES - Data Encryption Standard</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="3des---triple-des"><a class="header" href="#3des---triple-des">3DES - Triple DES</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="aes---advanced-encryption-standard"><a class="header" href="#aes---advanced-encryption-standard">AES - Advanced Encryption Standard</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rsa---rivest-shamir-e-adleman"><a class="header" href="#rsa---rivest-shamir-e-adleman">RSA - Rivest, Shamir e Adleman</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="ecdsa---elliptic-curve-digital-signature-algorithm"><a class="header" href="#ecdsa---elliptic-curve-digital-signature-algorithm">ECDSA - Elliptic Curve Digital Signature Algorithm</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="hmac---assinaturas-seguras"><a class="header" href="#hmac---assinaturas-seguras">HMAC - Assinaturas Seguras</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="criptografia-simétrica-vs-assimétrica"><a class="header" href="#criptografia-simétrica-vs-assimétrica">Criptografia Simétrica vs Assimétrica</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="json-web-token-jwt"><a class="header" href="#json-web-token-jwt">JSON Web Token (JWT)</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="estrutura-de-um-jwt"><a class="header" href="#estrutura-de-um-jwt">Estrutura de um JWT</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="assinatura-e-verificação"><a class="header" href="#assinatura-e-verificação">Assinatura e Verificação</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="jwt-expiração-e-refresh-token"><a class="header" href="#jwt-expiração-e-refresh-token">JWT Expiração e Refresh Token</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="exemplo-prático-com-go"><a class="header" href="#exemplo-prático-com-go">Exemplo Prático com Go</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="oauth-20-e-openid-connect"><a class="header" href="#oauth-20-e-openid-connect">OAuth 2.0 e OpenID Connect</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="fluxo-authorization-code"><a class="header" href="#fluxo-authorization-code">Fluxo Authorization Code</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="client-credentials-e-machine-to-machine"><a class="header" href="#client-credentials-e-machine-to-machine">Client Credentials e Machine-to-Machine</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="oauth-scopes-e-permissões"><a class="header" href="#oauth-scopes-e-permissões">OAuth Scopes e Permissões</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="exemplo-prático-com-go-1"><a class="header" href="#exemplo-prático-com-go-1">Exemplo Prático com Go</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="tls-e-certificados-ssl"><a class="header" href="#tls-e-certificados-ssl">TLS e Certificados SSL</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="como-funciona-o-handshake-tls"><a class="header" href="#como-funciona-o-handshake-tls">Como Funciona o Handshake TLS</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="certificados-e-autoridades-certificadoras"><a class="header" href="#certificados-e-autoridades-certificadoras">Certificados e Autoridades Certificadoras</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="cipher-suites-e-forward-secrecy"><a class="header" href="#cipher-suites-e-forward-secrecy">Cipher Suites e Forward Secrecy</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="exemplo-prático-com-go-2"><a class="header" href="#exemplo-prático-com-go-2">Exemplo Prático com Go</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="exemplo-prático-com-go"><a class="header" href="#exemplo-prático-com-go">Exemplo Prático com Go</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="segurança-em-apis-rest"><a class="header" href="#segurança-em-apis-rest">Segurança em APIs REST</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="https-obrigatório"><a class="header" href="#https-obrigatório">HTTPS Obrigatório</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="protegendo-endpoints-com-jwt"><a class="header" href="#protegendo-endpoints-com-jwt">Protegendo Endpoints com JWT</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="rate-limiting-e-proteção-contra-dos"><a class="header" href="#rate-limiting-e-proteção-contra-dos">Rate Limiting e Proteção contra DoS</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="assinaturas-hmac-para-webhooks"><a class="header" href="#assinaturas-hmac-para-webhooks">Assinaturas HMAC para Webhooks</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="json-web-token-jwt"><a class="header" href="#json-web-token-jwt">JSON Web Token (JWT)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="estrutura-de-um-jwt"><a class="header" href="#estrutura-de-um-jwt">Estrutura de um JWT</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="assinatura-e-verificação"><a class="header" href="#assinatura-e-verificação">Assinatura e Verificação</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="jwt-expiração-e-refresh-token"><a class="header" href="#jwt-expiração-e-refresh-token">JWT Expiração e Refresh Token</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="exemplo-prático-com-go-1"><a class="header" href="#exemplo-prático-com-go-1">Exemplo Prático com Go</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="oauth-20-e-openid-connect"><a class="header" href="#oauth-20-e-openid-connect">OAuth 2.0 e OpenID Connect</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="fluxo-authorization-code"><a class="header" href="#fluxo-authorization-code">Fluxo Authorization Code</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="client-credentials-e-machine-to-machine"><a class="header" href="#client-credentials-e-machine-to-machine">Client Credentials e Machine-to-Machine</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="oauth-scopes-e-permissões"><a class="header" href="#oauth-scopes-e-permissões">OAuth Scopes e Permissões</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="exemplo-prático-com-go-2"><a class="header" href="#exemplo-prático-com-go-2">Exemplo Prático com Go</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="json-web-token-jwt-1"><a class="header" href="#json-web-token-jwt-1">JSON Web Token (JWT)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="estrutura-de-um-jwt-1"><a class="header" href="#estrutura-de-um-jwt-1">Estrutura de um JWT</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="assinatura-e-verificação-1"><a class="header" href="#assinatura-e-verificação-1">Assinatura e Verificação</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="jwt-expiração-e-refresh-token-1"><a class="header" href="#jwt-expiração-e-refresh-token-1">JWT Expiração e Refresh Token</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="exemplo-prático-com-go-3"><a class="header" href="#exemplo-prático-com-go-3">Exemplo Prático com Go</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="oauth-20-e-openid-connect-1"><a class="header" href="#oauth-20-e-openid-connect-1">OAuth 2.0 e OpenID Connect</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="fluxo-authorization-code-1"><a class="header" href="#fluxo-authorization-code-1">Fluxo Authorization Code</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="client-credentials-e-machine-to-machine-1"><a class="header" href="#client-credentials-e-machine-to-machine-1">Client Credentials e Machine-to-Machine</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="oauth-scopes-e-permissões-1"><a class="header" href="#oauth-scopes-e-permissões-1">OAuth Scopes e Permissões</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="exemplo-prático-com-go-4"><a class="header" href="#exemplo-prático-com-go-4">Exemplo Prático com Go</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="colisão-de-hash-e-birthday-attack"><a class="header" href="#colisão-de-hash-e-birthday-attack">Colisão de Hash e Birthday Attack</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="ataques-a-tls---beast-poodle-mitm"><a class="header" href="#ataques-a-tls---beast-poodle-mitm">Ataques a TLS - BEAST, POODLE, MITM</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="quebra-de-senhas---ataques-de-força-bruta-e-rainbow-tables"><a class="header" href="#quebra-de-senhas---ataques-de-força-bruta-e-rainbow-tables">Quebra de Senhas - Ataques de Força Bruta e Rainbow Tables</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="armazenamento-seguro-de-senhas"><a class="header" href="#armazenamento-seguro-de-senhas">Armazenamento Seguro de Senhas</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="bcrypt-argon2-e-pbkdf2"><a class="header" href="#bcrypt-argon2-e-pbkdf2">Bcrypt, Argon2 e PBKDF2</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="erros-comuns-no-hashing-de-senhas"><a class="header" href="#erros-comuns-no-hashing-de-senhas">Erros Comuns no Hashing de Senhas</a></h1>
@@ -917,6 +1347,10 @@ func main() {
 <div style="break-before: page; page-break-before: always;"></div><h1 id="implementando-um-webhook-seguro-com-hmac"><a class="header" href="#implementando-um-webhook-seguro-com-hmac">Implementando um Webhook Seguro com HMAC</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="bibliotecas-recomendadas"><a class="header" href="#bibliotecas-recomendadas">Bibliotecas Recomendadas</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="links-e-leituras-adicionais"><a class="header" href="#links-e-leituras-adicionais">Links e Leituras Adicionais</a></h1>
+<p>[1] Claude E. Shannon, "Communication Theory of Secrecy Systems," Bell System Technical Journal, vol. 28, no. 4, pp. 656-715, 1949.</p>
+<p>[2] R. Rivest, "The MD5 Message-Digest Algorithm," RFC 1321, April 1992. [Online]. Available: https://www.rfc-editor.org/rfc/rfc1321</p>
+<p>[3] National Institute of Standards and Technology (NIST), "Advanced Encryption Standard (AES)", <em>FIPS PUB 197</em>, 2001. [Online]. Available: https://csrc.nist.gov/publications/detail/fips/197/final</p>
+<p>[4] National Institute of Standards and Technology (NIST), "Data Encryption Standard (DES)", <em>FIPS PUB 46-3</em>, 1999. [Online]. Available: https://csrc.nist.gov/publications/detail/fips/46/3/final</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="contributors"><a class="header" href="#contributors">Contributors</a></h1>
 
                     </main>
