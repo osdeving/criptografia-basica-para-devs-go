@@ -7,7 +7,7 @@
 - [Base64 e Codificação](conceitos/base64.md)
 - [Checksum e CRC - Verificação de Integridade](conceitos/checksum-crc.md)
 - [Funções Hash Criptográficas](conceitos/sha256.md)
-    - [SHA-256 e Outras Funções Hash](conceitos/sha256.md)
+    - [Funções Hash](conceitos/sha256.md)
     - [Família de Algoritmos MD - Message Digest](conceitos/message-digest.md)
     - [Família de Algoritmos DES - Data Encryption Standard](conceitos/des.md)
     - [Família de Algoritmos SHA - Secure Hash Algorithms](conceitos/sha.md)
