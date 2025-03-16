@@ -5,4 +5,4 @@ multilingual = false
 src = "src"
 title = "Jwt Go Demo"
 [build]
-build-dir = "docs"
+build-dir = "docs2"
