@@ -1,0 +1,597 @@
+<!DOCTYPE HTML>
+<html lang="pt_BR" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Base64 - Criptografia para Desenvolvedores Go</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Criptografia para Desenvolvedores Go</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="base64"><a class="header" href="#base64">Base64</a></h1>
+<style>
+  table {
+    border-collapse: collapse;
+    width: 50%;
+  }
+  th, td {
+    border: 1px solid black;
+    text-align: center;
+    padding: 8px;
+  }
+</style>
+<p>Como funciona uma codificação? Imagine que você tem uma regra que diz o seguinte: caso a entrada for 'a', então o valor será 97, caso a entrada for 'b', então o valor será 98, caso for 'c', então o valor será 99, e assim em diante. Isso é um de-para e é também conhecido como tabela ASCII e envolve outros caracteres além do alfabeto. Descrevi um tipo de codificação.</p>
+<p>Base64 é uma regra de codificação (Encode) que aplicamos na entrada produzindo uma saída. Isso significa que podemos lêr a entrada em base64 e produzir uma saída decodificada ou ler uma entrada decodificada e codificar em base64, respectivamente conhecidos como Encode e Decode.</p>
+<p>A diferença em relação a tabela ASCII, é que a entrada pode ser qualquer coisa e não se limita apenas a caracteres individuais. No caso do Base64, a codificação funciona agrupando a entrada em blocos de 3 bytes (24 bits) e dividindo-os em 4 grupos de 6 bits. Cada um desses grupos de 6 bits é então convertido para um caractere correspondente em uma tabela de 64 símbolos. Essa table inclui as letras maiúsculas e minúsculas do alfabeto, seguido pelos números de 0 a 9 e então por dois caracteres especiais (+ e / no Base64 padrão e _ e - no Base64URL). Quando a entrada não é um múltiplo exato de 3 bytes, a codificação adiciona um caractere de preenchimento (=) para manter a consistência.</p>
+<p>No Base64, a conversão ocorre em blocos e garante que qualquer sequência de bytes possam ser representadas apenas com caracteres seguros para transporte em protocolos como e-mails (MIME), URLs e JSON. Isso torna o Base64 útil para codificar binários, imagens, chaves criptográficas e outros dados que não são diretamente representáveis como texto legível.</p>
+<p>O processo inverso, conhecido como decodificação (Decode), pega uma string codificada em Base64 e reconstrói os bytes originais, revertendo a conversão de 6 bits para 8 bits e removendo qualquer padding (=) que tenha sido adicionado na codificação. Assim como podemos converter a → 97 na tabela ASCII e depois reverter 97 → a, no Base64 podemos pegar "TWFu" e recuperar "Man" ou vice-versa, a partir de "Man" obter "TWFu".</p>
+<p>No entanto, é importante lembrar que Base64 não é uma criptografia, pois qualquer pessoa pode decodificá-lo facilmente. Ele é apenas um método de representação de dados que facilita o transporte e armazenamento em sistemas que não suportam caracteres binários diretamente. Nota, o Base64 aumenta o tamanho dos dados em 33% em relação ao original.</p>
+<h2 id="como-funciona-na-prática"><a class="header" href="#como-funciona-na-prática">Como funciona na prática?</a></h2>
+<p>Vamos supor que a entrada sera a string "Rox". Cada caractere em um computador é representado por um número inteiro conforme a tabela ASCII.</p>
+<h3 id="passo-1-obter-os-valores-ascii"><a class="header" href="#passo-1-obter-os-valores-ascii">Passo 1: Obter os valores ASCII</a></h3>
+<p>Primeiro, vamos converter os caracteres em seus valores numéricos:</p>
+<ul>
+<li>R → 82</li>
+<li>o → 111</li>
+<li>x → 120</li>
+</ul>
+<p>Agora, precisamos representar esses números em binário (base 2), pois a codificação Base64 trabalha diretamente com bits:</p>
+<h3 id="passo-2-converter-os-valores-ascii-para-binário-8-bits-cada"><a class="header" href="#passo-2-converter-os-valores-ascii-para-binário-8-bits-cada">Passo 2: Converter os valores ASCII para binário (8 bits cada)</a></h3>
+<ul>
+<li>R (82) → 01010010</li>
+<li>o (111) → 01101111</li>
+<li>x (120) → 01111000</li>
+</ul>
+<p>Agora temos um total de 3 bytes (24 bits), que são agrupados assim:</p>
+<p>01010010 01101111 01111000</p>
+<h3 id="passo-3-dividir-em-blocos-de-6-bits"><a class="header" href="#passo-3-dividir-em-blocos-de-6-bits">Passo 3: Dividir em blocos de 6 bits</a></h3>
+<p>O Base64 trabalha com grupos de 6 bits, então precisamos separar nossos 24 bits assim:</p>
+<p>010100 100110 111101 111000</p>
+<p>Agora, cada grupo de 6 bits será convertido em um decimal cujo qual representa um índice na tabela Base64.</p>
+<h3 id="passo-4-converter-os-grupos-de-6-bits-para-decimal"><a class="header" href="#passo-4-converter-os-grupos-de-6-bits-para-decimal">Passo 4: Converter os grupos de 6 bits para decimal</a></h3>
+<ul>
+<li>010100 → 20</li>
+<li>100110 → 38</li>
+<li>111101 → 61</li>
+<li>111000 → 56</li>
+</ul>
+<p>Agora, usamos a tabela Base64 para converter esses números em caracteres.</p>
+<h3 id="passo-5-mapear-os-valores-na-tabela-base64"><a class="header" href="#passo-5-mapear-os-valores-na-tabela-base64">Passo 5: Mapear os valores na tabela Base64</a></h3>
+<p>A tabela Base64 contém 64 caracteres indexados de 0 até 63. Essa tabela segue uma ordem específica:</p>
+<ol>
+<li>Letras maiúsculas (A-Z) → índices 0 a 25</li>
+<li>Letras minúsculas (a-z) → índices 26 a 51</li>
+<li>Números (0-9) → índices 52 a 61</li>
+<li>Caracteres especiais (+ e /) → índices 62 e 63</li>
+</ol>
+<p>Representação em Go:</p>
+<pre><code class="language-go">const base64Table = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+</code></pre>
+<p>Agora, usamos essa tabela para mapear os valores 20, 38, 61 e 56:</p>
+<ul>
+<li>base64Table[20] → "U"</li>
+<li>base64Table[38] → "m"</li>
+<li>base64Table[61] → "9"</li>
+<li>base64Table[56] → "4"</li>
+</ul>
+<p>Com isso, o texto "Rox" foi convertido para Base64 como "Um94"</p>
+<h3 id="resumo"><a class="header" href="#resumo">Resumo</a></h3>
+<p>1 - Convertemos os caracteres para seus valores ASCII (R = 82, o = 111, x = 120).</p>
+<p>2 - Transformamos esses valores em binário (01010010 01101111 01111000).</p>
+<p>3 - Dividimos em blocos de 6 bits (010100 100110 111101 111000).</p>
+<p>4 - Convertemos cada grupo de 6 bits em um número decimal (20, 38, 61, 56).</p>
+<p>5 - Mapeamos esses números na tabela Base64, resultando na string "Um94".</p>
+<p>Bem tranquilo, certo?</p>
+<h2 id="implementação-em-go"><a class="header" href="#implementação-em-go">Implementação em Go</a></h2>
+<p>O maior desafio que teremos é agrupar os bits em grupos de 6 bits, pois normalmente estamos trabalhando com 8 bits (1 byte). Isso implica que, a cada 3 bytes (24 bits no total), teremos 4 grupos de 6 bits, pois 24 / 6 = 4.</p>
+<hr />
+<summary>Extra: Entendendo o bitwise AND
+<details>
+<br>
+<p>Se tivermos um valor binário qualquer e aplicarmos uma máscara bit a bit (bitwise AND) com 0b111111 (0x3F em hexadecimal), conseguimos extrair exatamente 6 bits da posição desejada.</p>
+<p>Isso funciona porque o operador AND (&), mantém apenas os bits onde há 1 nos dois operadores, então podemos isolar porções específicas de um número maior.</p>
+<h4 id="exemplo-prático"><a class="header" href="#exemplo-prático">Exemplo prático:</a></h4>
+<pre><code>BYTE qualquer:            01010010  (82 em decimal)
+Máscara de 6 bits:        00111111  (0x3F em hexadecimal)
+Resultado após AND:       00010010  (18 em decimal)
+</code></pre>
+<p>Note que AND tem o poder de desligar o bit ou mantê-lo sem modificação.</p>
+<table border="1">
+  <tr>
+    <th>A</th>
+    <th>AND</th>
+    <th>B</th>
+    <th>C</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>AND</td>
+    <td>1</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>AND</td>
+    <td>0</td>
+    <td>0</td>
+  </tr>
+  <tr>
+    <td>0</td>
+    <td>AND</td>
+    <td>0</td>
+    <td>0</td>
+  </tr>
+</table>
+<br>
+<p>Ou seja:</p>
+<ul>
+<li>Se você aplicar a máscara b00000000, vai apagar tudo</li>
+<li>Se você aplicar a máscara b00000001 vai apagar tudo e, para o primeiro bit, vai depender se o outro valor tem 1 ou 0: se tiver 1, ele será mantido, se tiver 0, ele apaga.</li>
+</ul>
+<p>Outro exemplo: pegar apenas os bits 3 e 4 de um byte qualquer</p>
+<pre>
+BYTE qualquer:            <span style="color:#ffcc00;">01010010</span>  (82 em decimal)
+Máscara de 6 bits:        <span style="color:#00ccff;">00111111</span>  (0x3F em hexadecimal)
+Resultado após AND:       <span style="color:#ff6666;">00010010</span>  (18 em decimal)
+</pre>
+</details>
+</summary>
+<hr />
+<p>Podemos trabalhar diretamente com 3 bytes em um inteiro e percorrer a mensagem de entrada de 3 em 3 bytes e para cada passagem jogar os 3 bytes no inteiro e extrair os valores usando máscara de bits.</p>
+<pre><code class="language-go">for i := 0; i &lt; len(input); i += 6 {
+    
+    blk := int32(in[i    ]) &lt;&lt; 16 | 
+           int32(in[i + 1]) &lt;&lt; 8  | 
+           int32(in[i + 2])
+
+    out = append(out,
+            b64[(blk &gt;&gt; 18) &amp; 0b00111111],
+            b64[(blk &gt;&gt; 12) &amp; 0b00111111],
+            b64[(blk &gt;&gt;  6) &amp; 0b00111111],
+            b64[ blk        &amp; 0b00111111],
+		)
+
+}
+</code></pre>
+<hr />
+<summary>Extra: Explicação do código
+<details>
+<br>
+<p>O que foi feito?</p>
+<br>
+<p>Criamos um inteiro de 32 bits (int32) e jogamos os 3 bytes do input em cima dele. Para o primeiro byte (na posição i) jogamos para a esquerda 16 bits, para o segundo byte (na posição i + 1) jogamos para a esquerda 8 bits e para o terceiro byte (na posição i + 2) não precisamos jogar nada para a esquerda.</p>
+<p>
+Imagine que são caixas que cabem 1 byte, o inteiro possui 4 dessas caixas, então precisamos jogar o primeiro byte para a esquerda 16 bits para que ele ocupe a terceira posição, o segundo byte para a esquerda 8 bits e o terceiro byte não precisamos jogar nada para a esquerda porque vai começar no bit 0. Graficamente temos isso:</p>
+<pre>
+Byte i + 0 = <span style="color:#ff6666;">01101111</span>  (111 em decimal)
+Byte i + 1 = <span style="color:#00ccff;">01111000</span>  (120 em decimal)
+Byte i + 2 = <span style="color:#ffcc00;">01010010</span>  (82 em decimal) <br>
+blk = <span style="color:lightblue"> 000000000 00000000 00000000 00000000</span><br>
+Primeiro byte entra começando no bit 16
+blk = <span style="color:lightblue"> 000000000<span style="color:#ffcc00;">01010010</span>00000000 00000000</span><br>
+Segundo byte entra começando no bit 8
+blk = <span style="color:lightblue"> 00000000</span><span style="color:#ffcc00;">01010010</span><span style="color:#00ccff;">01111000</span>00000000</span><br>
+Terceiro byte entra começando no bit 0
+blk = <span style="color:lightblue"> 00000000</span><span style="color:#ffcc00;">01010010</span><span style="color:#00ccff;">01111000</span><span style="color:#ff6666;">01010010</span>
+</pre>
+<p>Vamos em câmera lenta. Suponha que</p>
+<pre>
+in[i    ] = b10000000
+in[i + 1] = b00000001
+in[i + 2] = b00010000
+</pre>
+<pre><code class="language-go">blk := int32(in[i    ]) &lt;&lt; 16  // blk = 00000000_10000000_00000000_00000000
+blk  |= int32(in[i + 1]) &lt;&lt; 8  // blk = 00000000_10000000_00000001_00000000
+blk |= int32(in[i + 2])        // blk = 00000000_10000000_00000001_00010000
+</code></pre>
+<p>Ou seja, ligou o bit 32 vindo do primeiro byte (ele já estava na posição 8, deslocou 16), o bit 8 do segundo byte (estava na posição 0 e deslocou 8) e o bit 5 (estava na posição 5 do terceiro byte e não teve deslocamento).</p>
+<p>Sei que vocẽ já entendeu, mas cabe lembrar que OR funciona da seguinte forma, você tem um valor qualquer com alguns bits ligados e outros não, quando você aplica o OR com outro valor, o que já existe no seu continua, o que não existe no seu, mas existe no outro cara, ele passa a existir no seu. P.ex.: o seu é b00010000 o outro cara é b00000001 agora o seu será b00010001. Veja a tabela do OR para refrescar a memória:</p>
+<table border="1">
+  <tr>
+  <th>A</th>
+  <th>OR</th>
+  <th>B</th>
+  <th>C</th>
+  </tr>
+  <tr>
+  <td>1</td>
+  <td>OR</td>
+  <td>1</td>
+  <td>1</td>
+  </tr>
+  <tr>
+  <td>1</td>
+  <td>OR</td>
+  <td>0</td>
+  <td>1</td>
+  </tr>
+  <tr>
+  <td>0</td>
+  <td>OR</td>
+  <td>0</td>
+  <td>0</td>
+  </tr>
+</table>
+<br>
+<p>Agora que temos os 3 bytes dentro de um único inteiro de 32 bits (blk), precisamos extrair 4 grupos de 6 bits, pois cada caractere Base64 é representado por exatamente 6 bits.</p>
+<p>A extração é feita aplicando deslocamento de bits (>>) e uma máscara (& 0b00111111), que serve para zerar os bits irrelevantes e pegar exatamente os 6 bits desejados.</p>
+<p>Graficamente, temos:</p>
+<pre>
+blk = <span style="color:lightblue">00000000</span><span style="color:#ffcc00;">01010010</span><span style="color:#00ccff;">01111000</span><span style="color:#ff6666;">01010010</span>
+</pre>
+<p>Agora, extraímos os grupos de 6 bits um por um:</p>
+<ul>
+  <li>Primeiros 6 bits: Para extrair os bits mais à esquerda, deslocamos 18 bits para a direita e aplicamos a máscara.</li>
+</ul>
+<pre>
+b64_1 = (blk >> 18) & 0b00111111  <span style="color:darkgreen">// 00000000_00000000_00000000_00010010 → 000100</span>
+b64_1 = <span style="color:#ffcc00;">000100</span>
+</pre>
+<ul>
+  <li>Segundos 6 bits: Deslocamos 12 bits para a direita e aplicamos a máscara.</li>
+</ul>
+<pre>
+b64_2 = (blk >> 12) & 0b00111111  <span style="color:darkgreen">// 00000000_00000000_00000010_01010010 → 010100</span>
+b64_2 = <span style="color:#00ccff;">010100</span>
+</pre>
+<ul>
+  <li>Terceiros 6 bits: Deslocamos 6 bits para a direita e aplicamos a máscara.</li>
+</ul>
+<pre>
+b64_3 = (blk >> 6) & 0b00111111   <span style="color:darkgreen">// 00000000_00000000_01111000_01010010 → 011110
+b64_3 = <span style="color:#ff6666;">011110</span>
+</pre>
+<ul>
+  <li>Últimos 6 bits: Não há deslocamento, apenas aplicamos a máscara.</li>
+</ul>
+<pre>
+b64_4 = blk & 0b00111111 <span style="color:darkgreen">// 00000000_00000000_01111000_01010010 → 100010
+b64_4 = <span style="color:#ff9999;">100010</span>
+</pre>
+<p>Agora, temos os 4 índices da tabela Base64 prontos para serem mapeados!</p>
+<p>Isso significa que podemos simplesmente usar o array <code>b64</code> para obter os caracteres correspondentes, indexando diretamente com <code>b64_1</code>, <code>b64_2</code>, <code>b64_3</code> e <code>b64_4</code>.</p>
+<pre>
+b64_1 = <span style="color:#ffcc00;">000100</span>  (4 em decimal)  →  Índice <code>b64[4]</code>  →  <span style="color:#ffcc00;">T</span>
+b64_2 = <span style="color:#00ccff;">010100</span>  (20 em decimal) →  Índice <code>b64[20]</code> →  <span style="color:#00ccff;">U</span>
+b64_3 = <span style="color:#ff6666;">011110</span>  (30 em decimal) →  Índice <code>b64[30]</code> →  <span style="color:#ff6666;">e</span>
+b64_4 = <span style="color:#ff9999;">100010</span>  (34 em decimal) →  Índice <code>b64[34]</code> →  <span style="color:#ff9999;">Y</span>
+</pre>
+<p>Ou seja, os números binários extraídos representam <strong>índices na tabela Base64</strong>, e ao acessar <code>b64[4]</code>, <code>b64[20]</code>, etc., obtemos os caracteres finais da string codificada.</p>
+</details>
+</summary>
+<hr />
+<p>Agora só precisamos lidar com casos onde o input tem menos que 3 bytes ou o input não é múltiplo de 3 bytes</p>
+<pre><code class="language-go">if rem == 0 {
+		return string(out)
+	}
+    
+	var blk int64 = 0
+
+ 	if rem == 1 {
+        blk = int64(in[len - rem]) &lt;&lt; 16
+        out = append(out,
+            b64[(blk &gt;&gt; 18) &amp; 0b00111111],
+            b64[(blk &gt;&gt; 12) &amp; 0b00111111],
+            '=',
+            '=',
+        )
+    } else if rem == 2 {
+        blk = int64(in[len - rem]) &lt;&lt; 16 | int64(in[len - rem + 1]) &lt;&lt; 8
+        out = append(out,
+            b64[(blk &gt;&gt; 18) &amp; 0b00111111],
+            b64[(blk &gt;&gt; 12) &amp; 0b00111111],
+            b64[(blk &gt;&gt; 6)  &amp; 0b00111111],
+            '=',
+        )
+    }
+
+	return string(out)
+
+</code></pre>
+<p>
+Quando a entrada nã é múltiplo de 3 significa que ao sairmos do laço principal restará 1 ou 2 bytes. A especificação do Base64 exige que tenhamos 4 grupos fechados de 6 bits, que resultam 4 caracteres da tabela. 
+</p>
+<p>
+Quando sobrar apenas 1 byte, teremos que agrupar em blocos de 6 bits e ter um total de 4 blocos. Como obter um total de 4 blocos de 6 bits com apenas 8 bits? A especificação diz que temos que pegar os 6 bits e obter qual o valor da tabela, para os 2 bits que sobrarem colocamos zeros **à direita** para completar 6 bits e então obtemos o valor na tabela e para os dois grupos restantes simplesmente consideramos o valor '='.
+</p>
+<p>
+Então temos que: O primeiro grupo de 6 bits do byte pega um valor normalmente da tabela, o outro valor é obtido completando os 2 bits que sobraram com quatro zeros à direita e os outros dois grupos de 6 bits consideramos o '=' para cada um.
+</p>
+<p>
+Quando sobram 2 bytes a regra é a mesma. Isto é, dos 16 bits teremos 2 valores _cheios_ e os 4 bits que sobram recebem dois zeros à direita e, diferente do caso que sobra apenas 1 byte, nesse caso precisamos de apenas um '=' para completar o grupo de 4 valores uma vez que já temos 3 grupos prontos.
+</p>
+<p>
+P.ex.:
+</p>
+<p>
+Se tivermos 1 byte sobrando (A = 01000001 em binário = 65 em decimal), precismos transformar isso em 4 blocos de 6 bits. Então fazemos o seguinte:
+</p>
+<pre>
+<span style="color:yellow">010000</span><span style="color:rebeccapurple">01</span><span style="color:red">0000</span><span style="color:lightblue">=</span><span style="color:lightgreen">=</span>
+</pre>
+<p>Para os dois primeiros (coincidentemente) teremos o mesmo valor na b64table ('Q') e para os outros dois teremos o '='. Assim, ficamos com</p>
+<pre>
+<strong>QQ==</strong>
+</pre>
+<p>Com isso, c código completo fica assim:</p>
+<pre><code class="language-go">package main
+
+import (
+	"fmt"
+	"encoding/base64"
+)
+
+const b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+
+func Encb64(in []byte) string {
+	
+    var out []byte
+	len := len(in)
+	rem := len % 3
+
+    for i := 0; i &lt; len - rem; i += 3 {
+    
+        blk := int64(in[i    ]) &lt;&lt; 16 | 
+               int64(in[i + 1]) &lt;&lt; 8  | 
+               int64(in[i + 2])
+
+        out = append(out,
+            b64[(blk &gt;&gt; 18) &amp; 0b00111111],
+            b64[(blk &gt;&gt; 12) &amp; 0b00111111],
+            b64[(blk &gt;&gt;  6) &amp; 0b00111111],
+            b64[ blk        &amp; 0b00111111],
+		)
+	}
+
+	if rem == 0 {
+		return string(out)
+	}
+    
+	var blk int64 = 0
+
+ 	if rem == 1 {
+        blk = int64(in[len - rem]) &lt;&lt; 16
+        out = append(out,
+            b64[(blk &gt;&gt; 18) &amp; 0b00111111],
+            b64[(blk &gt;&gt; 12) &amp; 0b00111111],
+            '=',
+            '=',
+        )
+    } else if rem == 2 {
+        blk = int64(in[len - rem]) &lt;&lt; 16 | int64(in[len - rem + 1]) &lt;&lt; 8
+        out = append(out,
+            b64[(blk &gt;&gt; 18) &amp; 0b00111111],
+            b64[(blk &gt;&gt; 12) &amp; 0b00111111],
+            b64[(blk &gt;&gt; 6)  &amp; 0b00111111],
+            '=',
+        )
+    }
+
+	return string(out)
+}
+
+func main() {
+    testCases := []string{"Manaed", "1234567890"}
+	
+    for _, test := range testCases {
+		encoded := Encb64([]byte(test))
+		encondedGo := base64.StdEncoding.EncodeToString([]byte(test))
+		fmt.Println("Base64 de ", test, ": ", encoded)
+		fmt.Println("Base64 Go : ", test, ": ", encondedGo)
+		
+	}
+}
+</code></pre>
+<p>Curiosidade: nossa versão fica alguns ms mais lenta que a versão do Go, sintam-se à vontade para estudar a versão em Go, agora poderão entender todo o código!</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../conceitos/encode-decode/introduction.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../conceitos/checksum-crc/checksum-crc.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../conceitos/encode-decode/introduction.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../conceitos/checksum-crc/checksum-crc.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

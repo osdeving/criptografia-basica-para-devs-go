@@ -1,1 +1,0 @@
-# Assinatura e Verificação

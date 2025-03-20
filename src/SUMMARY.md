@@ -4,23 +4,29 @@
 
 # Conceitos Fundamentais
 
-- [Base64 e Codificação](conceitos/base64.md)
-- [Checksum e CRC - Verificação de Integridade](conceitos/checksum-crc.md)
-- [Funções Hash Criptográficas](conceitos/sha256.md)
-    - [Funções Hash](conceitos/sha256.md)
-    - [Família de Algoritmos MD - Message Digest](conceitos/message-digest.md)
-    - [Família de Algoritmos DES - Data Encryption Standard](conceitos/des.md)
-    - [Família de Algoritmos SHA - Secure Hash Algorithms](conceitos/sha.md)
-    - [PBKDF2, Argon2 e Scrypt - Hash para Senhas](conceitos/pbkdf2-argon2.md)
-- [Algorítmos de Criptografia](conceitos/crypto-algorithms.md)
-    - [DES - Data Encryption Standard](criptografia/des.md)
-    - [3DES - Triple DES](criptografia/3des.md)
-    - [AES - Advanced Encryption Standard](criptografia/aes.md)
-    - [RSA - Rivest, Shamir e Adleman](criptografia/rsa.md)
-    - [ECDSA - Elliptic Curve Digital Signature Algorithm](criptografia/ecdsa.md)
-    - [HMAC - Assinaturas Seguras](conceitos/hmac.md)
-    - [Criptografia Simétrica vs Assimétrica](conceitos/criptografia.md)
-# Aplicações Práticas em Segurança
+- [Base64 e Codificação](conceitos/encode-decode/introduction.md)
+    - [Introdução](conceitos/encode-decode/introduction.md)
+    - [Base64](conceitos/encode-decode/base64.md)
+- [Checksum e CRC - Verificação de Integridade](conceitos/checksum-crc/checksum-crc.md)
+    - [Introdução](conceitos/checksum-crc/introduction.md)
+    - [Parity Bit](conceitos/checksum-crc/parity-bit.md)
+    - [Checksum](conceitos/checksum-crc/checksum.md)
+    - [CRC - Cyclic Redundandy Check](conceitos/checksum-crc/crc.md)
+- [Funções Hash Criptográficas](conceitos/hash/sha256.md)
+    - [Funções Hash](conceitos/hash/sha256.md)
+    - [Família de Algoritmos MD - Message Digest](conceitos/hash/message-digest.md)
+    - [Família de Algoritmos DES - Data Encryption Standard](conceitos/hash/des.md)
+    - [Família de Algoritmos SHA - Secure Hash Algorithms](conceitos/hash/sha.md)
+    - [PBKDF2, Argon2 e Scrypt - Hash para Senhas](conceitos/hash/pbkdf2-argon2.md)
+- [Algorítmos de Criptografia](conceitos/crypto/crypto-algorithms.md)
+    - [DES - Data Encryption Standard](criptografia/crypto/des.md)
+    - [3DES - Triple DES](criptografia/crypto/3des.md)
+    - [AES - Advanced Encryption Standard](criptografia/crypto/aes.md)
+    - [RSA - Rivest, Shamir e Adleman](criptografia/crypto/rsa.md)
+    - [ECDSA - Elliptic Curve Digital Signature Algorithm](criptografia/crypto/ecdsa.md)
+    - [HMAC - Assinaturas Seguras](conceitos/crypto/hmac.md)
+    - [Criptografia Simétrica vs Assimétrica](conceitos/crypto/criptografia.md)
+<!-- # Aplicações Práticas em Segurança
 
 - [TLS e Certificados SSL](seguranca/tls.md)
     - [Como Funciona o Handshake TLS](seguranca/tls/handshake.md)
@@ -79,11 +85,9 @@
 
 - [Criando um Servidor OAuth2 com Go](implementacao/oauth2-server.md)
 - [Protegendo um Backend com JWT e TLS](implementacao/backend-seguro.md)
-- [Implementando um Webhook Seguro com HMAC](implementacao/hmac-webhook.md)
+- [Implementando um Webhook Seguro com HMAC](implementacao/hmac-webhook.md) -->
 
 # Referências
 
 - [Bibliotecas Recomendadas](referencias/bibliotecas.md)
 - [Links e Leituras Adicionais](referencias/leituras.md)
-
-[Contribuidores](misc/contributors.md)

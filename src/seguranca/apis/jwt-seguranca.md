@@ -1,1 +1,0 @@
-# Protegendo Endpoints com JWT

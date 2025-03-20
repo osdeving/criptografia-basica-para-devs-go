@@ -1,1 +1,0 @@
-# OAuth Scopes e Permissões

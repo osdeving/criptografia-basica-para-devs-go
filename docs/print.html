@@ -1,9 +1,9 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="pt_BR" class="light sidebar-visible" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Jwt Go Demo</title>
+        <title>Criptografia para Desenvolvedores Go</title>
         <meta name="robots" content="noindex">
 
 
@@ -121,7 +121,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Jwt Go Demo</h1>
+                    <h1 class="menu-title">Criptografia para Desenvolvedores Go</h1>
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -154,7 +154,9 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="base64-e-codificação"><a class="header" href="#base64-e-codificação">Base64 e Codificação</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="introdução"><a class="header" href="#introdução">Introdução</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="introdução-1"><a class="header" href="#introdução-1">Introdução</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="base64"><a class="header" href="#base64">Base64</a></h1>
 <style>
   table {
     border-collapse: collapse;
@@ -530,13 +532,14 @@ func main() {
 </code></pre>
 <p>Curiosidade: nossa versão fica alguns ms mais lenta que a versão do Go, sintam-se à vontade para estudar a versão em Go, agora poderão entender todo o código!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="checksum-e-crc---verificação-de-integridade"><a class="header" href="#checksum-e-crc---verificação-de-integridade">Checksum e CRC - Verificação de Integridade</a></h1>
-<h2 id="introdução"><a class="header" href="#introdução">Introdução</a></h2>
+<p><img src="conceitos/checksum-crc/images/image.png" alt="Checksum" /></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="introdução-2"><a class="header" href="#introdução-2">Introdução</a></h1>
 <p>Na seção anterior, discutimos a codificação e o transporte de dados. Agora, avançamos para um aspecto essencial da transmissão e armazenamento de informações: a verificação de integridade. Esse processo garante que os dados recebidos são os mesmos que foram enviados, sem terem sido alterados ou corrompidos durante a transmissão ou armazenamento.</p>
 <p>A integridade dos dados pode ser comprometida por diversos fatores, como erros humanos, falhas sistêmicas (por exemplo, setores defeituosos em discos rígidos) ou perdas de pacotes em redes devido a interferências ou congestionamento.</p>
 <p>Para detectar essas falhas, foram desenvolvidos mecanismos como os checksums e os CRC (Cyclic Redundancy Check), que permitem identificar se os dados foram alterados de forma acidental.</p>
 <p>É importante diferenciar esses métodos das funções hash criptográficas, como MD5 e SHA-256, que abordaremos mais adiante neste livro. Enquanto checksums e CRCs são projetados para detectar erros acidentais, funções hash criptográficas garantem a integridade contra modificações intencionais, oferecendo resistência a ataques e manipulação maliciosa.</p>
 <p>Nesta seção, exploraremos como checksums simples podem ser utilizados para verificar integridade e, em seguida, como os CRC oferecem um método mais robusto para detectar erros em sistemas computacionais.</p>
-<h2 id="bit-de-paridade-parity-bit"><a class="header" href="#bit-de-paridade-parity-bit">Bit de Paridade (Parity Bit)</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="parity-bit"><a class="header" href="#parity-bit">Parity Bit</a></h1>
 <p>Parity bit é um código de detecção de erros em que um bit extra é adicionado ao final da mensagem para garantir que o número total de bits "1" seja par (paridade par) ou ímpar (paridade ímpar). Se um único bit for invertido durante a transmissão, o receptor perceberá a inconsistência e poderá solicitar o reenvio.</p>
 <p>Exemplo de paridade par:</p>
 <pre><code>Mensagem original: 10101110 (8 bits)
@@ -556,7 +559,7 @@ Número de bits "1": 4 → Inconsistência detectada.
 <li>Cyclic Redundancy Check (CRC) – Usa operações matemáticas sobre polinômios para gerar um código de verificação mais robusto.</li>
 </ul>
 <p>Nos próximos tópicos, exploraremos esses métodos em detalhes, mostrando suas implementações e aplicações.</p>
-<h2 id="checksum"><a class="header" href="#checksum">Checksum</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="checksum"><a class="header" href="#checksum">Checksum</a></h1>
 <p>O checksum é a forma mais simples de verificação de integridade, sendo calculado somando os valores dos bytes ou palavras de um dado e armazenando essa soma junto com os dados. Ao receber ou ler os dados, a soma é recalculada e comparada com o checksum armazenado. Se os valores diferirem, isso indica um erro na transmissão ou no armazenamento.</p>
 <h3 id="exemplo-de-checksum-simples-soma-de-bytes"><a class="header" href="#exemplo-de-checksum-simples-soma-de-bytes">Exemplo de Checksum Simples (Soma de Bytes)</a></h3>
 <p>Vamos criar uma implementação básica de checksum em Go, somando os valores dos bytes da mensagem e calculando o módulo 256 para manter um valor fixo de 8 bits.</p>
@@ -638,14 +641,6 @@ func main() {
 
 </code></pre>
 <p>Essa implementação reflete como os protocolos UDP e IP realizam a verificação de integridade, garantindo que os pacotes de rede cheguem corretamente ao destino.</p>
-<h2 id="crc---cyclic-redundancy-check"><a class="header" href="#crc---cyclic-redundancy-check">CRC - Cyclic Redundancy Check</a></h2>
-<p>O CRC (Cyclic Redundancy Check) é um método de detecção de erros baseado em operações matemáticas sobre polinômios binários. Em vez de apenas somar valores, o CRC trata os dados como um número binário e divide esse número por um polinômio pré-determinado, registrando o resto da divisão como código de verificação.</p>
-<p>O CRC é amplamente usado em:</p>
-<ul>
-<li>Transmissões de rede (Ethernet, Wi-Fi)</li>
-<li>Armazenamento de arquivos (ZIP, RAR)</li>
-<li>Sistemas embarcados (CD-ROM, comunicações seriais)</li>
-</ul>
 <h3 id="implementação-do-crc-8-em-go"><a class="header" href="#implementação-do-crc-8-em-go">Implementação do CRC-8 em Go</a></h3>
 <p>O CRC-8 é uma das versões mais simples, usando um polinômio de 8 bits.</p>
 <pre><code class="language-go">package main
@@ -700,8 +695,16 @@ Fletcher-16/32</p>
 <p>O checksum é uma técnica básica e eficiente para detecção de erros simples, mas tem falhas para detecção de padrões mais complexos. O CRC usa divisão polinomial para criar uma verificação mais robusta contra corrupção de dados, sendo amplamente utilizado em redes e armazenamento. Nenhum desses métodos deve ser confundido com funções hash criptográficas, que garantem segurança contra alterações intencionais nos dados.</p>
 <p>Se queremos segurança contra modificações maliciosas, devemos usar HMAC, SHA-256 ou outras funções hash seguras.</p>
 <p>Agora que entendemos essas formas de verificação de integridade fraca, podemos avançar para a família MD (Message Digest), que evolui de checksums simples para funções hash mais sofisticadas.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="crc---cyclic-redundandy-check"><a class="header" href="#crc---cyclic-redundandy-check">CRC - Cyclic Redundandy Check</a></h1>
+<p>O CRC (Cyclic Redundancy Check) é um método de detecção de erros baseado em operações matemáticas sobre polinômios binários. Em vez de apenas somar valores, o CRC trata os dados como um número binário e divide esse número por um polinômio pré-determinado, registrando o resto da divisão como código de verificação.</p>
+<p>O CRC é amplamente usado em:</p>
+<ul>
+<li>Transmissões de rede (Ethernet, Wi-Fi)</li>
+<li>Armazenamento de arquivos (ZIP, RAR)</li>
+<li>Sistemas embarcados (CD-ROM, comunicações seriais)</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="hashing-e-sha-256"><a class="header" href="#hashing-e-sha-256">Hashing e SHA-256</a></h1>
-<h2 id="introdução-1"><a class="header" href="#introdução-1">Introdução</a></h2>
+<h2 id="introdução-3"><a class="header" href="#introdução-3">Introdução</a></h2>
 <p>Funções hash são operações matemáticas que transformam uma entrada de qualquer tamanho em uma saída de tamanho fixo. Para uma mesma entrada, a saída gerada será sempre a mesma.</p>
 <p>Uma das principais propriedades das funções hash é que a operação é irreversível, ou seja, não é possível obter a entrada original a partir da saída gerada.</p>
 <p>Além disso, o tamanho da saída é sempre fixo, independentemente do tamanho da entrada. Isso significa que uma entrada curta e uma entrada muito longa geram um hash com a mesma quantidade de bits.</p>
@@ -752,7 +755,7 @@ Resistência à pré-imagem: Se tivermos o valor H, podemos facilmente encontrar
 Saída de tamanho fixo: A saída sempre tem 256 valores possíveis, independentemente do tamanho da entrada.</li>
 </ul>
 <p>Apesar disso, nosso algoritmo parece irreversível, mas pelos motivos errados! Devido à enorme incidência de colisões, não temos como saber qual foi a entrada exata que gerou determinada saída. Isso, porém, não é uma característica desejável em uma função hash criptográfica.</p>
-<p><img src="conceitos/images/image.png" alt="Simple Hash" /></p>
+<p><img src="conceitos/hash/images/image.png" alt="Simple Hash" /></p>
 <p>Podemos melhorar nossa função hash usando multiplicação por um fator primo melhorando a dispersão e reduzindo colisões triviais. P.ex:</p>
 <pre><code class="language-go">func betterHash(input string) int {
     hash := 0
@@ -766,7 +769,7 @@ Saída de tamanho fixo: A saída sempre tem 256 valores possíveis, independente
 <p>Contudo, o espaço da saída ainda é muito pequeno, estamos limitando a saída a 32 bits. Para grandes volumes de dados as colisões ainda serão inevitáveis e o algorítmo também não é resistente a pré-imagem. Além disso, pequenas mudanças na entrada não afetam significativamente a saída (efeito avalanche).</p>
 <p>Esses exemplos foram um ótimo ponto de partida, mas a computação exigiu funções hash mais poderosas. Vamos analisar como os algoritmos evoluíram ao longo do tempo até chegarmos às soluções modernas, como o SHA-256.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="hashing-e-sha-256-1"><a class="header" href="#hashing-e-sha-256-1">Hashing e SHA-256</a></h1>
-<h2 id="introdução-2"><a class="header" href="#introdução-2">Introdução</a></h2>
+<h2 id="introdução-4"><a class="header" href="#introdução-4">Introdução</a></h2>
 <p>Funções hash são operações matemáticas que transformam uma entrada de qualquer tamanho em uma saída de tamanho fixo. Para uma mesma entrada, a saída gerada será sempre a mesma.</p>
 <p>Uma das principais propriedades das funções hash é que a operação é irreversível, ou seja, não é possível obter a entrada original a partir da saída gerada.</p>
 <p>Além disso, o tamanho da saída é sempre fixo, independentemente do tamanho da entrada. Isso significa que uma entrada curta e uma entrada muito longa geram um hash com a mesma quantidade de bits.</p>
@@ -817,7 +820,7 @@ Resistência à pré-imagem: Se tivermos o valor H, podemos facilmente encontrar
 Saída de tamanho fixo: A saída sempre tem 256 valores possíveis, independentemente do tamanho da entrada.</li>
 </ul>
 <p>Apesar disso, nosso algoritmo parece irreversível, mas pelos motivos errados! Devido à enorme incidência de colisões, não temos como saber qual foi a entrada exata que gerou determinada saída. Isso, porém, não é uma característica desejável em uma função hash criptográfica.</p>
-<p><img src="conceitos/images/image.png" alt="Simple Hash" /></p>
+<p><img src="conceitos/hash/images/image.png" alt="Simple Hash" /></p>
 <p>Podemos melhorar nossa função hash usando multiplicação por um fator primo melhorando a dispersão e reduzindo colisões triviais. P.ex:</p>
 <pre><code class="language-go">func betterHash(input string) int {
     hash := 0
@@ -849,7 +852,7 @@ Saída de tamanho fixo: A saída sempre tem 256 valores possíveis, independente
 <li>se faltar N bytes para completar 16, adicionamos N bytes com o valor de N.</li>
 </ul>
 <p>Exemplo:</p>
-<p><img src="conceitos/images/padding-md2.png" alt="Padding MD2" /></p>
+<p><img src="conceitos/hash/images/padding-md2.png" alt="Padding MD2" /></p>
 <p>Ou seja:</p>
 <div class="table-wrapper"><table><thead><tr><th><strong>Etapa</strong></th><th><strong>Dados</strong></th></tr></thead><tbody>
 <tr><td><strong>Entrada original</strong></td><td>Hexa: <code>[41 42 43]</code> = <code>"ABC"</code></td></tr>
@@ -1302,56 +1305,12 @@ func main() {
 <div style="break-before: page; page-break-before: always;"></div><h1 id="ecdsa---elliptic-curve-digital-signature-algorithm"><a class="header" href="#ecdsa---elliptic-curve-digital-signature-algorithm">ECDSA - Elliptic Curve Digital Signature Algorithm</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="hmac---assinaturas-seguras"><a class="header" href="#hmac---assinaturas-seguras">HMAC - Assinaturas Seguras</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="criptografia-simétrica-vs-assimétrica"><a class="header" href="#criptografia-simétrica-vs-assimétrica">Criptografia Simétrica vs Assimétrica</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="tls-e-certificados-ssl"><a class="header" href="#tls-e-certificados-ssl">TLS e Certificados SSL</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="como-funciona-o-handshake-tls"><a class="header" href="#como-funciona-o-handshake-tls">Como Funciona o Handshake TLS</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="certificados-e-autoridades-certificadoras"><a class="header" href="#certificados-e-autoridades-certificadoras">Certificados e Autoridades Certificadoras</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="cipher-suites-e-forward-secrecy"><a class="header" href="#cipher-suites-e-forward-secrecy">Cipher Suites e Forward Secrecy</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="exemplo-prático-com-go"><a class="header" href="#exemplo-prático-com-go">Exemplo Prático com Go</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="segurança-em-apis-rest"><a class="header" href="#segurança-em-apis-rest">Segurança em APIs REST</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="https-obrigatório"><a class="header" href="#https-obrigatório">HTTPS Obrigatório</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="protegendo-endpoints-com-jwt"><a class="header" href="#protegendo-endpoints-com-jwt">Protegendo Endpoints com JWT</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="rate-limiting-e-proteção-contra-dos"><a class="header" href="#rate-limiting-e-proteção-contra-dos">Rate Limiting e Proteção contra DoS</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="assinaturas-hmac-para-webhooks"><a class="header" href="#assinaturas-hmac-para-webhooks">Assinaturas HMAC para Webhooks</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="json-web-token-jwt"><a class="header" href="#json-web-token-jwt">JSON Web Token (JWT)</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="estrutura-de-um-jwt"><a class="header" href="#estrutura-de-um-jwt">Estrutura de um JWT</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="assinatura-e-verificação"><a class="header" href="#assinatura-e-verificação">Assinatura e Verificação</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="jwt-expiração-e-refresh-token"><a class="header" href="#jwt-expiração-e-refresh-token">JWT Expiração e Refresh Token</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="exemplo-prático-com-go-1"><a class="header" href="#exemplo-prático-com-go-1">Exemplo Prático com Go</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="oauth-20-e-openid-connect"><a class="header" href="#oauth-20-e-openid-connect">OAuth 2.0 e OpenID Connect</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="fluxo-authorization-code"><a class="header" href="#fluxo-authorization-code">Fluxo Authorization Code</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="client-credentials-e-machine-to-machine"><a class="header" href="#client-credentials-e-machine-to-machine">Client Credentials e Machine-to-Machine</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="oauth-scopes-e-permissões"><a class="header" href="#oauth-scopes-e-permissões">OAuth Scopes e Permissões</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="exemplo-prático-com-go-2"><a class="header" href="#exemplo-prático-com-go-2">Exemplo Prático com Go</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="json-web-token-jwt-1"><a class="header" href="#json-web-token-jwt-1">JSON Web Token (JWT)</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="estrutura-de-um-jwt-1"><a class="header" href="#estrutura-de-um-jwt-1">Estrutura de um JWT</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="assinatura-e-verificação-1"><a class="header" href="#assinatura-e-verificação-1">Assinatura e Verificação</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="jwt-expiração-e-refresh-token-1"><a class="header" href="#jwt-expiração-e-refresh-token-1">JWT Expiração e Refresh Token</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="exemplo-prático-com-go-3"><a class="header" href="#exemplo-prático-com-go-3">Exemplo Prático com Go</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="oauth-20-e-openid-connect-1"><a class="header" href="#oauth-20-e-openid-connect-1">OAuth 2.0 e OpenID Connect</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="fluxo-authorization-code-1"><a class="header" href="#fluxo-authorization-code-1">Fluxo Authorization Code</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="client-credentials-e-machine-to-machine-1"><a class="header" href="#client-credentials-e-machine-to-machine-1">Client Credentials e Machine-to-Machine</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="oauth-scopes-e-permissões-1"><a class="header" href="#oauth-scopes-e-permissões-1">OAuth Scopes e Permissões</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="exemplo-prático-com-go-4"><a class="header" href="#exemplo-prático-com-go-4">Exemplo Prático com Go</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="colisão-de-hash-e-birthday-attack"><a class="header" href="#colisão-de-hash-e-birthday-attack">Colisão de Hash e Birthday Attack</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="ataques-a-tls---beast-poodle-mitm"><a class="header" href="#ataques-a-tls---beast-poodle-mitm">Ataques a TLS - BEAST, POODLE, MITM</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="quebra-de-senhas---ataques-de-força-bruta-e-rainbow-tables"><a class="header" href="#quebra-de-senhas---ataques-de-força-bruta-e-rainbow-tables">Quebra de Senhas - Ataques de Força Bruta e Rainbow Tables</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="armazenamento-seguro-de-senhas"><a class="header" href="#armazenamento-seguro-de-senhas">Armazenamento Seguro de Senhas</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="bcrypt-argon2-e-pbkdf2"><a class="header" href="#bcrypt-argon2-e-pbkdf2">Bcrypt, Argon2 e PBKDF2</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="erros-comuns-no-hashing-de-senhas"><a class="header" href="#erros-comuns-no-hashing-de-senhas">Erros Comuns no Hashing de Senhas</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="gerenciamento-de-tokens-seguros"><a class="header" href="#gerenciamento-de-tokens-seguros">Gerenciamento de Tokens Seguros</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="armazenando-tokens-com-segurança"><a class="header" href="#armazenando-tokens-com-segurança">Armazenando Tokens com Segurança</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="expiração-e-rotação-de-tokens"><a class="header" href="#expiração-e-rotação-de-tokens">Expiração e Rotação de Tokens</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="checklist-de-segurança-para-apis"><a class="header" href="#checklist-de-segurança-para-apis">Checklist de Segurança para APIs</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="criando-um-servidor-oauth2-com-go"><a class="header" href="#criando-um-servidor-oauth2-com-go">Criando um Servidor OAuth2 com Go</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="protegendo-um-backend-com-jwt-e-tls"><a class="header" href="#protegendo-um-backend-com-jwt-e-tls">Protegendo um Backend com JWT e TLS</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="implementando-um-webhook-seguro-com-hmac"><a class="header" href="#implementando-um-webhook-seguro-com-hmac">Implementando um Webhook Seguro com HMAC</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="bibliotecas-recomendadas"><a class="header" href="#bibliotecas-recomendadas">Bibliotecas Recomendadas</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="links-e-leituras-adicionais"><a class="header" href="#links-e-leituras-adicionais">Links e Leituras Adicionais</a></h1>
 <p>[1] Claude E. Shannon, "Communication Theory of Secrecy Systems," Bell System Technical Journal, vol. 28, no. 4, pp. 656-715, 1949.</p>
 <p>[2] R. Rivest, "The MD5 Message-Digest Algorithm," RFC 1321, April 1992. [Online]. Available: https://www.rfc-editor.org/rfc/rfc1321</p>
 <p>[3] National Institute of Standards and Technology (NIST), "Advanced Encryption Standard (AES)", <em>FIPS PUB 197</em>, 2001. [Online]. Available: https://csrc.nist.gov/publications/detail/fips/197/final</p>
 <p>[4] National Institute of Standards and Technology (NIST), "Data Encryption Standard (DES)", <em>FIPS PUB 46-3</em>, 1999. [Online]. Available: https://csrc.nist.gov/publications/detail/fips/46/3/final</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="contributors"><a class="header" href="#contributors">Contributors</a></h1>
 
                     </main>
 
@@ -1370,6 +1329,22 @@ func main() {
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 
