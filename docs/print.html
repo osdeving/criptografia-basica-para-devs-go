@@ -154,8 +154,86 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="manipulação-de-dados"><a class="header" href="#manipulação-de-dados">Manipulação de Dados</a></h1>
+<h2 id="operadores-bitwise"><a class="header" href="#operadores-bitwise">Operadores Bitwise</a></h2>
+<h2 id="endianness---organização-de-bytes-na-memória"><a class="header" href="#endianness---organização-de-bytes-na-memória">Endianness - Organização de Bytes na Memória</a></h2>
+<h2 id="s-box---substitution-box"><a class="header" href="#s-box---substitution-box">S-Box - Substitution Box</a></h2>
+<h2 id="confusão-e-difusão"><a class="header" href="#confusão-e-difusão">Confusão e Difusão</a></h2>
+<h2 id="permutações-e-trocas"><a class="header" href="#permutações-e-trocas">Permutações e Trocas</a></h2>
+<h2 id="geradores-de-números-pseudoaleatórios-prng"><a class="header" href="#geradores-de-números-pseudoaleatórios-prng">Geradores de Números Pseudoaleatórios (PRNG)</a></h2>
+<h2 id="operações-em-blocos"><a class="header" href="#operações-em-blocos">Operações em Blocos</a></h2>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="introdução"><a class="header" href="#introdução">Introdução</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="endianness---organização-de-bytes-na-memória-1"><a class="header" href="#endianness---organização-de-bytes-na-memória-1">Endianness - Organização de Bytes na Memória</a></h1>
+<h2 id="o-que-é-endianness"><a class="header" href="#o-que-é-endianness">O que é Endianness?</a></h2>
+<p>Endianness se refere à ordem em que os bytes são armazenados na memória. Essa ordem pode variar entre sistemas diferentes e impacta como os dados binários são interpretados.</p>
+<p>Existem dois tipos principais: Little-endian e Big-endian.</p>
+<h2 id="little-endian"><a class="header" href="#little-endian">Little-endian</a></h2>
+<p>Nesse modelo, o byte menos significativo (LSB - Least Significant Byte) vem primeiro. Vamos supor que temos o número 0x12345678 armazenado em 4 bytes. O byte menos significativo (LSB) é o 0x78, seguido pelo 0x56, 0x34 e 0x12. A representação em memória seria:</p>
+<div class="table-wrapper"><table><thead><tr><th>Endereço</th><th>Byte</th></tr></thead><tbody>
+<tr><td>0x1000</td><td>0x78</td></tr>
+<tr><td>0x1001</td><td>0x56</td></tr>
+<tr><td>0x1002</td><td>0x34</td></tr>
+<tr><td>0x1003</td><td>0x12</td></tr>
+</tbody></table>
+</div>
+<h2 id="big-endian"><a class="header" href="#big-endian">Big-endian</a></h2>
+<p>Neste modelo, o byte mais significativo (MSB - Most Significant Byte) vem primeiro. Novamente, usando o mesmo exemplo, o byte mais significativo (MSB) é o 0x12. A representação em memória seria:</p>
+<div class="table-wrapper"><table><thead><tr><th>Endereço</th><th>Byte</th></tr></thead><tbody>
+<tr><td>0x1000</td><td>0x12</td></tr>
+<tr><td>0x1001</td><td>0x34</td></tr>
+<tr><td>0x1002</td><td>0x56</td></tr>
+<tr><td>0x1003</td><td>0x78</td></tr>
+</tbody></table>
+</div>
+<h2 id="implementação-em-go"><a class="header" href="#implementação-em-go">Implementação em Go</a></h2>
+<p>Vamos ver como podemos implementar esses conceitos em Go.</p>
+<h3 id="identificando-o-endianness"><a class="header" href="#identificando-o-endianness">Identificando o Endianness</a></h3>
+<pre><code class="language-go">package main
+
+import (
+	"encoding/binary"
+	"fmt"
+	"unsafe"
+)
+
+func main() {
+	var i int32 = 0x01020304
+
+	ptr := (*[4]byte)(unsafe.Pointer(&amp;i))
+
+	if ptr[0] == 0x04 {
+		fmt.Printf("Primeiro byte é %v, então este sistema é Little-endian (provavelmente um x86)\n", ptr[0])
+	} else {
+		fmt.Printf("Primeiro byte é %v, então este sistema é Big-endian\n", ptr[0])
+	}
+
+	b := make([]byte, 4)
+
+	// Converte o inteiro para bytes no formato big-endian
+	binary.BigEndian.PutUint32(b, uint32(i))
+
+	fmt.Println("Convertido para Big-endian")
+
+	// Verifica se o primeiro byte é 0x04 (LSB) ou 0x01 (MSB)
+	if b[0] == 0x04 {
+		fmt.Printf("Primeiro byte é %v, então é Little-endian\n", b[0])
+	} else {
+		fmt.Printf("Primeiro byte é %v, então é Big-endian\n", b[0])
+	}
+}
+
+</code></pre>
+<p>Vai imprimir:</p>
+<pre><code>Primeiro byte é 4, então é Little-endian
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="operaadores-bitwise"><a class="header" href="#operaadores-bitwise">Operaadores Bitwise</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="operações-em-blocos-1"><a class="header" href="#operações-em-blocos-1">Operações em Blocos</a></h1>
+<h2 id="ecb-electronic-codebook"><a class="header" href="#ecb-electronic-codebook">ECB (Electronic Codebook)</a></h2>
+<h2 id="cbc-cipher-block-chaining"><a class="header" href="#cbc-cipher-block-chaining">CBC (Cipher Block Chaining)</a></h2>
+<h2 id="cfb-cipher-feedback-e-ofb-output-feedback"><a class="header" href="#cfb-cipher-feedback-e-ofb-output-feedback">CFB (Cipher Feedback) e OFB (Output Feedback)</a></h2>
+<h2 id="ctr-counter-mode"><a class="header" href="#ctr-counter-mode">CTR (Counter Mode)</a></h2>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="introdução-1"><a class="header" href="#introdução-1">Introdução</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="introdução-2"><a class="header" href="#introdução-2">Introdução</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="base64"><a class="header" href="#base64">Base64</a></h1>
 <style>
   table {
@@ -230,7 +308,7 @@
 <p>4 - Convertemos cada grupo de 6 bits em um número decimal (20, 38, 61, 56).</p>
 <p>5 - Mapeamos esses números na tabela Base64, resultando na string "Um94".</p>
 <p>Bem tranquilo, certo?</p>
-<h2 id="implementação-em-go"><a class="header" href="#implementação-em-go">Implementação em Go</a></h2>
+<h2 id="implementação-em-go-1"><a class="header" href="#implementação-em-go-1">Implementação em Go</a></h2>
 <p>O maior desafio que teremos é agrupar os bits em grupos de 6 bits, pois normalmente estamos trabalhando com 8 bits (1 byte). Isso implica que, a cada 3 bytes (24 bits no total), teremos 4 grupos de 6 bits, pois 24 / 6 = 4.</p>
 <hr />
 <summary>Extra: Entendendo o bitwise AND
@@ -533,7 +611,7 @@ func main() {
 <p>Curiosidade: nossa versão fica alguns ms mais lenta que a versão do Go, sintam-se à vontade para estudar a versão em Go, agora poderão entender todo o código!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="checksum-e-crc---verificação-de-integridade"><a class="header" href="#checksum-e-crc---verificação-de-integridade">Checksum e CRC - Verificação de Integridade</a></h1>
 <p><img src="conceitos/checksum-crc/images/image.png" alt="Checksum" /></p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="introdução-2"><a class="header" href="#introdução-2">Introdução</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="introdução-3"><a class="header" href="#introdução-3">Introdução</a></h1>
 <p>Na seção anterior, discutimos a codificação e o transporte de dados. Agora, avançamos para um aspecto essencial da transmissão e armazenamento de informações: a verificação de integridade. Esse processo garante que os dados recebidos são os mesmos que foram enviados, sem terem sido alterados ou corrompidos durante a transmissão ou armazenamento.</p>
 <p>A integridade dos dados pode ser comprometida por diversos fatores, como erros humanos, falhas sistêmicas (por exemplo, setores defeituosos em discos rígidos) ou perdas de pacotes em redes devido a interferências ou congestionamento.</p>
 <p>Para detectar essas falhas, foram desenvolvidos mecanismos como os checksums e os CRC (Cyclic Redundancy Check), que permitem identificar se os dados foram alterados de forma acidental.</p>
@@ -704,7 +782,7 @@ Fletcher-16/32</p>
 <li>Sistemas embarcados (CD-ROM, comunicações seriais)</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="hashing-e-sha-256"><a class="header" href="#hashing-e-sha-256">Hashing e SHA-256</a></h1>
-<h2 id="introdução-3"><a class="header" href="#introdução-3">Introdução</a></h2>
+<h2 id="introdução-4"><a class="header" href="#introdução-4">Introdução</a></h2>
 <p>Funções hash são operações matemáticas que transformam uma entrada de qualquer tamanho em uma saída de tamanho fixo. Para uma mesma entrada, a saída gerada será sempre a mesma.</p>
 <p>Uma das principais propriedades das funções hash é que a operação é irreversível, ou seja, não é possível obter a entrada original a partir da saída gerada.</p>
 <p>Além disso, o tamanho da saída é sempre fixo, independentemente do tamanho da entrada. Isso significa que uma entrada curta e uma entrada muito longa geram um hash com a mesma quantidade de bits.</p>
@@ -769,7 +847,7 @@ Saída de tamanho fixo: A saída sempre tem 256 valores possíveis, independente
 <p>Contudo, o espaço da saída ainda é muito pequeno, estamos limitando a saída a 32 bits. Para grandes volumes de dados as colisões ainda serão inevitáveis e o algorítmo também não é resistente a pré-imagem. Além disso, pequenas mudanças na entrada não afetam significativamente a saída (efeito avalanche).</p>
 <p>Esses exemplos foram um ótimo ponto de partida, mas a computação exigiu funções hash mais poderosas. Vamos analisar como os algoritmos evoluíram ao longo do tempo até chegarmos às soluções modernas, como o SHA-256.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="hashing-e-sha-256-1"><a class="header" href="#hashing-e-sha-256-1">Hashing e SHA-256</a></h1>
-<h2 id="introdução-4"><a class="header" href="#introdução-4">Introdução</a></h2>
+<h2 id="introdução-5"><a class="header" href="#introdução-5">Introdução</a></h2>
 <p>Funções hash são operações matemáticas que transformam uma entrada de qualquer tamanho em uma saída de tamanho fixo. Para uma mesma entrada, a saída gerada será sempre a mesma.</p>
 <p>Uma das principais propriedades das funções hash é que a operação é irreversível, ou seja, não é possível obter a entrada original a partir da saída gerada.</p>
 <p>Além disso, o tamanho da saída é sempre fixo, independentemente do tamanho da entrada. Isso significa que uma entrada curta e uma entrada muito longa geram um hash com a mesma quantidade de bits.</p>
@@ -901,7 +979,7 @@ L = C[3] = 0x71
 <p>Essa fase adiciona o efeito de difusão na mensagem antes da fase final.</p>
 <p>A difusão é um conceito introduzido por Claude Shannon [Shannon, 1949] [1], onde pequenas mudanças na entrada devem se espalhar por toda a saída, dificultando a recuperação do texto original a partir do hash ou da cifra</p>
 <p>Após processar todos os blocos, os 16 bytes do checksum são anexados à mensagem.</p>
-<h5 id="implementação-em-go-1"><a class="header" href="#implementação-em-go-1">Implementação em Go</a></h5>
+<h5 id="implementação-em-go-2"><a class="header" href="#implementação-em-go-2">Implementação em Go</a></h5>
 <pre><code class="language-go">var SBox = [256]byte{
 	41, 46, 67, 201, 162, 216, 124, 1, 61, 54, 84, 161, 236, 240, 6, 19,
 	98, 167, 5, 243, 192, 199, 115, 140, 152, 147, 43, 217, 188, 76, 130, 202,

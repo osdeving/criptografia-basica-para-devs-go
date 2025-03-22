@@ -3,7 +3,11 @@
 [Introdução](README.md)
 
 # Conceitos Fundamentais
-
+- [Manipulação de Dados](conceitos/manipulacao-de-dados/manipulacao-de-dados.md)
+    - [Introdução](conceitos/manipulacao-de-dados/introduction.md)
+    - [Endianness](conceitos/manipulacao-de-dados/endianness.md)
+    - [Operaadores Bitwise](conceitos/manipulacao-de-dados/operadores-bitwise.md)
+    - [Operações em Blocos](conceitos/manipulacao-de-dados/operacoes-em-blocos.md)
 - [Base64 e Codificação](conceitos/encode-decode/introduction.md)
     - [Introdução](conceitos/encode-decode/introduction.md)
     - [Base64](conceitos/encode-decode/base64.md)
