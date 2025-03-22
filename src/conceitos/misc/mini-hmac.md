@@ -1,0 +1,1 @@
+# MiniHMAC - Mini Assinaturas Seguras

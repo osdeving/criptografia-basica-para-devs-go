@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Criptografia Simétrica vs Assimétrica - Criptografia para Desenvolvedores Go</title>
+        <title>LSFB - Linear Shift Feedback - Criptografia para Desenvolvedores Go</title>
 
 
         <!-- Custom HTML head -->
@@ -152,17 +152,48 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="criptografia-simétrica-vs-assimétrica"><a class="header" href="#criptografia-simétrica-vs-assimétrica">Criptografia Simétrica vs Assimétrica</a></h1>
+                        <h1 id="lsfb---linear-shift-feedback"><a class="header" href="#lsfb---linear-shift-feedback">LSFB - Linear Shift Feedback</a></h1>
+<p>O LFSR (Linear Feedback Shift Register) é um tipo de registrador de deslocamento com feedback linear. Ele é usado em várias aplicações de criptografia, incluindo a geração de números pseudoaleatórios (PRNGs) e a criptografia de fluxo (stream cipher).</p>
+<h2 id="como-funciona"><a class="header" href="#como-funciona">Como Funciona</a></h2>
+<p>Você tem um vetor de bits inicial (a semente, ou estado inicial). A cada ciclo, o registrador é deslocado para a direita e um novo bit é calculado como XOR de alguns bits do estado atual, esse bit é então adicionado ao bit mais à esquerda.</p>
+<h2 id="exemplo-com-4-bits"><a class="header" href="#exemplo-com-4-bits">Exemplo com 4 bits</a></h2>
+<p>Estado inicial (semente): 1001</p>
+<p>Taps: posição 1 e 4 (ou seja, os bits 1 e 4 são usados para calcular o novo bit)</p>
+<p>Iterações:</p>
+<ol>
+<li>
+<p>Estado atual: 1001
+Feedback: 1 XOR 1 = 0
+Novo estado: 0100</p>
+</li>
+<li>
+<p>Estado atual: 0100
+Feedback: 0 XOR 0 = 0
+Novo estado: 0010</p>
+</li>
+<li>
+<p>Estado atual: 0010
+Feedback: 0 XOR 0 = 0
+Novo estado: 0001</p>
+</li>
+<li>
+<p>Estado atual: 0001
+Feedback: 0 XOR 1 = 1
+Novo estado: 1000</p>
+</li>
+</ol>
+<p>E asssim por diante...</p>
+<h2 id="fórmula-geral"><a class="header" href="#fórmula-geral">Fórmula Geral</a></h2>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../conceitos/crypto/hmac.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../conceitos/misc/prng.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../conceitos/misc/misc.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../conceitos/misc/s-des.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -172,11 +203,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../conceitos/crypto/hmac.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../conceitos/misc/prng.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../conceitos/misc/misc.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../conceitos/misc/s-des.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

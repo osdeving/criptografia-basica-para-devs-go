@@ -30,6 +30,20 @@
     - [ECDSA - Elliptic Curve Digital Signature Algorithm](criptografia/crypto/ecdsa.md)
     - [HMAC - Assinaturas Seguras](conceitos/crypto/hmac.md)
     - [Criptografia Simétrica vs Assimétrica](conceitos/crypto/criptografia.md)
+- [Miscelânea](conceitos/misc/misc.md)
+    - [S-Box](conceitos/misc/s-box.md)
+    - [Confusão e Difusão](conceitos/misc/confusao-difusao.md)
+    - [Permutações e Trocas](conceitos/misc/permutacoes.md)
+    - [Geradores de Números Pseudoaleatórios (PRNG)](conceitos/misc/prng.md)
+    - [LSFB - Linear Shift Feedback](conceitos/misc/lsfb.md)
+    - [S-DES - Simplified DES](conceitos/misc/s-des.md)
+    - [S-AES - Simplified AES](conceitos/misc/s-aes.md)
+    - [MiniDES - Mini Data Encryption Standard](conceitos/misc/mini-des.md)
+    - [MiniAES - Mini Advanced Encryption Standard](conceitos/misc/mini-aes.md)
+    - [MiniRSA - Mini Rivest, Shamir e Adleman](conceitos/misc/mini-rsa.md)
+    - [MiniECDSA - Mini Elliptic Curve Digital Signature Algorithm](conceitos/misc/mini-ecdsa.md)
+    - [MiniHMAC - Mini Assinaturas Seguras](conceitos/misc/mini-hmac.md)
+    
 <!-- # Aplicações Práticas em Segurança
 
 - [TLS e Certificados SSL](seguranca/tls.md)

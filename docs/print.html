@@ -1383,6 +1383,50 @@ func main() {
 <div style="break-before: page; page-break-before: always;"></div><h1 id="ecdsa---elliptic-curve-digital-signature-algorithm"><a class="header" href="#ecdsa---elliptic-curve-digital-signature-algorithm">ECDSA - Elliptic Curve Digital Signature Algorithm</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="hmac---assinaturas-seguras"><a class="header" href="#hmac---assinaturas-seguras">HMAC - Assinaturas Seguras</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="criptografia-simétrica-vs-assimétrica"><a class="header" href="#criptografia-simétrica-vs-assimétrica">Criptografia Simétrica vs Assimétrica</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="miscelânea"><a class="header" href="#miscelânea">Miscelânea</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="s-box"><a class="header" href="#s-box">S-Box</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="confusão-e-difusão-1"><a class="header" href="#confusão-e-difusão-1">Confusão e Difusão</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="permutações-e-trocas-1"><a class="header" href="#permutações-e-trocas-1">Permutações e Trocas</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="geradores-de-números-pseudoaleatórios-prng-1"><a class="header" href="#geradores-de-números-pseudoaleatórios-prng-1">Geradores de Números Pseudoaleatórios (PRNG)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="lsfb---linear-shift-feedback"><a class="header" href="#lsfb---linear-shift-feedback">LSFB - Linear Shift Feedback</a></h1>
+<p>O LFSR (Linear Feedback Shift Register) é um tipo de registrador de deslocamento com feedback linear. Ele é usado em várias aplicações de criptografia, incluindo a geração de números pseudoaleatórios (PRNGs) e a criptografia de fluxo (stream cipher).</p>
+<h2 id="como-funciona"><a class="header" href="#como-funciona">Como Funciona</a></h2>
+<p>Você tem um vetor de bits inicial (a semente, ou estado inicial). A cada ciclo, o registrador é deslocado para a direita e um novo bit é calculado como XOR de alguns bits do estado atual, esse bit é então adicionado ao bit mais à esquerda.</p>
+<h2 id="exemplo-com-4-bits"><a class="header" href="#exemplo-com-4-bits">Exemplo com 4 bits</a></h2>
+<p>Estado inicial (semente): 1001</p>
+<p>Taps: posição 1 e 4 (ou seja, os bits 1 e 4 são usados para calcular o novo bit)</p>
+<p>Iterações:</p>
+<ol>
+<li>
+<p>Estado atual: 1001
+Feedback: 1 XOR 1 = 0
+Novo estado: 0100</p>
+</li>
+<li>
+<p>Estado atual: 0100
+Feedback: 0 XOR 0 = 0
+Novo estado: 0010</p>
+</li>
+<li>
+<p>Estado atual: 0010
+Feedback: 0 XOR 0 = 0
+Novo estado: 0001</p>
+</li>
+<li>
+<p>Estado atual: 0001
+Feedback: 0 XOR 1 = 1
+Novo estado: 1000</p>
+</li>
+</ol>
+<p>E asssim por diante...</p>
+<h2 id="fórmula-geral"><a class="header" href="#fórmula-geral">Fórmula Geral</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="s-des---simplified-des"><a class="header" href="#s-des---simplified-des">S-DES - Simplified DES</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="s-aes---simplified-aes"><a class="header" href="#s-aes---simplified-aes">S-AES - Simplified AES</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="minides---mini-data-encryption-standard"><a class="header" href="#minides---mini-data-encryption-standard">MiniDES - Mini Data Encryption Standard</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="miniaes---mini-advanced-encryption-standard"><a class="header" href="#miniaes---mini-advanced-encryption-standard">MiniAES - Mini Advanced Encryption Standard</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="minirsa---mini-rivest-shamir-e-adleman"><a class="header" href="#minirsa---mini-rivest-shamir-e-adleman">MiniRSA - Mini Rivest, Shamir e Adleman</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="miniecdsa---mini-elliptic-curve-digital-signature-algorithm"><a class="header" href="#miniecdsa---mini-elliptic-curve-digital-signature-algorithm">MiniECDSA - Mini Elliptic Curve Digital Signature Algorithm</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="minihmac---mini-assinaturas-seguras"><a class="header" href="#minihmac---mini-assinaturas-seguras">MiniHMAC - Mini Assinaturas Seguras</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="bibliotecas-recomendadas"><a class="header" href="#bibliotecas-recomendadas">Bibliotecas Recomendadas</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="links-e-leituras-adicionais"><a class="header" href="#links-e-leituras-adicionais">Links e Leituras Adicionais</a></h1>
 <p>[1] Claude E. Shannon, "Communication Theory of Secrecy Systems," Bell System Technical Journal, vol. 28, no. 4, pp. 656-715, 1949.</p>
