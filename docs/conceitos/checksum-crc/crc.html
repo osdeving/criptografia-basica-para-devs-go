@@ -152,7 +152,8 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="crc---cyclic-redundandy-check"><a class="header" href="#crc---cyclic-redundandy-check">CRC - Cyclic Redundandy Check</a></h1>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="crc---cyclic-redundandy-check"><a class="header" href="#crc---cyclic-redundandy-check">CRC - Cyclic Redundandy Check</a></h1>
 <p>O CRC (Cyclic Redundancy Check) é um método de detecção de erros baseado em operações matemáticas sobre polinômios binários. Em vez de apenas somar valores, o CRC trata os dados como um número binário e divide esse número por um polinômio pré-determinado, registrando o resto da divisão como código de verificação.</p>
 <p>O CRC é amplamente usado em:</p>
 <ul>
@@ -190,22 +191,6 @@
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

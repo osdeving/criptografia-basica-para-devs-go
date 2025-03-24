@@ -35,7 +35,7 @@
     - [Confusão e Difusão](conceitos/misc/confusao-difusao.md)
     - [Permutações e Trocas](conceitos/misc/permutacoes.md)
     - [Geradores de Números Pseudoaleatórios (PRNG)](conceitos/misc/prng.md)
-    - [LSFB - Linear Shift Feedback](conceitos/misc/lsfb.md)
+    - [LFSR - Linear Feedback Shift Register](conceitos/misc/lfsr.md)
     - [S-DES - Simplified DES](conceitos/misc/s-des.md)
     - [S-AES - Simplified AES](conceitos/misc/s-aes.md)
     - [MiniDES - Mini Data Encryption Standard](conceitos/misc/mini-des.md)
@@ -43,7 +43,7 @@
     - [MiniRSA - Mini Rivest, Shamir e Adleman](conceitos/misc/mini-rsa.md)
     - [MiniECDSA - Mini Elliptic Curve Digital Signature Algorithm](conceitos/misc/mini-ecdsa.md)
     - [MiniHMAC - Mini Assinaturas Seguras](conceitos/misc/mini-hmac.md)
-    
+
 <!-- # Aplicações Práticas em Segurança
 
 - [TLS e Certificados SSL](seguranca/tls.md)

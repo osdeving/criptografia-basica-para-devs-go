@@ -152,7 +152,8 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="hashing-e-sha-256"><a class="header" href="#hashing-e-sha-256">Hashing e SHA-256</a></h1>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="hashing-e-sha-256"><a class="header" href="#hashing-e-sha-256">Hashing e SHA-256</a></h1>
 <h2 id="introdução"><a class="header" href="#introdução">Introdução</a></h2>
 <p>Funções hash são operações matemáticas que transformam uma entrada de qualquer tamanho em uma saída de tamanho fixo. Para uma mesma entrada, a saída gerada será sempre a mesma.</p>
 <p>Uma das principais propriedades das funções hash é que a operação é irreversível, ou seja, não é possível obter a entrada original a partir da saída gerada.</p>
@@ -247,22 +248,6 @@ Saída de tamanho fixo: A saída sempre tem 256 valores possíveis, independente
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 
