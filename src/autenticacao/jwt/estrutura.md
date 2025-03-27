@@ -1,1 +1,0 @@
-# Estrutura de um JWT

@@ -1,1 +1,0 @@
-# Algorítmos de Criptografia

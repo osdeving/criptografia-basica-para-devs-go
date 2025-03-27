@@ -1,8 +1,12 @@
 [book]
 authors = ["Willams Sousa"]
-language = "en"
+language = "pt_BR"
 multilingual = false
 src = "src"
-title = "Jwt Go Demo"
+title = "Criptografia para Desenvolvedores Go"
 [build]
-build-dir = "docs2"
+build-dir = "docs"
+
+[preprocessor.katex]
+after = ["links"]
+

@@ -1,1 +1,0 @@
-# Aplicações Práticas em Segurança

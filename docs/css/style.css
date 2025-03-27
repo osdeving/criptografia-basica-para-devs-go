@@ -1,0 +1,40 @@
+/* Estilo base para caixas matemáticas */
+.box {
+    border: 1px solid #aaa;
+    border-left: 6px solid #444;
+    padding: 1rem;
+    margin: 1.5rem 0;
+    background-color: #fdfdfd;
+    box-shadow: 2px 2px 6px #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+  
+  /* Tipo: Definição */
+  .box.definition {
+    border-left-color: #0074d9;
+  }
+  
+  .box.definition::before {
+    content: "Definition";
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #0074d9;
+    font-size: 1.05rem;
+  }
+  
+  /* Pode criar outros tipos no futuro */
+  .box.theorem {
+    border-left-color: #2ecc40;
+  }
+  
+  .box.theorem::before {
+    content: "Theorem";
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #2ecc40;
+    font-size: 1.05rem;
+  }
+  
