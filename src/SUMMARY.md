@@ -36,6 +36,7 @@
     - [Permutações e Trocas](conceitos/misc/permutacoes.md)
     - [Geradores de Números Pseudoaleatórios (PRNG)](conceitos/misc/prng.md)
     - [LFSR - Linear Feedback Shift Register](conceitos/misc/lfsr.md)
+    - [LCG - Linear Congruential Generator](conceitos/misc/lcg.md)
     - [S-DES - Simplified DES](conceitos/misc/s-des.md)
     - [S-AES - Simplified AES](conceitos/misc/s-aes.md)
     - [MiniDES - Mini Data Encryption Standard](conceitos/misc/mini-des.md)
