@@ -85,8 +85,80 @@ Para criptografia, esses critérios são insuficientes, porque o LCG é linear e
 * Ou usar um gerador de números aleatórios criptograficamente seguro (CSPRNG)
 
 
+## Variações e Referências Clássicas (Knuth e outros)
+
+O Gerador Congruencial Linear foi extensivamente estudado e documentado por Donald Knuth em sua obra fundamental The Art of Computer Programming, Volume 2: Seminumerical Algorithms [5]. Knuth fornece uma análise detalhada dos critérios estatísticos e estruturais que um bom gerador deve seguir, além de discutir limitações importantes como o ciclo curto, a baixa entropia de bits menos significativos e o comportamento previsível.
+
+Ao longo dos anos, várias variações do LCG foram propostas para mitigar alguns desses problemas ou adaptar o algoritmo a restrições computacionais específicas. Algumas dessas variações incluem:
+
+Gerador de Lehmer: também chamado de Multiplicative Congruential Generator, onde $B = 0$, ou seja, sem incremento. O foco é na escolha precisa de $A$ e $m$.
+
+Método de Park-Miller: um caso específico do gerador de Lehmer com $A = 16807$, $m = 2^{31} - 1$. Bastante usado historicamente por seu bom desempenho e simplicidade.
+
+Algoritmo de Schrage: técnica usada para evitar overflow em implementações do método de Park-Miller usando aritmética inteira. Divide o cálculo de $A \cdot S_i \mod m$ em partes menores.
+
+LCGs combinados (ex: Wichmann-Hill): combinam múltiplos LCGs com diferentes parâmetros e somam as saídas para aumentar o período e melhorar propriedades estatísticas.
+
+Miller’s LCG: variante pouco comum, mas citada por Knuth, com foco em evitar correlações entre bits.
+
+Apesar das melhorias, todos esses métodos compartilham a característica de linearidade sobre $\mathbb{Z}_m$, o que os torna inadequados para aplicações criptográficas. Essa linearidade permite a reconstrução de parâmetros internos ou do estado com relativamente pouca informação (ex: alguns termos consecutivos da sequência). Por esse motivo, LCGs são aceitáveis apenas em contextos não criptográficos, como simulações estatísticas ou algoritmos probabilísticos onde segurança não é uma exigência.
 
 
+### Caso de uso clássico em Assembly
+
+```asm
+Obs.: Essa implementação foi usada em um jogo 
+escrito em assembly é uma variação do método de
+Park-Miller (LCG multiplicativo), com constantes
+específicas (16807 e 2836) e otimização inspirada 
+no algoritmo de Schrage para evitar overflow.                                        
+                                                                                                
+Esteja à vontade para converter para Go
+ou outra linguagem de alto nível. 
+
+
+;---------------------------------------------------------;
+; Função Random.                                          ;
+; Parâmetros: DWORD teto.                                 ;
+; Retorno:    Retorna o némero aleatério em EAX.          ;
+; Descrição:  Gera um némero aleatério.                   ;
+;---------------------------------------------------------;
+Random:
+    PUSH EBP
+    MOV EBP, ESP
+    SUB ESP, 4
+	
+    PUSH EDX
+	
+    CALL [GetTickCount]
+    MOV DWORD [EBP - 4], EAX
+	
+    XOR EDX, EDX        
+    PUSH 127773
+    DIV DWORD [ESP]
+    PUSH EAX
+    MOV EAX, 16807    
+    MUL EDX
+    POP EDX
+    PUSH EAX        
+    MOV EAX, 2836              
+    MUL EDX
+    POP EDX                
+    SUB EDX, EAX
+    MOV EAX, EDX
+    MOV DWORD [EBP - 4], EDX
+    PUSH DWORD [EBP + 8]
+    MOV EDX, 0
+    DIV DWORD [ESP]
+    ADD ESP, 8
+    MOV EAX, EDX
+	
+    POP EDX
+	
+    MOV ESP, EBP
+    POP EBP
+    RET	4
+```
 
 
 

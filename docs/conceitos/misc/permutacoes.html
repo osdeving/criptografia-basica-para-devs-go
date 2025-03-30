@@ -154,6 +154,67 @@
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="permutações-e-trocas"><a class="header" href="#permutações-e-trocas">Permutações e Trocas</a></h1>
+<p>Em cifras simétricas, a dispersão de dependências locais — fundamental para a difusão — pode ser alcançada por meio de operações lineares, como multiplicações matriciais, ou estruturais, como permutações e trocas de posição. Este tipo de transformação reorganiza os dados sem alterar seu conteúdo individual, mas com profundo impacto estatístico na propagação de alterações pela estrutura do algoritmo.</p>
+<h2 id="permutações-como-mecanismo-de-difusão"><a class="header" href="#permutações-como-mecanismo-de-difusão">Permutações como mecanismo de difusão</a></h2>
+<p>Uma permutação é uma bijeção sobre o conjunto de posições de bits ou bytes. Aplicada a um vetor de entrada, ela redistribui os elementos segundo uma ordem fixa ou pseudoaleatória. Embora não introduza não-linearidade, a permutação é essencial para ampliar o alcance das alterações provocadas pelas S-Boxes ou outras funções não lineares.</p>
+<p>Na arquitetura de cifras modernas, as permutações são utilizadas para:</p>
+<ul>
+<li>
+<p>Propagar a influência de bits da entrada por várias S-Boxes na rodada seguinte.</p>
+</li>
+<li>
+<p>Impedir que padrões locais na entrada gerem padrões locais na saída.</p>
+</li>
+<li>
+<p>Compor difusão com custo computacional baixo.</p>
+</li>
+</ul>
+<h2 id="exemplo-em-spns"><a class="header" href="#exemplo-em-spns">Exemplo em SPNs</a></h2>
+<p>No AES (FIPS-197), duas camadas implementam difusão com base em permutação:</p>
+<ul>
+<li><strong>ShiftRows</strong>: uma permutação de bytes por rotação de linhas.</li>
+<li><strong>MixColumns</strong>: uma multiplicação linear que atua em colunas, mas combinada com ShiftRows produz difusão bidimensional.</li>
+</ul>
+<p>Essas operações não introduzem confusão, mas são vitais para garantir o efeito avalanche ao longo das rodadas.</p>
+<h2 id="exemplo-em-feistel"><a class="header" href="#exemplo-em-feistel">Exemplo em Feistel</a></h2>
+<p>Na estrutura de Feistel, usada no DES e em muitas cifras derivadas, a difusão é construída ao longo das rodadas, intercalando trocas de metades do bloco com aplicações de funções não lineares (geralmente baseadas em S-Boxes).</p>
+<p>Permutações também aparecem de forma explícita:</p>
+<ul>
+<li>
+<p>Initial Permutation (IP) e Final Permutation (FP) no DES são mapeamentos fixos de 64 bits, historicamente motivados por eficiência em hardware, mas com efeito colateral de difusão inicial e final.</p>
+</li>
+<li>
+<p>Permutação P após a aplicação das S-Boxes na função F do DES serve para espalhar os resultados locais das substituições.</p>
+</li>
+</ul>
+<h2 id="implementação-ilustrativa-em-go"><a class="header" href="#implementação-ilustrativa-em-go">Implementação ilustrativa em Go</a></h2>
+<p>Abaixo, um exemplo de permutação simples de bytes em um vetor de 16 posições:</p>
+<pre><code class="language-go">package main
+
+import "fmt"
+
+// Permutação fixa (exemplo artificial)
+var permutation = [16]int{2, 0, 3, 1, 6, 4, 7, 5, 10, 8, 11, 9, 14, 12, 15, 13}
+
+func permute(input []byte, p [16]int) []byte {
+	out := make([]byte, len(input))
+	for i := range p {
+		out[i] = input[p[i]]
+	}
+	return out
+}
+
+func main() {
+	entrada := []byte("abcdefghijklmnop")
+	saida := permute(entrada, permutation)
+	fmt.Printf("Original : %s\n", entrada)
+	fmt.Printf("Permutada: %s\n", saida)
+}
+</code></pre>
+<p>Esse tipo de permutação, apesar de simples, é o mecanismo base por trás de transformações como ShiftRows. A escolha da ordem é crítica: ela deve maximizar a dispersão estatística sem introduzir simetrias.</p>
+<h2 id="considerações-finais"><a class="header" href="#considerações-finais">Considerações Finais</a></h2>
+<p>Permutações e trocas estruturadas são ferramentas indispensáveis na construção de cifras robustas. Embora não introduzam entropia ou não-linearidade, são essenciais para distribuir os efeitos locais das S-Boxes e garantir que os princípios de difusão definidos por Shannon sejam plenamente realizados.</p>
+<p>Além disso, entender como essas operações interagem com as camadas de substituição permite projetar SPNs eficientes e compreender como redes de Feistel obtêm segurança mesmo com funções internas relativamente simples.</p>
 
                     </main>
 

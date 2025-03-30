@@ -1,16 +1,18 @@
 # LFSR – Linear Feedback Shift Register
 
-O LFSR (Registrador de Deslocamento com Realimentação Linear em português) é uma estrutura fundamental na geração de números pseudoaleatórios (PRNGs), além de desempenhar papel central em técnicas de criptografia de fluxo. Nesta seção vamos entender como o LFSR funciona e como ele é usado para gerar números aleatórios. Ao final, implementaremos um LFSR em Go para ilustrar seu funcionamento simulando as funções srand e rand tais como são definidas na biblioteca padrão de C. O LFSR não é um algorítmo seguro, mas é uma ferramenta útil para entender como os PRNGs funcionam.
+O LFSR (Registrador de Deslocamento com Realimentação Linear em português) é uma estrutura fundamental na geração de números pseudoaleatórios (PRNGs) e desempenha papel central em técnicas de criptografia de fluxo. Nesta seção vamos entender como o LFSR funciona e como ele é usado para gerar números aleatórios.
+
+Ao final, implementaremos um LFSR em Go para ilustrar seu funcionamento simulando as funções srand e rand tais como as encontradas na biblioteca padrão de C. O LFSR sozinho não é um algorítmo seguro, mas é uma ferramenta útil para entender como os PRNGs funcionam.
 
 ## Funcionamento
 
-Um LFSR é composto por um vetor de bits que representa o estado interno. A cada iteração, os bits do registrador são deslocados à direita, e um novo bit entra pela extremidade esquerda. Esse novo bit, chamado de feedback, é calculado como o XOR de certos bits do estado atual. Os bits utilizados nesse cálculo são denominados taps (ou pontos de realimentação).
+Um LFSR é composto por um vetor de bits que representa o estado interno. A cada iteração, os bits do registrador são deslocados à direita, e um novo bit entra pela extremidade esquerda. Esse novo bit, chamado de feedback, é calculado usando XOR com certos bits do estado atual que chamamos de taps. 
 
 A escolha dos taps não é arbitrária. Eles devem corresponder a um polinômio primitivo sobre o corpo finito $\mathbb{F}_2$, garantindo que o LFSR atinja seu período máximo, ou seja, percorra todos os $2^n - 1$ estados possíveis (exceto o estado nulo).
 
 ## Taps e Polinômios
 
-Para um LFSR de $n$ bits, os taps definem um **polinômio binário** da forma:
+Para um LFSR de $n$ bits, os taps definem um **polinômio binário** na forma:
 
 $$
 P(x) = x^n + a_{n-1}x^{n-1} + \dots + a_1x + 1
@@ -24,12 +26,12 @@ $$
 
 representa um LFSR de 4 bits com taps nas posições 4 e 1 (i.e. índices 3 e 0, respectivamente).
 
-Se esse polinômio for **primitivo**, o LFSR terá **período máximo**, ou seja, irá percorrer todos os $2^n - 1$ estados possíveis distintos (exceto o estado 0000, que leva ao ciclo trivial de zeros).
+Se esse polinômio for **primitivo**, o LFSR terá **período máximo**, ou seja, irá percorrer todos os $2^n - 1$ estados possíveis distintos (exceto o estado 0).
 
 
 ## Operação Passo a Passo
 
-A seguir, demonstramos o funcionamento de um LFSR de 4 bits com estado inicial 1001 e taps nas posições 4 e 1 (índices 3 e 0):
+A seguir, demonstramos o funcionamento de um LFSR de 4 bits com estado inicial `1001` e taps nas posições `4` e `1` (índices 3 e 0):
 
 - Passo 1
 
@@ -38,6 +40,7 @@ A seguir, demonstramos o funcionamento de um LFSR de 4 bits com estado inicial 1
    Feedback: `1 ⊕ 1 = 0`.
 
    Novo estado: `0100`.
+
 
 - Passo 2
 
@@ -90,15 +93,15 @@ E assim por diante.
 
 A operação em cada passo pode ser descrita da seguinte forma:
 
-1. O feedback é calculado aplicando XOR entre os bits nas posições definidas pelos taps. (p.ex.: 1001 os taps serão os bits 3 e 0, então 1 ⊕ 1 = 0)
+1. O feedback é calculado aplicando `XOR` entre os bits nas posições definidas pelos taps. (e.g. `1001` os taps serão os bits `3` e `0`, então `1 XOR 1 = 0`)
 
-2. O estado é deslocado uma posição à direita. (p.ex.: o estado 1001 ao descolar para direita se torna 0100)
+2. O estado é deslocado uma posição à direita. (e.g. o estado `1001` ao descolar para direita se torna `0100`)
 
-3. O feedback é inserido como o novo bit mais à esquerda. (p.ex.: o estado 0100, já deslocado à direita, vai receber o feedback 0)
+3. O `feedback` é inserido como o **novo bit** mais à esquerda. (e.g. o estado `0100`, já deslocado à direita, vai receber o feedback `0`)
 
 Esse processo é iterado indefinidamente, e a sequência de estados dependerá da escolha inicial da semente (estado) e dos taps. Quando os taps não forem escolhidos adequadamente, o LFSR pode entrar em ciclos curtos, ou até mesmo repetir rapidamente os estados, falhando em percorrer todos os $2^n - 1$ estados possíveis.
 
-## LFSRs de Tamanhos Diferentes
+## Taps que geram períodos máximos
 
 | Tamanho | Taps        | Polinômio                  | Período máximo     |
 |---------|-------------|----------------------------|--------------------|
@@ -108,15 +111,13 @@ Esse processo é iterado indefinidamente, e a sequência de estados dependerá d
 | 32 bits | [31, 21]    | $x^{32} + x^{22} + 1$      | $2^{32} - 1$       |
 
 
-## Importância dos Taps
-
-Taps mal escolhidos podem resultar em:
+Dessa forma taps mal escolhidos podem resultar em:
 
 - Períodos muito curtos
 - Ciclos triviais (repetição precoce)
 - Saídas estatisticamente fracas
 
-Por isso, os taps devem ser derivados de polinômios **primitivos** cuidadosamente estudados. Um polinômio primitivo é um polinômio irredutível sobre o corpo finito $\mathbb{F}_2$, o que significa que não pode ser fatorado em polinômios de menor grau sobre $\mathbb{F}_2$.
+Por isso, os taps devem ser derivados de polinômios **primitivos** cuidadosamente estudados. Um polinômio primitivo é um polinômio irredutível sobre o corpo finito $\mathbb{F}_2$, o que significa que não pode ser fatorado em polinômios de menor grau sobre $\mathbb{F}_2$. [5]
 
 
 ## Fórmula Geral

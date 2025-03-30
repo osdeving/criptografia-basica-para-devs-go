@@ -223,6 +223,68 @@ M = 1 &lt;&lt; 32
 <li>Ou esconder a saída (i.e. aplicar uma função hash sobre <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>)</li>
 <li>Ou usar um gerador de números aleatórios criptograficamente seguro (CSPRNG)</li>
 </ul>
+<h2 id="variações-e-referências-clássicas-knuth-e-outros"><a class="header" href="#variações-e-referências-clássicas-knuth-e-outros">Variações e Referências Clássicas (Knuth e outros)</a></h2>
+<p>O Gerador Congruencial Linear foi extensivamente estudado e documentado por Donald Knuth em sua obra fundamental The Art of Computer Programming, Volume 2: Seminumerical Algorithms [5]. Knuth fornece uma análise detalhada dos critérios estatísticos e estruturais que um bom gerador deve seguir, além de discutir limitações importantes como o ciclo curto, a baixa entropia de bits menos significativos e o comportamento previsível.</p>
+<p>Ao longo dos anos, várias variações do LCG foram propostas para mitigar alguns desses problemas ou adaptar o algoritmo a restrições computacionais específicas. Algumas dessas variações incluem:</p>
+<p>Gerador de Lehmer: também chamado de Multiplicative Congruential Generator, onde <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span>, ou seja, sem incremento. O foco é na escolha precisa de <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span></span></span></span> e <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">m</span></span></span></span>.</p>
+<p>Método de Park-Miller: um caso específico do gerador de Lehmer com <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">16807</span></span></span></span>, <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">31</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>. Bastante usado historicamente por seu bom desempenho e simplicidade.</p>
+<p>Algoritmo de Schrage: técnica usada para evitar overflow em implementações do método de Park-Miller usando aritmética inteira. Divide o cálculo de <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace allowbreak"></span><span class="mspace" style="margin-right:0.6667em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord"><span class="mord"><span class="mord mathrm">mod</span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">m</span></span></span></span> em partes menores.</p>
+<p>LCGs combinados (ex: Wichmann-Hill): combinam múltiplos LCGs com diferentes parâmetros e somam as saídas para aumentar o período e melhorar propriedades estatísticas.</p>
+<p>Miller’s LCG: variante pouco comum, mas citada por Knuth, com foco em evitar correlações entre bits.</p>
+<p>Apesar das melhorias, todos esses métodos compartilham a característica de linearidade sobre <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathbb">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, o que os torna inadequados para aplicações criptográficas. Essa linearidade permite a reconstrução de parâmetros internos ou do estado com relativamente pouca informação (ex: alguns termos consecutivos da sequência). Por esse motivo, LCGs são aceitáveis apenas em contextos não criptográficos, como simulações estatísticas ou algoritmos probabilísticos onde segurança não é uma exigência.</p>
+<h3 id="caso-de-uso-clássico-em-assembly"><a class="header" href="#caso-de-uso-clássico-em-assembly">Caso de uso clássico em Assembly</a></h3>
+<pre><code class="language-asm">Obs.: Essa implementação foi usada em um jogo 
+escrito em assembly é uma variação do método de
+Park-Miller (LCG multiplicativo), com constantes
+específicas (16807 e 2836) e otimização inspirada 
+no algoritmo de Schrage para evitar overflow.                                        
+                                                                                                
+Esteja à vontade para converter para Go
+ou outra linguagem de alto nível. 
+
+
+;---------------------------------------------------------;
+; Função Random.                                          ;
+; Parâmetros: DWORD teto.                                 ;
+; Retorno:    Retorna o némero aleatério em EAX.          ;
+; Descrição:  Gera um némero aleatério.                   ;
+;---------------------------------------------------------;
+Random:
+    PUSH EBP
+    MOV EBP, ESP
+    SUB ESP, 4
+	
+    PUSH EDX
+	
+    CALL [GetTickCount]
+    MOV DWORD [EBP - 4], EAX
+	
+    XOR EDX, EDX        
+    PUSH 127773
+    DIV DWORD [ESP]
+    PUSH EAX
+    MOV EAX, 16807    
+    MUL EDX
+    POP EDX
+    PUSH EAX        
+    MOV EAX, 2836              
+    MUL EDX
+    POP EDX                
+    SUB EDX, EAX
+    MOV EAX, EDX
+    MOV DWORD [EBP - 4], EDX
+    PUSH DWORD [EBP + 8]
+    MOV EDX, 0
+    DIV DWORD [ESP]
+    ADD ESP, 8
+    MOV EAX, EDX
+	
+    POP EDX
+	
+    MOV ESP, EBP
+    POP EBP
+    RET	4
+</code></pre>
 
                     </main>
 

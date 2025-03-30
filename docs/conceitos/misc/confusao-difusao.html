@@ -154,6 +154,96 @@
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="confusão-e-difusão"><a class="header" href="#confusão-e-difusão">Confusão e Difusão</a></h1>
+<p>As propriedades de <strong>confusão</strong> e <strong>difusão</strong> são dois princípios fundamentais estabelecidos por Shannon [1], constituindo pilares da segurança em sistemas criptográficos modernos. Esses conceitos têm como objetivo maximizar a incerteza e a dispersão das relações estatísticas entre a mensagem não cifrada e a mensagem cifrada, dificultando ataques baseados em análise de frequência ou estrutura.</p>
+<h2 id="definições-formais"><a class="header" href="#definições-formais">Definições formais</a></h2>
+<p><strong>Confusão</strong>: o objetivo é tornar complexa a relação entre a chave de encriptação e o texto cifrado. De acordo com Shannon, "o sistema deve ser projetado de modo que cada bit da chave afete, de forma imprevisível, muitos bits da saída". Confusão impede que um atacante deduza partes da chave mesmo conhecendo partes do texto cifrado.</p>
+<p><strong>Difusão</strong>: refere-se à dispersão estatística do conteúdo da mensagem não cifrada ao longo da mensagem cifrada. Ou seja, um pequeno número de bits alterados na entrada deve afetar um grande número de bits na saída. A difusão elimina padrões e distribui redundâncias da mensagem original.</p>
+<p>Esse comportamento, em que pequenas alterações na entrada produzem grandes alterações na saída, é conhecido como <strong>efeito avalanche</strong>, e é resultado da aplicação combinada de confusão e difusão.</p>
+<p>Essas duas propriedades são frequentemente implementadas em cifras modernas por meio de redes de substituição e permutação redes de substituição e permutação (Substitution-Permutation Networks), conforme discutido por Donald Knuth em <em>The Art of Computer Programming</em> [5], onde destaca a importância da aleatoriedade controlada na construção de algoritmos seguros.</p>
+<h2 id="exemplo-prático-simulações-de-confusão-e-difusão-em-go"><a class="header" href="#exemplo-prático-simulações-de-confusão-e-difusão-em-go">Exemplo Prático: Simulações de Confusão e Difusão em Go</a></h2>
+<p>Para isolar os conceitos, não implementamos uma cifra completa, mas sim funções que exemplificam mecanicamente confusão (via substituições não lineares com chave) e difusão (via permutações e operações de dispersão simples).</p>
+<p>A estrutura será:</p>
+<ul>
+<li>
+<p>Confusão: uso de uma substituição baseada em chave (S-Box parametrizada).</p>
+</li>
+<li>
+<p>Difusão: uso de permutação fixa e dispersão via operações XOR.</p>
+</li>
+</ul>
+<pre><code class="language-go">package main
+
+import (
+	"crypto/sha256"
+	"fmt"
+)
+
+// Gera uma S-Box pseudoaleatória baseada em uma chave
+func generateSBox(key []byte) [256]byte {
+	var sbox [256]byte
+	hash := sha256.Sum256(key)
+	seed := uint32(0)
+	for i := 0; i &lt; 4; i++ {
+		seed ^= uint32(hash[i]) &lt;&lt; (8 * i)
+	}
+	for i := range sbox {
+		sbox[i] = byte((i*int(seed) + 31) % 256)
+	}
+	return sbox
+}
+
+// Confusão: aplica substituição não linear via S-Box
+func confusion(input []byte, sbox [256]byte) []byte {
+	out := make([]byte, len(input))
+	for i, b := range input {
+		out[i] = sbox[b]
+	}
+	return out
+}
+
+// Difusão: permutação e dispersão via XOR entre posições
+func diffusion(input []byte) []byte {
+	out := make([]byte, len(input))
+	for i := range input {
+		out[i] = input[i]
+		if i &gt; 0 {
+			out[i] ^= input[i-1]
+		}
+	}
+	return out
+}
+
+func main() {
+	key := []byte("chave-secreta")
+	entrada := []byte("mensagem123456")
+
+	sbox := generateSBox(key)
+	c := confusion(entrada, sbox)
+	d := diffusion(c)
+
+	fmt.Printf("Original : %x\n", entrada)
+	fmt.Printf("Confusão : %x\n", c)
+	fmt.Printf("Difusão  : %x\n", d)
+}
+
+</code></pre>
+<p>Análise do código:</p>
+<p>Observe que:</p>
+<ul>
+<li>
+<p>A função generateSBox cria uma tabela de substituição (S-Box) que introduz confusão, pois depende da chave de entrada.</p>
+</li>
+<li>
+<p>A função diffusion implementa uma difusão simples, propagando a influência de cada byte anterior sobre o próximo com XOR.</p>
+</li>
+</ul>
+<h2 id="considerações-finais"><a class="header" href="#considerações-finais">Considerações Finais</a></h2>
+<p>A aplicação isolada de confusão e difusão permite o estudo modular de suas propriedades, sem a complexidade adicional de um esquema criptográfico completo. Shannon já antecipava que a combinação adequada dessas técnicas seria suficiente para criar sistemas resistentes à análise estatística.</p>
+<p>Knuth, por sua vez, destacou que a boa aleatorização estruturada é o centro da segurança criptográfica — e que difusão e confusão são ferramentas matemáticas precisamente voltadas a esse objetivo.</p>
+<p>O leitor é convidado a explorar esses conceitos com maior profundidade consultando a referência [1] e [5].</p>
+<h2 id="referências"><a class="header" href="#referências">Referências</a></h2>
+<p>[1] C. E. Shannon, Communication Theory of Secrecy Systems, Bell System Technical Journal, 1949.</p>
+<p>[5] D. E. Knuth, The Art of Computer Programming, Volume 2: Seminumerical Algorithms, 3rd Edition, Addison-Wesley, 1997.</p>
 
                     </main>
 

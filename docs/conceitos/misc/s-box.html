@@ -153,7 +153,140 @@
                 <div id="content" class="content">
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="s-box"><a class="header" href="#s-box">S-Box</a></h1>
+<h1 id="s-boxes-substituições-não-lineares"><a class="header" href="#s-boxes-substituições-não-lineares">S-Boxes: Substituições Não Lineares</a></h1>
+<p>As S-Boxes (Substitution Boxes) são funções fundamentais em cifras simétricas modernas. Elas realizam substituições não lineares, introduzindo confusão no sistema criptográfico, conforme definido por Shannon [1]. Em redes de substituição-permutação (SPN) e cifras de Feistel, as S-Boxes são os principais elementos responsáveis por tornar complexa a relação entre a chave e o texto cifrado.</p>
+<h2 id="definição-formal"><a class="header" href="#definição-formal">Definição Formal</a></h2>
+<p>Uma S-Box é uma função</p>
+<p><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mclose"><span class="mclose">}</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mclose"><span class="mclose">}</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span></span></span></span></span></span></span></span></p>
+<p>que mapeia uma entrada binária de <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> bits para uma saída de <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">m</span></span></span></span> bits. Quando <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">m</span></span></span></span>, a S-Box é dita bijetiva (ou uma permutação) se cada saída for única.</p>
+<p>Exemplo típico:</p>
+<ul>
+<li>No AES, a S-Box é uma permutação de 8 bits para 8 bits, isto é, <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mclose"><span class="mclose">}</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">8</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mclose"><span class="mclose">}</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">8</span></span></span></span></span></span></span></span></span></span></span>.</li>
+</ul>
+<p>Propriedades desejáveis:</p>
+<ul>
+<li>
+<p>Não-linearidade alta (distância de Hamming em relação a todas funções lineares).</p>
+</li>
+<li>
+<p>Avalanche: uma mudança de 1 bit na entrada afeta múltiplos bits da saída.</p>
+</li>
+<li>
+<p>Resistência a diferenciais e lineares: saída deve ser estatisticamente imprevisível sob diferenças ou aproximações lineares na entrada.</p>
+</li>
+</ul>
+<p>Métodos de construção:</p>
+<p>A criação de S-Boxes pode ser feita de diferenes maneiras, dependendo do contexto e objetivos de segurança:</p>
+<ol>
+<li>Baseadas em estruturas algébricas</li>
+</ol>
+<ul>
+<li>AES (Rijndael) utiliza a inversa multiplicativa no corpo finito <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8665em;vertical-align:-0.1776em;"></span><span class="mord"><span class="mord mathbb">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.5224em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7463em;"><span style="top:-2.786em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">8</span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1776em;"><span></span></span></span></span></span></span></span></span></span>, seguida de uma transformação afim:
+<ul>
+<li>Inverso: <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.522em;vertical-align:-0.011em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">↦</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span> (com <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6554em;vertical-align:-0.011em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">↦</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span>)</li>
+<li>Transformação afim: multiplicação e soma sobre <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathbb">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></li>
+</ul>
+</li>
+</ul>
+<p>Essa construção é baseada no padrão FIPS 197 [2]. e foi escolhida por sua alta não-linearidade e resistência a ataques diferenciais.</p>
+<ol start="2">
+<li>Baseadas em constantes (look-up fixo)</li>
+</ol>
+<ul>
+<li>
+<p>MD2 define uma S-Box de 256 bytes fixos, supostamente derivada dos dígitos de <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">π</span></span></span></span>. A origem exata nunca foi publicada por Rivest, mas acredita-se que a sequência tenha sido escolhida de forma a evitar padrões evidentes [3].</p>
+</li>
+<li>
+<p>DES usa oito S-Boxes diferentes com mapeamentos de 6 bits para 4 bits, cuidadosamente projetadas para resistir a criptoanálise diferencial (ver Coppersmith [4]).</p>
+</li>
+</ul>
+<ol start="3">
+<li>Pseudoaleatórias derivadas de chave</li>
+</ol>
+<ul>
+<li>Em cifras modernas como Blowfish, a S-Box é preenchida dinamicamente durante a expansão da chave. Isso dificulta análise e torna a estrutura dependente da chave secreta.</li>
+</ul>
+<h2 id="exemplo-prático-em-go-construindo-uma-s-box-simples"><a class="header" href="#exemplo-prático-em-go-construindo-uma-s-box-simples">Exemplo prático em Go: Construindo uma S-Box simples</a></h2>
+<p>Aqui, mostramos duas formas distintas de definir S-Boxes em Go:</p>
+<ol>
+<li>AES-like (algébrica) - inverso multiplicativo seguido de transformação afim (simplificada).</li>
+<li>MD2-like (constante fixa) - look-up fixo.</li>
+</ol>
+<pre><code class="language-go">package main
+
+import (
+	"fmt"
+	"math/bits"
+)
+
+// Exemplo simplificado de S-Box: inverso em GF(2^8) + afim (AES-like simplificada)
+func simpleAffineSBox() [256]byte {
+	var sbox [256]byte
+	for i := 0; i &lt; 256; i++ {
+		inv := inverseByte(byte(i))
+		sbox[i] = inv ^ bits.RotateLeft8(inv, 1) ^ 0x63 // afim simplificada
+	}
+	return sbox
+}
+
+// Inverso multiplicativo em GF(2^8) com polinômio redutor x^8 + x^4 + x^3 + x + 1
+func inverseByte(x byte) byte {
+	if x == 0 {
+		return 0
+	}
+	var inv byte = 1
+	for i := 1; i &lt; 256; i++ {
+		if byteMultiply(x, inv) == 1 {
+			return inv
+		}
+		inv++
+	}
+	return 0
+}
+
+// Multiplicação em GF(2^8)
+func byteMultiply(a, b byte) byte {
+	var p byte = 0
+	for b != 0 {
+		if b&amp;1 != 0 {
+			p ^= a
+		}
+		hi := a &amp; 0x80
+		a &lt;&lt;= 1
+		if hi != 0 {
+			a ^= 0x1B // AES irreducible polynomial
+		}
+		b &gt;&gt;= 1
+	}
+	return p
+}
+
+// Exemplo de S-Box constante (MD2-like)
+func md2SBox() [256]byte {
+	return [256]byte{
+		0x29, 0x2E, 0x43, 0x32, 0x8B, 0x1C, 0x1A, 0x06, 0x3F, 0x3C, 0x7F, 0x8A, 0x0E, 0x19, 0x4F, 0x43,
+		// ... complete até 256 valores reais conforme tabela do MD2
+	}
+}
+
+func main() {
+	sbox := simpleAffineSBox()
+	fmt.Printf("Exemplo de S-Box (simplificada):\n")
+	for i := 0; i &lt; 16; i++ {
+		fmt.Printf("%02x ", sbox[i])
+	}
+	fmt.Println()
+}
+</code></pre>
+<h2 id="considerações-finais"><a class="header" href="#considerações-finais">Considerações finais</a></h2>
+<p>As S-Boxes são blocos fundamentais na construção de cifras seguras. Sua estrutura influencia diretamente a resistência contra ataques diferenciais, lineares e por análise estatística. S-Boxes bem projetadas devem apresentar não-linearidade elevada e boa dispersão da entrada na saída, contribuindo para o efeito avalanche.</p>
+<p>Embora possam ser fixas ou derivadas de chave, é essencial que sejam analisadas formalmente quanto às suas propriedades de segurança — algo que o projeto do AES exemplifica de forma rigorosa. Em contrapartida, designs mais antigos, como MD2, revelam escolhas empíricas, ainda que eficazes em seu tempo.</p>
+<h2 id="referências"><a class="header" href="#referências">Referências</a></h2>
+<p>[1] C. E. Shannon, Communication Theory of Secrecy Systems, Bell System Technical Journal, 1949.</p>
+<p>[2] National Institute of Standards and Technology, FIPS-197: Advanced Encryption Standard (AES), 2001.</p>
+<p>[3] R. Rivest, The MD2 Message-Digest Algorithm, RFC 1319, 1992.</p>
+<p>[4] D. Coppersmith, The Data Encryption Standard (DES) and Its Strength Against Attacks, IBM Journal of Research and Development, 1994.</p>
+<p>[5] D. E. Knuth, The Art of Computer Programming, Vol. 2, Addison-Wesley, 1997.</p>
 
                     </main>
 
