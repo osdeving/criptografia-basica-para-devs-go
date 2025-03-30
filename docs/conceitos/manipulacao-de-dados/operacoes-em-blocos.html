@@ -154,10 +154,471 @@
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="operações-em-blocos"><a class="header" href="#operações-em-blocos">Operações em Blocos</a></h1>
-<h2 id="ecb-electronic-codebook"><a class="header" href="#ecb-electronic-codebook">ECB (Electronic Codebook)</a></h2>
-<h2 id="cbc-cipher-block-chaining"><a class="header" href="#cbc-cipher-block-chaining">CBC (Cipher Block Chaining)</a></h2>
-<h2 id="cfb-cipher-feedback-e-ofb-output-feedback"><a class="header" href="#cfb-cipher-feedback-e-ofb-output-feedback">CFB (Cipher Feedback) e OFB (Output Feedback)</a></h2>
-<h2 id="ctr-counter-mode"><a class="header" href="#ctr-counter-mode">CTR (Counter Mode)</a></h2>
+<h2 id="o-que-são-modos-de-operação"><a class="header" href="#o-que-são-modos-de-operação">O que são modos de operação?</a></h2>
+<p>Muitos algoritmos lidam com blocos de dados de tamanho fixo, como 64 ou 128 bits. Quando a entrada é maior que um único bloco, é necessário dividir os dados e aplicar transformações <strong>bloco a bloco</strong>, seguindo um <strong>modo de operação</strong>.</p>
+<p>Embora esses modos sejam usados em contextos criptográficos, o objetivo aqui é entender <strong>como os dados são processados tecnicamente</strong>, sem considerar a lógica de cifra. Vamos nos concentrar em:</p>
+<ul>
+<li>Como os blocos são encadeados</li>
+<li>Qual a dependência entre entradas e saídas</li>
+<li>Como o estado interno evolui</li>
+<li>Como entrada, saída e IV interagem</li>
+</ul>
+<p>Para fins ilustrativos, faremos comentários como <code>// aplicar cifra aqui</code>, mas <strong>não implementaremos cifra real nesta seção</strong>.</p>
+<h2 id="divisão-em-blocos"><a class="header" href="#divisão-em-blocos">Divisão em blocos</a></h2>
+<p>Antes de aplicar qualquer modo de operação, os dados precisam ser divididos em blocos de tamanho fixo. Se os dados não são múltiplo do tamanho do bloco, algum tipo de preenchimento (padding) será necessário. Veremos mais sobre padding em uma seção posterior, em especial quando estivermos falando sobre Base64.</p>
+<p>Exemplo com blocos de 8 bytes:</p>
+<pre><code>Entrada (24 bytes): "ExemploDeTextoCriptografado"
+
+Blocos:
+B1 = "ExemploD"
+B2 = "eTextoCr"
+B3 = "iptograf"
+B4 = "ado\x00\x00\x00" // padding se aplicado
+</code></pre>
+<p>A seguir, vamos examinar os principais modos de operação: ECB, CBC, CFB, OFB, CTR e outros opcionais.</p>
+<h2 id="ecb--electronic-codebook"><a class="header" href="#ecb--electronic-codebook">ECB — Electronic Codebook</a></h2>
+<p>O modo ECB é o mais simples de todos: cada bloco de entrada é processado <strong>de forma independente</strong> dos demais. Não há encadeamento, nem dependência de bloco anterior. Por isso, é possível aplicar a transformação a todos os blocos <strong>em paralelo</strong>.</p>
+<p>Uma analogia útil é pensar em ECB como um carimbo: para cada pedaço do texto, aplica-se sempre o mesmo molde. Se dois blocos forem iguais, o resultado será o mesmo.</p>
+<p>Apesar de sua simplicidade, esse comportamento pode expor padrões quando blocos repetidos resultam em saídas repetidas — por isso o ECB é desaconselhado em aplicações criptográficas. Mas como modelo de operação, é útil para entender a base dos modos.</p>
+<h3 id="funcionamento"><a class="header" href="#funcionamento">Funcionamento</a></h3>
+<pre><code>Entrada:     B1   B2   B3   B4
+             |    |    |    |
+             v    v    v    v
+Saída:      C1   C2   C3   C4
+
+// Cada Ci = cifra(Bi)
+</code></pre>
+<h3 id="implementação-simulada-em-go"><a class="header" href="#implementação-simulada-em-go">Implementação simulada em Go</a></h3>
+<pre><code class="language-go">package main
+
+import "fmt"
+
+func ecb(blocks []string) []string {
+	out := make([]string, len(blocks))
+	for i, b := range blocks {
+		// Simulando uma "cifra" com reverso de string
+		out[i] = reverse(b) // aplicar cifra real aqui
+	}
+	return out
+}
+
+func reverse(s string) string {
+	runes := []rune(s)
+	for i, j := 0, len(runes)-1; i &lt; j; i, j = i+1, j-1 {
+		runes[i], runes[j] = runes[j], runes[i]
+	}
+	return string(runes)
+}
+
+func main() {
+	blocos := []string{"ExemploD", "eTextoCr", "iptograf", "ado\x00\x00\x00"}
+	saida := ecb(blocos)
+	for i, b := range saida {
+		fmt.Printf("C%d: %q\n", i+1, b)
+	}
+}
+</code></pre>
+<p>Esse código demonstra a ideia de que cada bloco é transformado isoladamente. A função <code>reverse</code> simula uma transformação sem depender de contexto.</p>
+<p>Nos próximos modos, veremos como introduzir <strong>estado</strong> e <strong>encadeamento</strong> entre os blocos.</p>
+<h2 id="cbc--cipher-block-chaining"><a class="header" href="#cbc--cipher-block-chaining">CBC — Cipher Block Chaining</a></h2>
+<p>O modo CBC introduz encadeamento entre os blocos de dados. Aqui, cada bloco de entrada é combinado (via <code>XOR</code>) com o bloco de saída anterior <strong>antes</strong> da transformação ser aplicada. Isso garante que blocos idênticos de entrada não gerem saídas idênticas, desde que a inicialização seja diferente.</p>
+<p>O primeiro bloco é combinado com um <strong>vetor de inicialização</strong>  (<em>IV - Initialization Vector</em> ), que deve ser único e imprevisível para cada mensagem.</p>
+<p>Pense em CBC como uma corrente: cada elo (bloco) depende do anterior. Se você mudar um elo, o restante da corrente será alterado. Esse encadeamento dá mais segurança estrutural ao fluxo de blocos.</p>
+<h3 id="funcionamento-1"><a class="header" href="#funcionamento-1">Funcionamento</a></h3>
+<pre><code>Entrada:     B1   B2   B3   B4
+              |    |    |    |
+IV ---&gt; XOR   |    |    |    |
+        v     v    v    v    v
+      cifra  XOR  XOR  XOR  ...
+        |     |    |    |    |
+       C1 -&gt; C2 -&gt; C3 -&gt; C4
+
+// C1 = cifra(B1 ⊕ IV)
+// C2 = cifra(B2 ⊕ C1)
+// C3 = cifra(B3 ⊕ C2)
+// C4 = cifra(B4 ⊕ C3)
+</code></pre>
+<h3 id="implementação-simulada-em-go-1"><a class="header" href="#implementação-simulada-em-go-1">Implementação simulada em Go</a></h3>
+<pre><code class="language-go">package main
+
+import "fmt"
+
+func xor(a, b string) string {
+	out := make([]byte, len(a))
+	for i := range a {
+		out[i] = a[i] ^ b[i]
+	}
+	return string(out)
+}
+
+func cbc(blocks []string, iv string) []string {
+	out := make([]string, len(blocks))
+	prev := iv
+	for i, b := range blocks {
+		mix := xor(b, prev)
+		out[i] = reverse(mix) // aplicar cifra real aqui
+		prev = out[i]         // saída vira entrada para o próximo XOR
+	}
+	return out
+}
+
+func main() {
+	blocos := []string{"ExemploD", "eTextoCr", "iptograf", "ado\x00\x00\x00"}
+	iv := "12345678" // mesmo tamanho de bloco
+	saida := cbc(blocos, iv)
+	for i, b := range saida {
+		fmt.Printf("C%d: %q\n", i+1, b)
+	}
+}
+</code></pre>
+<p>Aqui, usamos uma função <code>xor</code> simples para combinar blocos. A função <code>reverse</code>, como antes, simula a aplicação de uma cifra. O encadeamento é visível no uso da variável <code>prev</code>, que propaga o resultado entre os blocos.</p>
+<p>No próximo modo, veremos como esse encadeamento pode ser reorganizado para permitir recuperação de dados em tempo real.</p>
+<h1 id="cfb--cipher-feedback"><a class="header" href="#cfb--cipher-feedback">CFB — Cipher Feedback</a></h1>
+<p>O modo CFB transforma uma cifra de bloco em um sistema que se comporta como uma cifra de fluxo. Diferente do ECB e CBC, o CFB permite operar em unidades menores que o bloco (como bytes ou bits), o que é útil para aplicações onde os dados não chegam em blocos completos.</p>
+<p>Apesar de utilizar uma cifra de bloco internamente, o que realmente é cifrado é o <strong>vetor de realimentação</strong>. Esse vetor é processado com a cifra, e o resultado é combinado (via XOR) com o bloco ou byte de entrada para gerar a saída.</p>
+<h3 id="funcionamento-versão-em-blocos-inteiros"><a class="header" href="#funcionamento-versão-em-blocos-inteiros">Funcionamento (versão em blocos inteiros)</a></h3>
+<pre><code>Entrada:     P1     P2     P3     P4
+              |      |      |      |
+IV -----&gt; cifra     |      |      |
+           |         |      |      |
+           v         v      v      v
+          XOR       XOR   XOR   XOR
+           |         |      |      |
+          C1  ---&gt;  C2 -&gt;  C3 -&gt;  C4
+
+// C1 = P1 ⊕ cifra(IV)
+// C2 = P2 ⊕ cifra(C1)
+// C3 = P3 ⊕ cifra(C2)
+// C4 = P4 ⊕ cifra(C3)
+</code></pre>
+<p>Diferente do CBC, a cifra é aplicada sobre a saída anterior, não sobre a entrada. Isso permite que a cifra seja usada como um gerador de fluxo pseudoaleatório que é então combinado com os dados reais.</p>
+<h3 id="implementação-simulada-em-go-2"><a class="header" href="#implementação-simulada-em-go-2">Implementação simulada em Go</a></h3>
+<pre><code class="language-go">package main
+
+import "fmt"
+
+func xor(a, b string) string {
+	out := make([]byte, len(a))
+	for i := range a {
+		out[i] = a[i] ^ b[i]
+	}
+	return string(out)
+}
+
+func cfb(entrada []string, iv string) []string {
+	saida := make([]string, len(entrada))
+	estado := iv
+	for i, p := range entrada {
+		keystream := reverse(estado) // aplicar cifra real aqui
+		saida[i] = xor(p, keystream)
+		estado = saida[i] // realimentado com saída
+	}
+	return saida
+}
+
+func reverse(s string) string {
+	runes := []rune(s)
+	for i, j := 0, len(runes)-1; i &lt; j; i, j = i+1, j-1 {
+		runes[i], runes[j] = runes[j], runes[i]
+	}
+	return string(runes)
+}
+
+func main() {
+	blocos := []string{"ExemploD", "eTextoCr", "iptograf", "ado\x00\x00\x00"}
+	iv := "12345678"
+	saida := cfb(blocos, iv)
+	for i, b := range saida {
+		fmt.Printf("C%d: %q\n", i+1, b)
+	}
+}
+</code></pre>
+<p>Neste exemplo:</p>
+<ul>
+<li><code>reverse</code> representa a cifra aplicada sobre o estado interno</li>
+<li><code>estado</code> é atualizado com a saída anterior, simulando o feedback</li>
+<li><code>xor</code> combina a saída da cifra com o bloco de entrada</li>
+</ul>
+<p>Nos modos seguintes, veremos como separar o fluxo gerado da entrada original (OFB) e como introduzir contadores (CTR).</p>
+<h1 id="ofb--output-feedback"><a class="header" href="#ofb--output-feedback">OFB — Output Feedback</a></h1>
+<p>O modo OFB (Output Feedback) é semelhante ao CFB, mas com uma diferença importante: o <strong>vetor de realimentação é atualizado independentemente da entrada</strong>. Isso significa que o fluxo pseudoaleatório gerado pela cifra é completamente dissociado do texto de entrada, permitindo paralelismo na geração e reutilização do keystream.</p>
+<p>Na prática, o OFB transforma uma cifra de bloco em uma cifra de fluxo pura, onde o texto de entrada é combinado com uma sequência pseudoaleatória de bits gerados iterativamente a partir do IV.</p>
+<h3 id="funcionamento-2"><a class="header" href="#funcionamento-2">Funcionamento</a></h3>
+<pre><code>Entrada:     P1     P2     P3     P4
+              |      |      |      |
+IV -----&gt; cifra ---&gt; cifra ---&gt; cifra ---&gt;
+              |       |       |      |
+              v       v       v      v
+            XOR     XOR     XOR    XOR
+              |       |       |      |
+             C1      C2      C3     C4
+
+// E1 = cifra(IV)
+// E2 = cifra(E1)
+// E3 = cifra(E2)
+// E4 = cifra(E3)
+// Ci = Pi ⊕ Ei
+</code></pre>
+<p>Como o OFB não depende da entrada anterior, ele é ideal para ambientes em que erros de transmissão não podem propagar corrompendo blocos seguintes.</p>
+<h3 id="implementação-simulada-em-go-3"><a class="header" href="#implementação-simulada-em-go-3">Implementação simulada em Go</a></h3>
+<pre><code class="language-go">package main
+
+import "fmt"
+
+func xor(a, b string) string {
+	out := make([]byte, len(a))
+	for i := range a {
+		out[i] = a[i] ^ b[i]
+	}
+	return string(out)
+}
+
+func ofb(entrada []string, iv string) []string {
+	saida := make([]string, len(entrada))
+	estado := iv
+	for i, p := range entrada {
+		keystream := reverse(estado) // aplicar cifra real aqui
+		saida[i] = xor(p, keystream)
+		estado = keystream // fluxo é autônomo
+	}
+	return saida
+}
+
+func reverse(s string) string {
+	runes := []rune(s)
+	for i, j := 0, len(runes)-1; i &lt; j; i, j = i+1, j-1 {
+		runes[i], runes[j] = runes[j], runes[i]
+	}
+	return string(runes)
+}
+
+func main() {
+	blocos := []string{"ExemploD", "eTextoCr", "iptograf", "ado\x00\x00\x00"}
+	iv := "12345678"
+	saida := ofb(blocos, iv)
+	for i, b := range saida {
+		fmt.Printf("C%d: %q\n", i+1, b)
+	}
+}
+</code></pre>
+<p>Neste exemplo:</p>
+<ul>
+<li>O <code>estado</code> é atualizado <strong>somente pela cifra anterior</strong>, sem depender da entrada</li>
+<li>O fluxo gerado é previsível e determinístico para o mesmo IV</li>
+</ul>
+<p>O modo OFB é adequado para aplicações onde a integridade parcial dos dados deve ser preservada mesmo em caso de erros de transmissão.</p>
+<p>No próximo modo, introduziremos um contador para gerar blocos independentes — o modo CTR.</p>
+<h1 id="ctr--counter-mode"><a class="header" href="#ctr--counter-mode">CTR — Counter Mode</a></h1>
+<p>O modo CTR (Counter) transforma uma cifra de bloco em uma cifra de fluxo por meio da geração de um <strong>keystream determinístico</strong>, baseado em um contador. Ao invés de realimentar saídas anteriores, ele cifra valores sequenciais derivados de um IV (Initialization Vector).</p>
+<p>Cada bloco de texto é combinado (via XOR) com a cifra do contador correspondente. Isso permite que cada bloco seja processado <strong>de forma independente</strong>, facilitando a paralelização.</p>
+<h3 id="funcionamento-3"><a class="header" href="#funcionamento-3">Funcionamento</a></h3>
+<pre><code>Entrada:     P1     P2     P3     P4
+              |      |      |      |
+IV+0 --&gt; cifra        
+         |           |      |      |
+         v           v      v      v
+        XOR         XOR   XOR    XOR
+         |           |      |      |
+        C1          C2     C3     C4
+
+// C1 = P1 ⊕ cifra(IV + 0)
+// C2 = P2 ⊕ cifra(IV + 1)
+// C3 = P3 ⊕ cifra(IV + 2)
+// C4 = P4 ⊕ cifra(IV + 3)
+</code></pre>
+<p>Esse modo é muito utilizado por sua eficiência e por permitir operações em paralelo. Como o contador é previsível, os blocos de keystream podem ser gerados antes mesmo da chegada da mensagem.</p>
+<h3 id="implementação-simulada-em-go-4"><a class="header" href="#implementação-simulada-em-go-4">Implementação simulada em Go</a></h3>
+<pre><code class="language-go">package main
+
+import (
+	"fmt"
+	"strconv"
+)
+
+func xor(a, b string) string {
+	out := make([]byte, len(a))
+	for i := range a {
+		out[i] = a[i] ^ b[i]
+	}
+	return string(out)
+}
+
+func padCounter(base string, count int) string {
+	suffix := fmt.Sprintf("%08d", count)
+	return base[:len(base)-len(suffix)] + suffix
+}
+
+func ctr(entrada []string, iv string) []string {
+	saida := make([]string, len(entrada))
+	for i, p := range entrada {
+		counter := padCounter(iv, i)
+		keystream := reverse(counter) // aplicar cifra real aqui
+		saida[i] = xor(p, keystream)
+	}
+	return saida
+}
+
+func reverse(s string) string {
+	runes := []rune(s)
+	for i, j := 0, len(runes)-1; i &lt; j; i, j = i+1, j-1 {
+		runes[i], runes[j] = runes[j], runes[i]
+	}
+	return string(runes)
+}
+
+func main() {
+	blocos := []string{"ExemploD", "eTextoCr", "iptograf", "ado\x00\x00\x00"}
+	iv := "0000000000000000" // deve ter tamanho fixo
+	saida := ctr(blocos, iv)
+	for i, b := range saida {
+		fmt.Printf("C%d: %q\n", i+1, b)
+	}
+}
+</code></pre>
+<p>Nesta simulação:</p>
+<ul>
+<li>O contador é representado por um sufixo decimal no <code>IV</code></li>
+<li>A função <code>reverse</code> simula a cifra aplicada ao contador</li>
+<li>Cada bloco é processado com base em um valor de contador diferente</li>
+</ul>
+<p>O CTR é amplamente utilizado em prática (por exemplo, em AES-CTR), sendo considerado seguro e eficiente quando o <code>IV</code> não é reutilizado com a mesma chave.</p>
+<h1 id="xts--xex-based-tweaked-codebook-mode-with-ciphertext-stealing"><a class="header" href="#xts--xex-based-tweaked-codebook-mode-with-ciphertext-stealing">XTS — XEX-based Tweaked Codebook Mode with Ciphertext Stealing</a></h1>
+<p>O modo XTS foi projetado especificamente para cifragem de <strong>unidades de armazenamento em blocos</strong>, como discos e SSDs. Ele combina uma cifra de bloco (como AES) com uma estrutura especial chamada <strong>tweak</strong>, que personaliza a operação para cada setor ou bloco físico, evitando repetições previsíveis.</p>
+<p>XTS é um modo baseado em <strong>XEX (XOR-Encrypt-XOR)</strong> com <strong>roubo de texto cifrado (ciphertext stealing)</strong>, permitindo lidar com entradas que não são múltiplas do tamanho do bloco sem recorrer a padding.</p>
+<blockquote>
+<p>XTS é o modo de operação recomendado por padrões como IEEE P1619 para cifragem de dados em discos.</p>
+</blockquote>
+<h3 id="estrutura-geral"><a class="header" href="#estrutura-geral">Estrutura geral</a></h3>
+<ul>
+<li>Usa <strong>duas chaves</strong>: uma para a cifra principal (<code>K1</code>) e outra para o tweak (<code>K2</code>)</li>
+<li>Gera um tweak a partir do número de setor ou posição lógica do bloco</li>
+<li>Aplica o tweak com XOR antes e depois da cifra (XOR-Encrypt-XOR)</li>
+</ul>
+<h3 id="funcionamento-simplificado"><a class="header" href="#funcionamento-simplificado">Funcionamento simplificado</a></h3>
+<pre><code>Para cada bloco i:
+
+Tweak_i = cifra(K2, bloco_logico) &lt;&lt; i // ajustado por multiplicador
+
+M_i' = P_i ⊕ Tweak_i
+C_i' = cifra(K1, M_i')
+C_i  = C_i' ⊕ Tweak_i
+</code></pre>
+<p>Essa construção garante que dois blocos com mesmo conteúdo, mas localização diferente no disco, produzam saídas diferentes. Além disso, XTS suporta entradas que não completam um bloco inteiro usando roubo de bits do bloco seguinte (ciphertext stealing).</p>
+<h3 id="simulação-conceitual"><a class="header" href="#simulação-conceitual">Simulação conceitual</a></h3>
+<p>Para simplificar, podemos demonstrar apenas a ideia do uso de tweak e da dupla XOR:</p>
+<pre><code class="language-go">package main
+
+import "fmt"
+
+func xor(a, b string) string {
+	out := make([]byte, len(a))
+	for i := range a {
+		out[i] = a[i] ^ b[i]
+	}
+	return string(out)
+}
+
+func xts(blocks []string, tweakBase string) []string {
+	saida := make([]string, len(blocks))
+	for i, p := range blocks {
+		tweak := genTweak(tweakBase, i)
+		m1 := xor(p, tweak)
+		cifra := reverse(m1) // cifra principal simulada
+		saida[i] = xor(cifra, tweak)
+	}
+	return saida
+}
+
+func genTweak(base string, i int) string {
+	b := []byte(base)
+	for j := range b {
+		b[j] = b[j] ^ byte(i) // mistura simples com índice
+	}
+	return string(b)
+}
+
+func reverse(s string) string {
+	r := []rune(s)
+	for i, j := 0, len(r)-1; i &lt; j; i, j = i+1, j-1 {
+		r[i], r[j] = r[j], r[i]
+	}
+	return string(r)
+}
+
+func main() {
+	blocos := []string{"ExemploD", "eTextoCr", "iptograf", "ado\x00\x00\x00"}
+	tweak := "SETORESP"
+	saida := xts(blocos, tweak)
+	for i, b := range saida {
+		fmt.Printf("C%d: %q\n", i+1, b)
+	}
+}
+</code></pre>
+<h3 id="características"><a class="header" href="#características">Características</a></h3>
+<ul>
+<li>Suporta operação paralela</li>
+<li>Seguro contra repetições de padrões em setores</li>
+<li>Recomendado para cifragem de disco e armazenamento</li>
+</ul>
+<p>Embora mais complexo que os modos anteriores, o XTS resolve limitações práticas importantes na cifragem de dispositivos reais.</p>
+<p>Com isso, encerramos os principais modos de operação. A seguir, faremos uma comparação entre eles, destacando características técnicas e aplicações ideais.</p>
+<h1 id="comparação-entre-modos-de-operação"><a class="header" href="#comparação-entre-modos-de-operação">Comparação entre Modos de Operação</a></h1>
+<p>A análise técnica dos modos de operação não deve ser feita apenas com base em características isoladas, mas também considerando seu contexto histórico e a motivação por trás de cada proposta. A seguir, apresentamos uma visão evolutiva e comparativa entre os modos ECB, CBC, CFB, OFB, CTR e XTS.</p>
+<h2 id="evolução-histórica-e-motivação"><a class="header" href="#evolução-histórica-e-motivação">Evolução histórica e motivação</a></h2>
+<p>O primeiro modo amplamente utilizado foi o <strong>ECB (Electronic Codebook)</strong>. Seu funcionamento direto e paralelizável o tornava atraente, mas rapidamente ficou claro que ele era <strong>inadequado para dados estruturados</strong>: blocos iguais produziam saídas idênticas, expondo padrões — o que compromete completamente a segurança.</p>
+<p>Para contornar esse problema, surgiu o <strong>CBC (Cipher Block Chaining)</strong>. Ele introduziu <strong>encadeamento entre os blocos</strong>: cada bloco depende do anterior. Isso impede que blocos idênticos de entrada produzam saídas idênticas, mesmo com a mesma chave. Contudo, essa segurança adicional vem ao custo da <strong>impossibilidade de paralelismo na cifragem</strong> — já que é preciso aguardar o resultado do bloco anterior.</p>
+<p>O modo <strong>CFB (Cipher Feedback)</strong> foi criado como alternativa ao CBC para contextos de <strong>transmissão de dados em tempo real</strong>, permitindo cifragem de <strong>tamanhos menores que o bloco</strong> (como bytes ou bits). Seu encadeamento ocorre via saída anterior, o que o torna seguro, mas ainda dependente do processamento sequencial.</p>
+<p>Já o <strong>OFB (Output Feedback)</strong> nasce como uma variação do CFB, buscando resolver a propagação de erros: ao invés de realimentar com a saída cifrada, o OFB <strong>gera um fluxo independente da entrada</strong>, tornando o sistema mais tolerante a falhas e adequado para ambientes ruidosos (como transmissões digitais).</p>
+<p>O modo <strong>CTR (Counter Mode)</strong> representa uma mudança significativa: elimina o encadeamento e adota um <strong>contador como fonte de entropia</strong>. Cada bloco da entrada é combinado com a cifra do contador correspondente. Com isso, torna-se <strong>totalmente paralelizável</strong>, ideal para ambientes de alto desempenho, redes e sistemas distribuídos. A cifragem pode inclusive ser precomputada, desde que o contador e a chave sejam fixos.</p>
+<p>Por fim, o modo <strong>XTS</strong> surge para atender <strong>um problema prático não resolvido por nenhum dos anteriores</strong>: a cifragem segura de blocos físicos em discos. Ele se baseia em XEX (XOR-Encrypt-XOR), utiliza dois conjuntos de chaves, gera um tweak exclusivo por posição e ainda lida com blocos incompletos sem padding (via ciphertext stealing). XTS é, portanto, uma construção especializada, recomendada por padrões como o IEEE P1619.</p>
+<h2 id="relações-e-compensações"><a class="header" href="#relações-e-compensações">Relações e compensações</a></h2>
+<p>Cada modo surgiu como resposta a uma limitação do anterior:</p>
+<ul>
+<li><strong>CBC</strong> corrige a repetição de padrões do <strong>ECB</strong>.</li>
+<li><strong>CFB</strong> adapta o CBC para trabalhar em unidades menores.</li>
+<li><strong>OFB</strong> remove a propagação de erros do CFB.</li>
+<li><strong>CTR</strong> substitui todos os anteriores quando o foco é paralelismo e desempenho.</li>
+<li><strong>XTS</strong> trata o caso específico de cifragem de setores físicos.</li>
+</ul>
+<p>É importante compreender essas relações para fazer escolhas adequadas em projetos reais. Modos de operação não são equivalentes: cada um atende a um cenário específico de uso e impõe restrições distintas.</p>
+<p>Na próxima seção, faremos considerações finais sobre segurança, desempenho e práticas recomendadas.</p>
+<h1 id="considerações-finais-sobre-modos-de-operação"><a class="header" href="#considerações-finais-sobre-modos-de-operação">Considerações Finais sobre Modos de Operação</a></h1>
+<p>Os modos de operação analisados neste capítulo evidenciam como decisões de projeto em criptografia envolvem trocas entre <strong>segurança</strong>, <strong>eficiência</strong>, <strong>flexibilidade</strong> e <strong>resiliência a falhas</strong>. Nenhum modo é universalmente superior: cada um resolve um subconjunto de problemas e impõe restrições específicas.</p>
+<p>O objetivo deste capítulo foi <strong>isolar os modos de operação</strong>, apresentando suas características técnicas e funcionais de forma independente de algoritmos específicos. A relação com cifras reais (como AES ou ChaCha20), bem como as <strong>implicações práticas de segurança</strong> na escolha do modo, serão retomadas e aprofundadas em seções posteriores do livro.</p>
+<h2 id="sobre-segurança"><a class="header" href="#sobre-segurança">Sobre segurança</a></h2>
+<ul>
+<li><strong>ECB</strong> deve ser evitado em qualquer situação onde haja estrutura ou repetição nos dados. Seu uso é restrito a testes ou casos didáticos.</li>
+<li><strong>CBC</strong>, <strong>CFB</strong> e <strong>OFB</strong> oferecem segurança razoável quando combinados com IVs aleatórios e não reutilizados.</li>
+<li><strong>CTR</strong> e <strong>XTS</strong> são considerados seguros e modernos, desde que o <strong>contador ou tweak não se repita</strong> com a mesma chave.</li>
+</ul>
+<h2 id="sobre-desempenho-e-paralelismo"><a class="header" href="#sobre-desempenho-e-paralelismo">Sobre desempenho e paralelismo</a></h2>
+<ul>
+<li><strong>CTR</strong> e <strong>XTS</strong> são os únicos modos que permitem paralelismo total na cifra e decifra.</li>
+<li><strong>ECB</strong> também é paralelizável, mas inseguro.</li>
+<li><strong>CBC</strong>, <strong>CFB</strong> e <strong>OFB</strong> são sequenciais na cifra e, portanto, menos eficientes para grandes volumes de dados ou ambientes concorrentes.</li>
+</ul>
+<h2 id="sobre-robustez"><a class="header" href="#sobre-robustez">Sobre robustez</a></h2>
+<ul>
+<li><strong>OFB</strong> e <strong>CTR</strong> não propagam erros em cadeia, tornando-os ideais para canais com ruído.</li>
+<li><strong>CBC</strong> e <strong>CFB</strong> propagam erros de forma localizada, e podem corromper blocos subsequentes na decifra.</li>
+</ul>
+<h2 id="escolha-prática"><a class="header" href="#escolha-prática">Escolha prática</a></h2>
+<p>A escolha do modo de operação deve considerar:</p>
+<ul>
+<li>A natureza dos dados (texto, fluxo, armazenamento físico)</li>
+<li>A sensibilidade a erros de transmissão</li>
+<li>A necessidade de desempenho e paralelismo</li>
+<li>As garantias de segurança esperadas</li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th>Caso de uso</th><th>Modo recomendado</th></tr></thead><tbody>
+<tr><td>Criptografia de disco</td><td>XTS</td></tr>
+<tr><td>Comunicação em tempo real</td><td>CFB ou OFB</td></tr>
+<tr><td>Alta performance em redes</td><td>CTR</td></tr>
+<tr><td>Arquivos e backups</td><td>CBC</td></tr>
+</tbody></table>
+</div>
+<p>Em todos os casos, o uso de <strong>vetores de inicialização (IVs)</strong> únicos e imprevisíveis é essencial para garantir a segurança dos modos baseados em encadeamento ou contadores.</p>
+<p>Com isso, concluímos a análise dos modos de operação. As próximas seções tratarão da implementação de cifras reais e da integração com essas estruturas de controle de fluxo.</p>
 
                     </main>
 

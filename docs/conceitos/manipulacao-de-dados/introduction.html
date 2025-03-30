@@ -154,6 +154,36 @@
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="introdução"><a class="header" href="#introdução">Introdução</a></h1>
+<p>Antes de explorarmos algoritmos criptográficos como funções hash, cifras de bloco ou mecanismos de assinatura, é essencial compreender <strong>como os dados são representados e manipulados em baixo nível</strong>. A criptografia opera sobre sequências binárias, e muitas de suas construções dependem de operações como <strong>máscaras de bits, deslocamentos, permutações, concatenação e particionamento de blocos</strong>.</p>
+<p>Esta seção reúne os fundamentos práticos que formam a base para a implementação e compreensão de algoritmos criptográficos. Embora não envolvam segurança por si só, esses conceitos estruturam a <strong>transformação e o fluxo de dados</strong>, e são usados repetidamente em construções como:</p>
+<ul>
+<li>
+<p>Expansão e compressão de blocos (como em DES)</p>
+</li>
+<li>
+<p>Rotação de palavras (como em SHA e AES)</p>
+</li>
+<li>
+<p>Aplicação de máscaras e XORs (ubíquos em todas as cifras)</p>
+</li>
+<li>
+<p>Organização de blocos e endianness (em PBKDF2, HMAC, etc.)</p>
+</li>
+</ul>
+<p>Mesmo algoritmos clássicos, como MD2, baseiam parte de sua segurança e funcionamento em <strong>operações simples, porém precisas, sobre bytes e bits</strong>. Por isso, essa preparação técnica é indispensável para leitura crítica, implementação correta e análise de sistemas criptográficos.</p>
+<p>Nos próximos tópicos, cobriremos:</p>
+<ul>
+<li>
+<p>A ordem dos bytes na memória (<strong>endianness</strong>)</p>
+</li>
+<li>
+<p>Os operadores de bit mais utilizados (<strong>bitwise</strong>)</p>
+</li>
+<li>
+<p>Como manipular dados em blocos, rotacionar e reorganizar estruturas</p>
+</li>
+</ul>
+<p>Esses conceitos serão reaproveitados ao longo de todo o conteúdo técnico do livro e facilitarão a compreensão tanto matemática quanto prática dos algoritmos, reduzindo o esforço cognitivo necessário para entender as diversas manipulações de dados.</p>
 
                     </main>
 

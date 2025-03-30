@@ -155,10 +155,10 @@
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="endianness---organização-de-bytes-na-memória"><a class="header" href="#endianness---organização-de-bytes-na-memória">Endianness - Organização de Bytes na Memória</a></h1>
 <h2 id="o-que-é-endianness"><a class="header" href="#o-que-é-endianness">O que é Endianness?</a></h2>
-<p>Endianness se refere à ordem em que os bytes são armazenados na memória. Essa ordem pode variar entre sistemas diferentes e impacta como os dados binários são interpretados.</p>
-<p>Existem dois tipos principais: Little-endian e Big-endian.</p>
+<p><strong>Endianness</strong> refere-se à ordem na qual os bytes de uma palavra multibyte (como <code>int32</code>, <code>uint64</code>, etc.) são armazenados na memória. Essa ordem pode variar entre arquiteturas e afeta diretamente a forma como os dados binários são interpretados em operações de leitura, escrita, serialização e comunicação entre sistemas.</p>
+<p>Existem dois modelos principais: <strong>Little-endian</strong> e <strong>Big-endian</strong>.</p>
 <h2 id="little-endian"><a class="header" href="#little-endian">Little-endian</a></h2>
-<p>Nesse modelo, o byte menos significativo (LSB - Least Significant Byte) vem primeiro. Vamos supor que temos o número 0x12345678 armazenado em 4 bytes. O byte menos significativo (LSB) é o 0x78, seguido pelo 0x56, 0x34 e 0x12. A representação em memória seria:</p>
+<p>Nesse modelo, o <strong>byte menos significativo</strong> (<em>LSB – Least Significant Byte</em>) é armazenado primeiro, no menor endereço de memória. Suponha que o valor <code>0x12345678</code> (em hexadecimal) seja armazenado em 4 bytes. A ordem de armazenamento será:</p>
 <div class="table-wrapper"><table><thead><tr><th>Endereço</th><th>Byte</th></tr></thead><tbody>
 <tr><td>0x1000</td><td>0x78</td></tr>
 <tr><td>0x1001</td><td>0x56</td></tr>
@@ -167,7 +167,7 @@
 </tbody></table>
 </div>
 <h2 id="big-endian"><a class="header" href="#big-endian">Big-endian</a></h2>
-<p>Neste modelo, o byte mais significativo (MSB - Most Significant Byte) vem primeiro. Novamente, usando o mesmo exemplo, o byte mais significativo (MSB) é o 0x12. A representação em memória seria:</p>
+<p>Neste modelo, o <strong>byte mais significativo</strong> (<em>MSB – Most Significant Byte</em>) é armazenado primeiro. Para o mesmo valor <code>0x12345678</code>, teríamos:</p>
 <div class="table-wrapper"><table><thead><tr><th>Endereço</th><th>Byte</th></tr></thead><tbody>
 <tr><td>0x1000</td><td>0x12</td></tr>
 <tr><td>0x1001</td><td>0x34</td></tr>
@@ -176,8 +176,8 @@
 </tbody></table>
 </div>
 <h2 id="implementação-em-go"><a class="header" href="#implementação-em-go">Implementação em Go</a></h2>
-<p>Vamos ver como podemos implementar esses conceitos em Go.</p>
-<h3 id="identificando-o-endianness"><a class="header" href="#identificando-o-endianness">Identificando o Endianness</a></h3>
+<p>Vamos verificar a ordem dos bytes em memória e converter entre endiannesses.</p>
+<h3 id="detectando-o-endianness-do-sistema"><a class="header" href="#detectando-o-endianness-do-sistema">Detectando o endianness do sistema</a></h3>
 <pre><code class="language-go">package main
 
 import (
@@ -188,34 +188,54 @@ import (
 
 func main() {
 	var i int32 = 0x01020304
-
 	ptr := (*[4]byte)(unsafe.Pointer(&amp;i))
 
 	if ptr[0] == 0x04 {
-		fmt.Printf("Primeiro byte é %v, então este sistema é Little-endian (provavelmente um x86)\n", ptr[0])
+		fmt.Printf("Primeiro byte é %v → sistema é Little-endian (ex: x86)\n", ptr[0])
 	} else {
-		fmt.Printf("Primeiro byte é %v, então este sistema é Big-endian\n", ptr[0])
-	}
-
-	b := make([]byte, 4)
-
-	// Converte o inteiro para bytes no formato big-endian
-	binary.BigEndian.PutUint32(b, uint32(i))
-
-	fmt.Println("Convertido para Big-endian")
-
-	// Verifica se o primeiro byte é 0x04 (LSB) ou 0x01 (MSB)
-	if b[0] == 0x04 {
-		fmt.Printf("Primeiro byte é %v, então é Little-endian\n", b[0])
-	} else {
-		fmt.Printf("Primeiro byte é %v, então é Big-endian\n", b[0])
+		fmt.Printf("Primeiro byte é %v → sistema é Big-endian\n", ptr[0])
 	}
 }
+</code></pre>
+<p>Saída esperada:</p>
+<pre><code>Primeiro byte é 4 → sistema é Little-endian (ex: x86)
+</code></pre>
+<h3 id="conversão-explícita-usando-o-pacote-encodingbinary"><a class="header" href="#conversão-explícita-usando-o-pacote-encodingbinary">Conversão explícita usando o pacote encoding/binary</a></h3>
+<pre><code class="language-go">package main
+
+import (
+	"encoding/binary"
+	"fmt"
+	"unsafe"
+)
+
+func main() {
+	var i uint32 = 0x01020304
+	b := make([]byte, 4)
+
+	binary.BigEndian.PutUint32(b, i)
+	fmt.Printf("Big-endian: % x\n", b)
+
+	binary.LittleEndian.PutUint32(b, i)
+	fmt.Printf("Little-endian: % x\n", b)
+}
+</code></pre>
+<p>Saída esperada:</p>
+<pre><code>Big-endian:    01 02 03 04
+Little-endian: 04 03 02 01
 
 </code></pre>
-<p>Vai imprimir:</p>
-<pre><code>Primeiro byte é 4, então é Little-endian
-</code></pre>
+<h2 id="considerações"><a class="header" href="#considerações">Considerações</a></h2>
+<p>Saber lidar com endianness é fundamental ao manipular dados binários em protocolos, arquivos binários, criptografia ou comunicação entre sistemas heterogêneos. Por exemplo:</p>
+<ul>
+<li>
+<p>Algoritmos como <strong>SHA</strong> e <strong>MD5</strong> especificam explicitamente a ordem dos bytes em suas operações internas.</p>
+</li>
+<li>
+<p>Protocolos de rede, como <strong>TCP/IP</strong>, utilizam o modelo <strong>big-endian</strong>, também chamado de <em>network byte order</em>.</p>
+</li>
+</ul>
+<p>Arquiteturas modernas como x86 e x86-64 (Intel/AMD) adotam o modelo little-endian como padrão. Isso significa que o byte menos significativo de uma palavra é armazenado no menor endereço de memória. Essa decisão de projeto afeta diretamente a forma como inteiros são representados internamente e exige atenção ao manipular dados provenientes de ambientes que utilizam big-endian, como redes ou formatos binários padronizados.</p>
 
                     </main>
 

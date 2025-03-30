@@ -157,22 +157,52 @@
 <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="manipulação-de-dados"><a class="header" href="#manipulação-de-dados">Manipulação de Dados</a></h1>
-<h2 id="operadores-bitwise"><a class="header" href="#operadores-bitwise">Operadores Bitwise</a></h2>
-<h2 id="endianness---organização-de-bytes-na-memória"><a class="header" href="#endianness---organização-de-bytes-na-memória">Endianness - Organização de Bytes na Memória</a></h2>
-<h2 id="s-box---substitution-box"><a class="header" href="#s-box---substitution-box">S-Box - Substitution Box</a></h2>
-<h2 id="confusão-e-difusão"><a class="header" href="#confusão-e-difusão">Confusão e Difusão</a></h2>
-<h2 id="permutações-e-trocas"><a class="header" href="#permutações-e-trocas">Permutações e Trocas</a></h2>
-<h2 id="geradores-de-números-pseudoaleatórios-prng"><a class="header" href="#geradores-de-números-pseudoaleatórios-prng">Geradores de Números Pseudoaleatórios (PRNG)</a></h2>
-<h2 id="operações-em-blocos"><a class="header" href="#operações-em-blocos">Operações em Blocos</a></h2>
+<p>Esta seção estabelece os fundamentos práticos para entender como os dados binários são tratados internamente — ponto essencial para compreender cifras, hashes e protocolos.</p>
+<p>Começaremos com uma explicação rápida sobre endianness em <strong>Endianness – Organização de Bytes na Memória</strong>, que aborda como diferentes arquiteturas armazenam inteiros e como isso afeta a interoperabilidade e o uso seguro da criptografia.</p>
+<p>Em seguida, em <strong>Operadores Bitwise</strong>, exploraremos os operadores bit a bit, que são fundamentais para a construção de cifras e hashes. Mostraremos como AND, OR, XOR e deslocamentos são usados na manipulação de bits, no controle de flags e na implementação de PRNGs e mecanismos criptográficos.</p>
+<p>Veremos depois, em <strong>Operações em Blocos</strong>, os modos de operação (ECB, CBC, etc.) como técnicas de controle de fluxo entre blocos de dados — uma estrutura essencial para cifras reais. Aqui a conexão com criptografia é mais acentuada, mas o foco continua sendo como manipular blocos binários de forma sistemática.</p>
+<blockquote>
+<p>Esses conceitos serão reaproveitados ao longo do livro e servem de base para o entendimento de algoritmos criptográficos reais. O objetivo é diminuir o esforço cognitivo ao apresentar tópicos mais avançados, dando a chance do leitor se familiarizar com tópicos mais gerais envolvendo manipulação de dados.</p>
+</blockquote>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="introdução"><a class="header" href="#introdução">Introdução</a></h1>
+<p>Antes de explorarmos algoritmos criptográficos como funções hash, cifras de bloco ou mecanismos de assinatura, é essencial compreender <strong>como os dados são representados e manipulados em baixo nível</strong>. A criptografia opera sobre sequências binárias, e muitas de suas construções dependem de operações como <strong>máscaras de bits, deslocamentos, permutações, concatenação e particionamento de blocos</strong>.</p>
+<p>Esta seção reúne os fundamentos práticos que formam a base para a implementação e compreensão de algoritmos criptográficos. Embora não envolvam segurança por si só, esses conceitos estruturam a <strong>transformação e o fluxo de dados</strong>, e são usados repetidamente em construções como:</p>
+<ul>
+<li>
+<p>Expansão e compressão de blocos (como em DES)</p>
+</li>
+<li>
+<p>Rotação de palavras (como em SHA e AES)</p>
+</li>
+<li>
+<p>Aplicação de máscaras e XORs (ubíquos em todas as cifras)</p>
+</li>
+<li>
+<p>Organização de blocos e endianness (em PBKDF2, HMAC, etc.)</p>
+</li>
+</ul>
+<p>Mesmo algoritmos clássicos, como MD2, baseiam parte de sua segurança e funcionamento em <strong>operações simples, porém precisas, sobre bytes e bits</strong>. Por isso, essa preparação técnica é indispensável para leitura crítica, implementação correta e análise de sistemas criptográficos.</p>
+<p>Nos próximos tópicos, cobriremos:</p>
+<ul>
+<li>
+<p>A ordem dos bytes na memória (<strong>endianness</strong>)</p>
+</li>
+<li>
+<p>Os operadores de bit mais utilizados (<strong>bitwise</strong>)</p>
+</li>
+<li>
+<p>Como manipular dados em blocos, rotacionar e reorganizar estruturas</p>
+</li>
+</ul>
+<p>Esses conceitos serão reaproveitados ao longo de todo o conteúdo técnico do livro e facilitarão a compreensão tanto matemática quanto prática dos algoritmos, reduzindo o esforço cognitivo necessário para entender as diversas manipulações de dados.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="endianness---organização-de-bytes-na-memória-1"><a class="header" href="#endianness---organização-de-bytes-na-memória-1">Endianness - Organização de Bytes na Memória</a></h1>
+<h1 id="endianness---organização-de-bytes-na-memória"><a class="header" href="#endianness---organização-de-bytes-na-memória">Endianness - Organização de Bytes na Memória</a></h1>
 <h2 id="o-que-é-endianness"><a class="header" href="#o-que-é-endianness">O que é Endianness?</a></h2>
-<p>Endianness se refere à ordem em que os bytes são armazenados na memória. Essa ordem pode variar entre sistemas diferentes e impacta como os dados binários são interpretados.</p>
-<p>Existem dois tipos principais: Little-endian e Big-endian.</p>
+<p><strong>Endianness</strong> refere-se à ordem na qual os bytes de uma palavra multibyte (como <code>int32</code>, <code>uint64</code>, etc.) são armazenados na memória. Essa ordem pode variar entre arquiteturas e afeta diretamente a forma como os dados binários são interpretados em operações de leitura, escrita, serialização e comunicação entre sistemas.</p>
+<p>Existem dois modelos principais: <strong>Little-endian</strong> e <strong>Big-endian</strong>.</p>
 <h2 id="little-endian"><a class="header" href="#little-endian">Little-endian</a></h2>
-<p>Nesse modelo, o byte menos significativo (LSB - Least Significant Byte) vem primeiro. Vamos supor que temos o número 0x12345678 armazenado em 4 bytes. O byte menos significativo (LSB) é o 0x78, seguido pelo 0x56, 0x34 e 0x12. A representação em memória seria:</p>
+<p>Nesse modelo, o <strong>byte menos significativo</strong> (<em>LSB – Least Significant Byte</em>) é armazenado primeiro, no menor endereço de memória. Suponha que o valor <code>0x12345678</code> (em hexadecimal) seja armazenado em 4 bytes. A ordem de armazenamento será:</p>
 <div class="table-wrapper"><table><thead><tr><th>Endereço</th><th>Byte</th></tr></thead><tbody>
 <tr><td>0x1000</td><td>0x78</td></tr>
 <tr><td>0x1001</td><td>0x56</td></tr>
@@ -181,7 +211,7 @@
 </tbody></table>
 </div>
 <h2 id="big-endian"><a class="header" href="#big-endian">Big-endian</a></h2>
-<p>Neste modelo, o byte mais significativo (MSB - Most Significant Byte) vem primeiro. Novamente, usando o mesmo exemplo, o byte mais significativo (MSB) é o 0x12. A representação em memória seria:</p>
+<p>Neste modelo, o <strong>byte mais significativo</strong> (<em>MSB – Most Significant Byte</em>) é armazenado primeiro. Para o mesmo valor <code>0x12345678</code>, teríamos:</p>
 <div class="table-wrapper"><table><thead><tr><th>Endereço</th><th>Byte</th></tr></thead><tbody>
 <tr><td>0x1000</td><td>0x12</td></tr>
 <tr><td>0x1001</td><td>0x34</td></tr>
@@ -190,8 +220,8 @@
 </tbody></table>
 </div>
 <h2 id="implementação-em-go"><a class="header" href="#implementação-em-go">Implementação em Go</a></h2>
-<p>Vamos ver como podemos implementar esses conceitos em Go.</p>
-<h3 id="identificando-o-endianness"><a class="header" href="#identificando-o-endianness">Identificando o Endianness</a></h3>
+<p>Vamos verificar a ordem dos bytes em memória e converter entre endiannesses.</p>
+<h3 id="detectando-o-endianness-do-sistema"><a class="header" href="#detectando-o-endianness-do-sistema">Detectando o endianness do sistema</a></h3>
 <pre><code class="language-go">package main
 
 import (
@@ -202,42 +232,739 @@ import (
 
 func main() {
 	var i int32 = 0x01020304
-
 	ptr := (*[4]byte)(unsafe.Pointer(&amp;i))
 
 	if ptr[0] == 0x04 {
-		fmt.Printf("Primeiro byte é %v, então este sistema é Little-endian (provavelmente um x86)\n", ptr[0])
+		fmt.Printf("Primeiro byte é %v → sistema é Little-endian (ex: x86)\n", ptr[0])
 	} else {
-		fmt.Printf("Primeiro byte é %v, então este sistema é Big-endian\n", ptr[0])
-	}
-
-	b := make([]byte, 4)
-
-	// Converte o inteiro para bytes no formato big-endian
-	binary.BigEndian.PutUint32(b, uint32(i))
-
-	fmt.Println("Convertido para Big-endian")
-
-	// Verifica se o primeiro byte é 0x04 (LSB) ou 0x01 (MSB)
-	if b[0] == 0x04 {
-		fmt.Printf("Primeiro byte é %v, então é Little-endian\n", b[0])
-	} else {
-		fmt.Printf("Primeiro byte é %v, então é Big-endian\n", b[0])
+		fmt.Printf("Primeiro byte é %v → sistema é Big-endian\n", ptr[0])
 	}
 }
+</code></pre>
+<p>Saída esperada:</p>
+<pre><code>Primeiro byte é 4 → sistema é Little-endian (ex: x86)
+</code></pre>
+<h3 id="conversão-explícita-usando-o-pacote-encodingbinary"><a class="header" href="#conversão-explícita-usando-o-pacote-encodingbinary">Conversão explícita usando o pacote encoding/binary</a></h3>
+<pre><code class="language-go">package main
+
+import (
+	"encoding/binary"
+	"fmt"
+	"unsafe"
+)
+
+func main() {
+	var i uint32 = 0x01020304
+	b := make([]byte, 4)
+
+	binary.BigEndian.PutUint32(b, i)
+	fmt.Printf("Big-endian: % x\n", b)
+
+	binary.LittleEndian.PutUint32(b, i)
+	fmt.Printf("Little-endian: % x\n", b)
+}
+</code></pre>
+<p>Saída esperada:</p>
+<pre><code>Big-endian:    01 02 03 04
+Little-endian: 04 03 02 01
 
 </code></pre>
-<p>Vai imprimir:</p>
-<pre><code>Primeiro byte é 4, então é Little-endian
+<h2 id="considerações"><a class="header" href="#considerações">Considerações</a></h2>
+<p>Saber lidar com endianness é fundamental ao manipular dados binários em protocolos, arquivos binários, criptografia ou comunicação entre sistemas heterogêneos. Por exemplo:</p>
+<ul>
+<li>
+<p>Algoritmos como <strong>SHA</strong> e <strong>MD5</strong> especificam explicitamente a ordem dos bytes em suas operações internas.</p>
+</li>
+<li>
+<p>Protocolos de rede, como <strong>TCP/IP</strong>, utilizam o modelo <strong>big-endian</strong>, também chamado de <em>network byte order</em>.</p>
+</li>
+</ul>
+<p>Arquiteturas modernas como x86 e x86-64 (Intel/AMD) adotam o modelo little-endian como padrão. Isso significa que o byte menos significativo de uma palavra é armazenado no menor endereço de memória. Essa decisão de projeto afeta diretamente a forma como inteiros são representados internamente e exige atenção ao manipular dados provenientes de ambientes que utilizam big-endian, como redes ou formatos binários padronizados.</p>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="operadores-bitwise"><a class="header" href="#operadores-bitwise">Operadores Bitwise</a></h1>
+<h2 id="o-que-são-operadores-bit-a-bit"><a class="header" href="#o-que-são-operadores-bit-a-bit">O que são operadores bit a bit?</a></h2>
+<p>Operadores bitwise (bit a bit) são operadores que atuam diretamente sobre os bits de inteiros binários. São fundamentais em implementações de algoritmos criptográficos, protocolos binários, manipulação de flags e otimizações de espaço e tempo.</p>
+<p>Ao contrário dos operadores aritméticos tradicionais <code>(+, -, *, /)</code>, operadores bitwise operam posição a posição, diretamente sobre os bits das representações binárias dos operandos.</p>
+<h2 id="operadores-fundamentais"><a class="header" href="#operadores-fundamentais">Operadores Fundamentais</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Operador</th><th>Nome</th><th>Descrição</th></tr></thead><tbody>
+<tr><td>&amp;</td><td>AND</td><td>Retorna 1 se ambos os bits forem 1.</td></tr>
+<tr><td>|</td><td>OR</td><td>Retorna 1 se pelo menos um dos bits é 1.</td></tr>
+<tr><td>^</td><td>XOR</td><td>Exclusivo: Retorna 1 se exatamente um dos bits é 1.</td></tr>
+<tr><td>~</td><td>NOT</td><td>Inverte todos os bits.</td></tr>
+<tr><td>&amp;^</td><td>AND NOT (Go)</td><td>Zera os bits do primeiro operando que forem 1 no segundo operando.</td></tr>
+<tr><td>&lt;&lt;</td><td>Deslocamento à esquerda</td><td>Desloca os bits n posições à esquerda. (equivalente a multiplicar por <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span></span></span></span>)</td></tr>
+<tr><td>&gt;&gt;</td><td>Deslocamento à direita</td><td>Desloca os bits n posições à direita. (equivalente a dividir por <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span></span></span></span>)</td></tr>
+</tbody></table>
+</div>
+<p>A tabela a seguir ilustra como os operadores bitwise atuam sobre valores binários. Os exemplos utilizam inteiros de 8 bits para facilitar a visualização:</p>
+<div class="table-wrapper"><table><thead><tr><th>Expressão</th><th>Operação</th><th>Resultado Binário</th><th>Resultado Decimal</th></tr></thead><tbody>
+<tr><td><code>0b1100 &amp; 0b1010</code></td><td>AND</td><td><code>0b1000</code></td><td><code>8</code></td></tr>
+<tr><td><code>0b1100 | 0b1010</code></td><td>OR</td><td><code>0b1110</code></td><td><code>14</code></td></tr>
+<tr><td><code>0b1100 ^ 0b1010</code></td><td>XOR</td><td><code>0b0110</code></td><td><code>6</code></td></tr>
+<tr><td><code>^0b1100</code></td><td>NOT (unário)</td><td><code>0b...11110011</code>¹</td><td>depende do tipo</td></tr>
+<tr><td><code>0b0001 &lt;&lt; 2</code></td><td>Shift à esquerda</td><td><code>0b0100</code></td><td><code>4</code></td></tr>
+<tr><td><code>0b1000 &gt;&gt; 2</code></td><td>Shift à direita</td><td><code>0b0010</code></td><td><code>2</code></td></tr>
+<tr><td><code>0b1111 &amp;^ 0b0101</code></td><td>AND NOT (Go)</td><td><code>0b1010</code>²</td><td><code>10</code></td></tr>
+</tbody></table>
+</div>
+<p>¹ Em Go, o operador <code>^</code> representa o NOT unário. O resultado depende do tipo da variável (<code>uint8</code>, <code>int</code>, etc.). Por exemplo, <code>^uint8(0b1100)</code> resulta em <code>0b11110011</code> (243 decimal).</p>
+<p>² O operador <code>&amp;^</code> é específico da linguagem Go e realiza uma operação conhecida como "bit clear". Ele equivale a <code>a &amp; (~b)</code>, ou seja, <strong>faz um NOT bit a bit do segundo operando e aplica AND com o primeiro</strong>. Em C, essa operação seria expressa como <code>a &amp; (~b)</code>.</p>
+<h2 id="exemplo-prático-1-isolando-bits-com-máscaras-base64-sha-etc"><a class="header" href="#exemplo-prático-1-isolando-bits-com-máscaras-base64-sha-etc">Exemplo prático 1: isolando bits com máscaras (Base64, SHA, etc)</a></h2>
+<p>Uma das aplicações mais comuns do operador AND (<code>&amp;</code>) é a extração de porções específicas de um número binário, por meio de máscaras. Isso é amplamente usado em codificações como Base64, compressão, protocolos e algoritmos criptográficos.</p>
+<p>Suponha que você queira extrair os 6 bits menos significativos de um byte. Para isso, podemos usar uma máscara <code>0b00111111</code>, que equivale a <code>0x3F</code> em hexadecimal. Veja:</p>
+<pre><code>BYTE qualquer:            01010010  (82 em decimal)
+Máscara de 6 bits:        00111111  (0x3F em hexadecimal)
+Resultado após AND:       00010010  (18 em decimal)
+
 </code></pre>
+<p>O operador <code>&amp;</code> preserva apenas os bits em que ambos os operandos são 1. Portanto, ele serve como uma forma seletiva de “manter” ou “zerar” bits.</p>
+<p><strong>Tabela verdade para <code>AND</code></strong></p>
+<div class="table-wrapper"><table><thead><tr><th>A</th><th>AND</th><th>B</th><th>Resultado</th></tr></thead><tbody>
+<tr><td>1</td><td>&amp;</td><td>1</td><td>1</td></tr>
+<tr><td>1</td><td>&amp;</td><td>0</td><td>0</td></tr>
+<tr><td>0</td><td>&amp;</td><td>1</td><td>0</td></tr>
+<tr><td>0</td><td>&amp;</td><td>0</td><td>0</td></tr>
+</tbody></table>
+</div>
+<p>Com isso, chegamos à conclusão de que:</p>
+<ul>
+<li>
+<p>Uma máscara 0b00000000 apaga todos os bits.</p>
+</li>
+<li>
+<p>Uma máscara 0b00000001 testa apenas o bit menos significativo.</p>
+</li>
+<li>
+<p>Para extrair bits específicos, basta construir uma máscara com 1s nas posições desejadas.</p>
+</li>
+</ul>
+<p>Por exemplo, podemos extrair os bits 3 e 4 de um byte da seguinte forma:</p>
+<pre><code>BYTE qualquer:            01010010  (82)
+Máscara:                  00011000  (0x18)
+Resultado após AND:       00010000  (16)
+</code></pre>
+<h2 id="exemplo-prático-2-usando-bits-como-flags"><a class="header" href="#exemplo-prático-2-usando-bits-como-flags">Exemplo prático 2: usando bits como flags</a></h2>
+<p>Uma aplicação prática de operadores bitwise é o uso de flags, onde cada bit representa uma característica binária (ligado ou desligado). Esse padrão é comum em linguagens como C, Go e Rust, e em estruturas compactas de controle, como permissões ou estados.</p>
+<p>Abaixo, usaremos o contexto do anime Naruto para ilustrar como os operadores bitwise podem ser usados para representar e manipular características das personagens.</p>
+<h3 id="definindo-estilos-de-um-ninja"><a class="header" href="#definindo-estilos-de-um-ninja">Definindo estilos de um ninja</a></h3>
+<p>Abaixo, cada constante representa uma posição de bit única:</p>
+<pre><code class="language-go">type NinjaRank uint8
+
+const (
+	Genin     NinjaRank = 1 &lt;&lt; iota // 00000001
+	Chunin                          // 00000010
+	Jounin                          // 00000100
+	Ambu                            // 00001000
+	Sannin                          // 00010000
+	Kage                            // 00100000
+	Sage                            // 01000000
+	Jinchuriki                      // 10000000
+)
+</code></pre>
+<h4 id="combinando-características-com-or-"><a class="header" href="#combinando-características-com-or-">Combinando características com OR (<code>|</code>)</a></h4>
+<pre><code class="language-go">naruto  := Genin  | Sage   | Jinchuriki       // 10100001
+tsunade := Jounin | Sannin | Kage             // 00110100
+kakashi := Jounin | Ambu                      // 00001100
+</code></pre>
+<p><strong>Tabela verdade para <code>OR</code></strong></p>
+<p>Para entender como a combinação funciona bit a bit, veja a tabela verdade da operação OR:</p>
+<div class="table-wrapper"><table><thead><tr><th>A</th><th>OR</th><th>B</th><th>Resultado</th></tr></thead><tbody>
+<tr><td>1</td><td>|</td><td>1</td><td>1</td></tr>
+<tr><td>1</td><td>|</td><td>0</td><td>1</td></tr>
+<tr><td>0</td><td>|</td><td>1</td><td>1</td></tr>
+<tr><td>0</td><td>|</td><td>0</td><td>0</td></tr>
+</tbody></table>
+</div>
+<p>O operador <code>|</code> retorna <code>1</code> sempre que pelo menos um dos bits for <code>1</code>. Por isso ele é ideal para adicionar flags a uma variável sem interferir nos bits já definidos.</p>
+<h4 id="testando-características-com-and-"><a class="header" href="#testando-características-com-and-">Testando características com AND (<code>&amp;</code>)</a></h4>
+<pre><code class="language-go">if naruto &amp; Genin == Genin {
+	fmt.Println("Naruto é Genin.")
+}
+</code></pre>
+<h4 id="adicionando-características-com-or-"><a class="header" href="#adicionando-características-com-or-">Adicionando características com OR (<code>|</code>)</a></h4>
+<pre><code class="language-go">naruto |= Jounin // promove Naruto para Jounin
+</code></pre>
+<h4 id="removendo-características-com-and-not-"><a class="header" href="#removendo-características-com-and-not-">Removendo características com AND NOT (<code>&amp;^</code>)</a></h4>
+<pre><code class="language-go">kakashi &amp;^= Kage // remove o status de Kage de Kakashi
+</code></pre>
+<p><strong>Tabela verdade para <code>NOT</code></strong></p>
+<p>O operador NOT (<code>~</code>) inverte cada bit individualmente:</p>
+<div class="table-wrapper"><table><thead><tr><th>A</th><th>NOT</th><th>Resultado</th></tr></thead><tbody>
+<tr><td>1</td><td>~</td><td>0</td></tr>
+<tr><td>0</td><td>~</td><td>1</td></tr>
+</tbody></table>
+</div>
+<h2 id="exemplo-prático-3-usando-xor-em-prngs-e-criptografia"><a class="header" href="#exemplo-prático-3-usando-xor-em-prngs-e-criptografia">Exemplo prático 3: usando <code>XOR</code> em PRNGs e criptografia</a></h2>
+<p>O operador XOR (<code>^</code>) é um dos mais utilizados em criptografia moderna, principalmente por suas propriedades de reversibilidade e difusão controlada. Ele também aparece como base de muitos geradores de números pseudoaleatórios (PRNGs), como a família <strong>Xorshift</strong>.</p>
+<p>A propriedade central do <code>XOR</code> é:</p>
+<pre><code>A ^ A = 0        (auto-cancelamento)
+A ^ 0 = A        (identidade)
+A ^ B ^ B = A    (reversível)
+</code></pre>
+<p>Essas propriedades tornam o <code>XOR</code> ideal para cifragem, embaralhamento e geração determinística de entropia.</p>
+<h3 id="xorshift-simplificado"><a class="header" href="#xorshift-simplificado">Xorshift simplificado</a></h3>
+<p>A seguir, um PRNG de 32 bits usando apenas <code>XOR</code> e <code>shifts</code>:</p>
+<pre><code class="language-go">package main
+
+import "fmt"
+
+func xorshift32(x uint32) uint32 {
+	x ^= x &lt;&lt; 13
+	x ^= x &gt;&gt; 17
+	x ^= x &lt;&lt; 5
+	return x
+}
+
+func main() {
+	seed := uint32(123456789)
+	for i := 0; i &lt; 5; i++ {
+		seed = xorshift32(seed)
+		fmt.Printf("Valor %d: %032b\n", i+1, seed)
+	}
+}
+</code></pre>
+<p>Esse gerador, embora simples, é capaz de produzir uma sequência pseudoaleatória com boa dispersão de bits. Ele é construído exclusivamente com operadores <code>^</code>, <code>&lt;&lt;</code> e <code>&gt;&gt;</code>.</p>
+<p><strong>Tabela verdade para <code>XOR</code></strong></p>
+<div class="table-wrapper"><table><thead><tr><th>A</th><th>XOR</th><th>B</th><th>Resultado</th></tr></thead><tbody>
+<tr><td>1</td><td>^</td><td>1</td><td>0</td></tr>
+<tr><td>0</td><td>^</td><td>0</td><td>0</td></tr>
+<tr><td>1</td><td>^</td><td>0</td><td>1</td></tr>
+<tr><td>0</td><td>^</td><td>1</td><td>1</td></tr>
+</tbody></table>
+</div>
+<p>A operação retorna <code>1</code> apenas quando os bits são diferentes. Por isso, é chamada de <em>OU exclusivo</em> (exclusive OR).</p>
+<h2 id="exemplo-prático-4-deslocamento-de-bits--e-"><a class="header" href="#exemplo-prático-4-deslocamento-de-bits--e-">Exemplo prático 4: deslocamento de bits (<code>&lt;&lt;</code> e <code>&gt;&gt;</code>)</a></h2>
+<p>Os operadores de deslocamento <code>&lt;&lt;</code> (shift à esquerda) e <code>&gt;&gt;</code> (shift à direita) são amplamente utilizados em operações de dispersão, ajustes de bits e estruturação de dados binários. Eles são comuns em geradores pseudoaleatórios, cifras e funções de hash.</p>
+<p>A operação <code>x &lt;&lt; n</code> desloca os bits de <code>x</code> para a esquerda em <code>n</code> posições, preenchendo com <code>0</code> à direita. Já <code>x &gt;&gt; n</code> desloca os bits para a direita, preenchendo com <code>0</code> à esquerda (em inteiros sem sinal).</p>
+<h3 id="aplicação-prática-passo-de-um-lfsr-linear-feedback-shift-register"><a class="header" href="#aplicação-prática-passo-de-um-lfsr-linear-feedback-shift-register">Aplicação prática: passo de um LFSR (Linear Feedback Shift Register)</a></h3>
+<p>Sem entrar nos detalhes do algoritmo agora, podemos observar um exemplo de uso de deslocamento para atualizar um valor de estado:</p>
+<pre><code class="language-go">package main
+
+import "fmt"
+
+func stepLFSR(state uint8) uint8 {
+	feedback := ((state &gt;&gt; 0) ^ (state &gt;&gt; 2)) &amp; 1
+	state = (state &gt;&gt; 1) | (feedback &lt;&lt; 7)
+	return state
+}
+
+func main() {
+	state := uint8(0b10010010)
+	for i := 0; i &lt; 5; i++ {
+		state = stepLFSR(state)
+		fmt.Printf("Estado %d: %08b\n", i+1, state)
+	}
+}
+</code></pre>
+<p>Neste exemplo:</p>
+<ul>
+<li>
+<p>Um bit de realimentação é calculado via <code>XOR</code> de dois bits do estado.</p>
+</li>
+<li>
+<p>O estado é deslocado para a direita <code>(&gt;&gt; 1)</code>, descartando o LSB.</p>
+</li>
+<li>
+<p>O novo bit de feedback é colocado na posição mais à esquerda via feedback <code>&lt;&lt; 7</code>.</p>
+</li>
+</ul>
+<p>Embora não exista uma tabela verdade para o deslocamento, segue um exemplo visual do deslocamento:</p>
+<div class="table-wrapper"><table><thead><tr><th>Operação</th><th>Entrada</th><th>Resultado</th><th>Observação</th></tr></thead><tbody>
+<tr><td><code>x &lt;&lt; 1</code></td><td><span style="color:#ff6666;">0</span>1010010</td><td>1010010<span style="color:#66ccff;">0</span></td><td>Perde o MSB, ganha 0 no LSB</td></tr>
+<tr><td><code>x &gt;&gt; 1</code></td><td>0101001<span style="color:#ff6666;">0</span></td><td><span style="color:#66ccff;">0</span>0101001</td><td>Perde o LSB, ganha 0 no MSB</td></tr>
+<tr><td><code>x &gt;&gt; 3</code></td><td>111<span style="color:#ff6666;">00000</span></td><td><span style="color:#66ccff;">000</span>11100</td><td>Bits deslizam 3 casas à direita</td></tr>
+</tbody></table>
+</div>
+<p>Esse comportamento é determinístico, barato computacionalmente e essencial para muitas transformações em cifras e PRNGs.</p>
+<h2 id="importância-em-criptografia"><a class="header" href="#importância-em-criptografia">Importância em Criptografia</a></h2>
+<p>Operadores bitwise são usados constantemente em algoritmos criptográficos. Exemplos:</p>
+<ul>
+<li>
+<p>O <code>XOR</code> (<code>^</code>) é a operação mais usada em cifras de fluxo e blocos — por exemplo, no modo CTR ou no cálculo de paridade.</p>
+</li>
+<li>
+<p>Cifras de fluxo: cada byte da mensagem é combinado com um byte do keystream usando <code>XOR</code>.</p>
+</li>
+<li>
+<p>Funções hash: o <code>XOR</code> é usado para compressão, mistura e difusão de bits internos.</p>
+</li>
+<li>
+<p><code>AND</code>, (<code>&amp;</code>) <code>OR</code> (<code>|</code>), e <code>NOT</code> (<code>~</code>) são usados em compressão de mensagens, máscaras, e manipulação de estruturas internas como as de <strong>SHA-2</strong>.</p>
+</li>
+<li>
+<p>Shifts (<code>&lt;&lt;, &gt;&gt;</code>) implementam rotações e misturas, fundamentais em <strong>S-Boxes</strong> e funções de dispersão.</p>
+</li>
+</ul>
+<h2 id="considerações-1"><a class="header" href="#considerações-1">Considerações</a></h2>
+<p>Dominar os operadores bitwise é essencial para compreender o funcionamento interno de muitos algoritmos criptográficos. Além disso, esse tipo de manipulação é eficiente, compacta e amplamente utilizada em implementações de baixo nível, seja em bibliotecas de segurança, protocolos ou microcontroladores.</p>
+<p>Nos próximos tópicos, aplicaremos esses conceitos na manipulação de blocos de dados, operações estruturais e transformação binária direta.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="operaadores-bitwise"><a class="header" href="#operaadores-bitwise">Operaadores Bitwise</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="operações-em-blocos-1"><a class="header" href="#operações-em-blocos-1">Operações em Blocos</a></h1>
-<h2 id="ecb-electronic-codebook"><a class="header" href="#ecb-electronic-codebook">ECB (Electronic Codebook)</a></h2>
-<h2 id="cbc-cipher-block-chaining"><a class="header" href="#cbc-cipher-block-chaining">CBC (Cipher Block Chaining)</a></h2>
-<h2 id="cfb-cipher-feedback-e-ofb-output-feedback"><a class="header" href="#cfb-cipher-feedback-e-ofb-output-feedback">CFB (Cipher Feedback) e OFB (Output Feedback)</a></h2>
-<h2 id="ctr-counter-mode"><a class="header" href="#ctr-counter-mode">CTR (Counter Mode)</a></h2>
+<h1 id="operações-em-blocos"><a class="header" href="#operações-em-blocos">Operações em Blocos</a></h1>
+<h2 id="o-que-são-modos-de-operação"><a class="header" href="#o-que-são-modos-de-operação">O que são modos de operação?</a></h2>
+<p>Muitos algoritmos lidam com blocos de dados de tamanho fixo, como 64 ou 128 bits. Quando a entrada é maior que um único bloco, é necessário dividir os dados e aplicar transformações <strong>bloco a bloco</strong>, seguindo um <strong>modo de operação</strong>.</p>
+<p>Embora esses modos sejam usados em contextos criptográficos, o objetivo aqui é entender <strong>como os dados são processados tecnicamente</strong>, sem considerar a lógica de cifra. Vamos nos concentrar em:</p>
+<ul>
+<li>Como os blocos são encadeados</li>
+<li>Qual a dependência entre entradas e saídas</li>
+<li>Como o estado interno evolui</li>
+<li>Como entrada, saída e IV interagem</li>
+</ul>
+<p>Para fins ilustrativos, faremos comentários como <code>// aplicar cifra aqui</code>, mas <strong>não implementaremos cifra real nesta seção</strong>.</p>
+<h2 id="divisão-em-blocos"><a class="header" href="#divisão-em-blocos">Divisão em blocos</a></h2>
+<p>Antes de aplicar qualquer modo de operação, os dados precisam ser divididos em blocos de tamanho fixo. Se os dados não são múltiplo do tamanho do bloco, algum tipo de preenchimento (padding) será necessário. Veremos mais sobre padding em uma seção posterior, em especial quando estivermos falando sobre Base64.</p>
+<p>Exemplo com blocos de 8 bytes:</p>
+<pre><code>Entrada (24 bytes): "ExemploDeTextoCriptografado"
+
+Blocos:
+B1 = "ExemploD"
+B2 = "eTextoCr"
+B3 = "iptograf"
+B4 = "ado\x00\x00\x00" // padding se aplicado
+</code></pre>
+<p>A seguir, vamos examinar os principais modos de operação: ECB, CBC, CFB, OFB, CTR e outros opcionais.</p>
+<h2 id="ecb--electronic-codebook"><a class="header" href="#ecb--electronic-codebook">ECB — Electronic Codebook</a></h2>
+<p>O modo ECB é o mais simples de todos: cada bloco de entrada é processado <strong>de forma independente</strong> dos demais. Não há encadeamento, nem dependência de bloco anterior. Por isso, é possível aplicar a transformação a todos os blocos <strong>em paralelo</strong>.</p>
+<p>Uma analogia útil é pensar em ECB como um carimbo: para cada pedaço do texto, aplica-se sempre o mesmo molde. Se dois blocos forem iguais, o resultado será o mesmo.</p>
+<p>Apesar de sua simplicidade, esse comportamento pode expor padrões quando blocos repetidos resultam em saídas repetidas — por isso o ECB é desaconselhado em aplicações criptográficas. Mas como modelo de operação, é útil para entender a base dos modos.</p>
+<h3 id="funcionamento"><a class="header" href="#funcionamento">Funcionamento</a></h3>
+<pre><code>Entrada:     B1   B2   B3   B4
+             |    |    |    |
+             v    v    v    v
+Saída:      C1   C2   C3   C4
+
+// Cada Ci = cifra(Bi)
+</code></pre>
+<h3 id="implementação-simulada-em-go"><a class="header" href="#implementação-simulada-em-go">Implementação simulada em Go</a></h3>
+<pre><code class="language-go">package main
+
+import "fmt"
+
+func ecb(blocks []string) []string {
+	out := make([]string, len(blocks))
+	for i, b := range blocks {
+		// Simulando uma "cifra" com reverso de string
+		out[i] = reverse(b) // aplicar cifra real aqui
+	}
+	return out
+}
+
+func reverse(s string) string {
+	runes := []rune(s)
+	for i, j := 0, len(runes)-1; i &lt; j; i, j = i+1, j-1 {
+		runes[i], runes[j] = runes[j], runes[i]
+	}
+	return string(runes)
+}
+
+func main() {
+	blocos := []string{"ExemploD", "eTextoCr", "iptograf", "ado\x00\x00\x00"}
+	saida := ecb(blocos)
+	for i, b := range saida {
+		fmt.Printf("C%d: %q\n", i+1, b)
+	}
+}
+</code></pre>
+<p>Esse código demonstra a ideia de que cada bloco é transformado isoladamente. A função <code>reverse</code> simula uma transformação sem depender de contexto.</p>
+<p>Nos próximos modos, veremos como introduzir <strong>estado</strong> e <strong>encadeamento</strong> entre os blocos.</p>
+<h2 id="cbc--cipher-block-chaining"><a class="header" href="#cbc--cipher-block-chaining">CBC — Cipher Block Chaining</a></h2>
+<p>O modo CBC introduz encadeamento entre os blocos de dados. Aqui, cada bloco de entrada é combinado (via <code>XOR</code>) com o bloco de saída anterior <strong>antes</strong> da transformação ser aplicada. Isso garante que blocos idênticos de entrada não gerem saídas idênticas, desde que a inicialização seja diferente.</p>
+<p>O primeiro bloco é combinado com um <strong>vetor de inicialização</strong>  (<em>IV - Initialization Vector</em> ), que deve ser único e imprevisível para cada mensagem.</p>
+<p>Pense em CBC como uma corrente: cada elo (bloco) depende do anterior. Se você mudar um elo, o restante da corrente será alterado. Esse encadeamento dá mais segurança estrutural ao fluxo de blocos.</p>
+<h3 id="funcionamento-1"><a class="header" href="#funcionamento-1">Funcionamento</a></h3>
+<pre><code>Entrada:     B1   B2   B3   B4
+              |    |    |    |
+IV ---&gt; XOR   |    |    |    |
+        v     v    v    v    v
+      cifra  XOR  XOR  XOR  ...
+        |     |    |    |    |
+       C1 -&gt; C2 -&gt; C3 -&gt; C4
+
+// C1 = cifra(B1 ⊕ IV)
+// C2 = cifra(B2 ⊕ C1)
+// C3 = cifra(B3 ⊕ C2)
+// C4 = cifra(B4 ⊕ C3)
+</code></pre>
+<h3 id="implementação-simulada-em-go-1"><a class="header" href="#implementação-simulada-em-go-1">Implementação simulada em Go</a></h3>
+<pre><code class="language-go">package main
+
+import "fmt"
+
+func xor(a, b string) string {
+	out := make([]byte, len(a))
+	for i := range a {
+		out[i] = a[i] ^ b[i]
+	}
+	return string(out)
+}
+
+func cbc(blocks []string, iv string) []string {
+	out := make([]string, len(blocks))
+	prev := iv
+	for i, b := range blocks {
+		mix := xor(b, prev)
+		out[i] = reverse(mix) // aplicar cifra real aqui
+		prev = out[i]         // saída vira entrada para o próximo XOR
+	}
+	return out
+}
+
+func main() {
+	blocos := []string{"ExemploD", "eTextoCr", "iptograf", "ado\x00\x00\x00"}
+	iv := "12345678" // mesmo tamanho de bloco
+	saida := cbc(blocos, iv)
+	for i, b := range saida {
+		fmt.Printf("C%d: %q\n", i+1, b)
+	}
+}
+</code></pre>
+<p>Aqui, usamos uma função <code>xor</code> simples para combinar blocos. A função <code>reverse</code>, como antes, simula a aplicação de uma cifra. O encadeamento é visível no uso da variável <code>prev</code>, que propaga o resultado entre os blocos.</p>
+<p>No próximo modo, veremos como esse encadeamento pode ser reorganizado para permitir recuperação de dados em tempo real.</p>
+<h1 id="cfb--cipher-feedback"><a class="header" href="#cfb--cipher-feedback">CFB — Cipher Feedback</a></h1>
+<p>O modo CFB transforma uma cifra de bloco em um sistema que se comporta como uma cifra de fluxo. Diferente do ECB e CBC, o CFB permite operar em unidades menores que o bloco (como bytes ou bits), o que é útil para aplicações onde os dados não chegam em blocos completos.</p>
+<p>Apesar de utilizar uma cifra de bloco internamente, o que realmente é cifrado é o <strong>vetor de realimentação</strong>. Esse vetor é processado com a cifra, e o resultado é combinado (via XOR) com o bloco ou byte de entrada para gerar a saída.</p>
+<h3 id="funcionamento-versão-em-blocos-inteiros"><a class="header" href="#funcionamento-versão-em-blocos-inteiros">Funcionamento (versão em blocos inteiros)</a></h3>
+<pre><code>Entrada:     P1     P2     P3     P4
+              |      |      |      |
+IV -----&gt; cifra     |      |      |
+           |         |      |      |
+           v         v      v      v
+          XOR       XOR   XOR   XOR
+           |         |      |      |
+          C1  ---&gt;  C2 -&gt;  C3 -&gt;  C4
+
+// C1 = P1 ⊕ cifra(IV)
+// C2 = P2 ⊕ cifra(C1)
+// C3 = P3 ⊕ cifra(C2)
+// C4 = P4 ⊕ cifra(C3)
+</code></pre>
+<p>Diferente do CBC, a cifra é aplicada sobre a saída anterior, não sobre a entrada. Isso permite que a cifra seja usada como um gerador de fluxo pseudoaleatório que é então combinado com os dados reais.</p>
+<h3 id="implementação-simulada-em-go-2"><a class="header" href="#implementação-simulada-em-go-2">Implementação simulada em Go</a></h3>
+<pre><code class="language-go">package main
+
+import "fmt"
+
+func xor(a, b string) string {
+	out := make([]byte, len(a))
+	for i := range a {
+		out[i] = a[i] ^ b[i]
+	}
+	return string(out)
+}
+
+func cfb(entrada []string, iv string) []string {
+	saida := make([]string, len(entrada))
+	estado := iv
+	for i, p := range entrada {
+		keystream := reverse(estado) // aplicar cifra real aqui
+		saida[i] = xor(p, keystream)
+		estado = saida[i] // realimentado com saída
+	}
+	return saida
+}
+
+func reverse(s string) string {
+	runes := []rune(s)
+	for i, j := 0, len(runes)-1; i &lt; j; i, j = i+1, j-1 {
+		runes[i], runes[j] = runes[j], runes[i]
+	}
+	return string(runes)
+}
+
+func main() {
+	blocos := []string{"ExemploD", "eTextoCr", "iptograf", "ado\x00\x00\x00"}
+	iv := "12345678"
+	saida := cfb(blocos, iv)
+	for i, b := range saida {
+		fmt.Printf("C%d: %q\n", i+1, b)
+	}
+}
+</code></pre>
+<p>Neste exemplo:</p>
+<ul>
+<li><code>reverse</code> representa a cifra aplicada sobre o estado interno</li>
+<li><code>estado</code> é atualizado com a saída anterior, simulando o feedback</li>
+<li><code>xor</code> combina a saída da cifra com o bloco de entrada</li>
+</ul>
+<p>Nos modos seguintes, veremos como separar o fluxo gerado da entrada original (OFB) e como introduzir contadores (CTR).</p>
+<h1 id="ofb--output-feedback"><a class="header" href="#ofb--output-feedback">OFB — Output Feedback</a></h1>
+<p>O modo OFB (Output Feedback) é semelhante ao CFB, mas com uma diferença importante: o <strong>vetor de realimentação é atualizado independentemente da entrada</strong>. Isso significa que o fluxo pseudoaleatório gerado pela cifra é completamente dissociado do texto de entrada, permitindo paralelismo na geração e reutilização do keystream.</p>
+<p>Na prática, o OFB transforma uma cifra de bloco em uma cifra de fluxo pura, onde o texto de entrada é combinado com uma sequência pseudoaleatória de bits gerados iterativamente a partir do IV.</p>
+<h3 id="funcionamento-2"><a class="header" href="#funcionamento-2">Funcionamento</a></h3>
+<pre><code>Entrada:     P1     P2     P3     P4
+              |      |      |      |
+IV -----&gt; cifra ---&gt; cifra ---&gt; cifra ---&gt;
+              |       |       |      |
+              v       v       v      v
+            XOR     XOR     XOR    XOR
+              |       |       |      |
+             C1      C2      C3     C4
+
+// E1 = cifra(IV)
+// E2 = cifra(E1)
+// E3 = cifra(E2)
+// E4 = cifra(E3)
+// Ci = Pi ⊕ Ei
+</code></pre>
+<p>Como o OFB não depende da entrada anterior, ele é ideal para ambientes em que erros de transmissão não podem propagar corrompendo blocos seguintes.</p>
+<h3 id="implementação-simulada-em-go-3"><a class="header" href="#implementação-simulada-em-go-3">Implementação simulada em Go</a></h3>
+<pre><code class="language-go">package main
+
+import "fmt"
+
+func xor(a, b string) string {
+	out := make([]byte, len(a))
+	for i := range a {
+		out[i] = a[i] ^ b[i]
+	}
+	return string(out)
+}
+
+func ofb(entrada []string, iv string) []string {
+	saida := make([]string, len(entrada))
+	estado := iv
+	for i, p := range entrada {
+		keystream := reverse(estado) // aplicar cifra real aqui
+		saida[i] = xor(p, keystream)
+		estado = keystream // fluxo é autônomo
+	}
+	return saida
+}
+
+func reverse(s string) string {
+	runes := []rune(s)
+	for i, j := 0, len(runes)-1; i &lt; j; i, j = i+1, j-1 {
+		runes[i], runes[j] = runes[j], runes[i]
+	}
+	return string(runes)
+}
+
+func main() {
+	blocos := []string{"ExemploD", "eTextoCr", "iptograf", "ado\x00\x00\x00"}
+	iv := "12345678"
+	saida := ofb(blocos, iv)
+	for i, b := range saida {
+		fmt.Printf("C%d: %q\n", i+1, b)
+	}
+}
+</code></pre>
+<p>Neste exemplo:</p>
+<ul>
+<li>O <code>estado</code> é atualizado <strong>somente pela cifra anterior</strong>, sem depender da entrada</li>
+<li>O fluxo gerado é previsível e determinístico para o mesmo IV</li>
+</ul>
+<p>O modo OFB é adequado para aplicações onde a integridade parcial dos dados deve ser preservada mesmo em caso de erros de transmissão.</p>
+<p>No próximo modo, introduziremos um contador para gerar blocos independentes — o modo CTR.</p>
+<h1 id="ctr--counter-mode"><a class="header" href="#ctr--counter-mode">CTR — Counter Mode</a></h1>
+<p>O modo CTR (Counter) transforma uma cifra de bloco em uma cifra de fluxo por meio da geração de um <strong>keystream determinístico</strong>, baseado em um contador. Ao invés de realimentar saídas anteriores, ele cifra valores sequenciais derivados de um IV (Initialization Vector).</p>
+<p>Cada bloco de texto é combinado (via XOR) com a cifra do contador correspondente. Isso permite que cada bloco seja processado <strong>de forma independente</strong>, facilitando a paralelização.</p>
+<h3 id="funcionamento-3"><a class="header" href="#funcionamento-3">Funcionamento</a></h3>
+<pre><code>Entrada:     P1     P2     P3     P4
+              |      |      |      |
+IV+0 --&gt; cifra        
+         |           |      |      |
+         v           v      v      v
+        XOR         XOR   XOR    XOR
+         |           |      |      |
+        C1          C2     C3     C4
+
+// C1 = P1 ⊕ cifra(IV + 0)
+// C2 = P2 ⊕ cifra(IV + 1)
+// C3 = P3 ⊕ cifra(IV + 2)
+// C4 = P4 ⊕ cifra(IV + 3)
+</code></pre>
+<p>Esse modo é muito utilizado por sua eficiência e por permitir operações em paralelo. Como o contador é previsível, os blocos de keystream podem ser gerados antes mesmo da chegada da mensagem.</p>
+<h3 id="implementação-simulada-em-go-4"><a class="header" href="#implementação-simulada-em-go-4">Implementação simulada em Go</a></h3>
+<pre><code class="language-go">package main
+
+import (
+	"fmt"
+	"strconv"
+)
+
+func xor(a, b string) string {
+	out := make([]byte, len(a))
+	for i := range a {
+		out[i] = a[i] ^ b[i]
+	}
+	return string(out)
+}
+
+func padCounter(base string, count int) string {
+	suffix := fmt.Sprintf("%08d", count)
+	return base[:len(base)-len(suffix)] + suffix
+}
+
+func ctr(entrada []string, iv string) []string {
+	saida := make([]string, len(entrada))
+	for i, p := range entrada {
+		counter := padCounter(iv, i)
+		keystream := reverse(counter) // aplicar cifra real aqui
+		saida[i] = xor(p, keystream)
+	}
+	return saida
+}
+
+func reverse(s string) string {
+	runes := []rune(s)
+	for i, j := 0, len(runes)-1; i &lt; j; i, j = i+1, j-1 {
+		runes[i], runes[j] = runes[j], runes[i]
+	}
+	return string(runes)
+}
+
+func main() {
+	blocos := []string{"ExemploD", "eTextoCr", "iptograf", "ado\x00\x00\x00"}
+	iv := "0000000000000000" // deve ter tamanho fixo
+	saida := ctr(blocos, iv)
+	for i, b := range saida {
+		fmt.Printf("C%d: %q\n", i+1, b)
+	}
+}
+</code></pre>
+<p>Nesta simulação:</p>
+<ul>
+<li>O contador é representado por um sufixo decimal no <code>IV</code></li>
+<li>A função <code>reverse</code> simula a cifra aplicada ao contador</li>
+<li>Cada bloco é processado com base em um valor de contador diferente</li>
+</ul>
+<p>O CTR é amplamente utilizado em prática (por exemplo, em AES-CTR), sendo considerado seguro e eficiente quando o <code>IV</code> não é reutilizado com a mesma chave.</p>
+<h1 id="xts--xex-based-tweaked-codebook-mode-with-ciphertext-stealing"><a class="header" href="#xts--xex-based-tweaked-codebook-mode-with-ciphertext-stealing">XTS — XEX-based Tweaked Codebook Mode with Ciphertext Stealing</a></h1>
+<p>O modo XTS foi projetado especificamente para cifragem de <strong>unidades de armazenamento em blocos</strong>, como discos e SSDs. Ele combina uma cifra de bloco (como AES) com uma estrutura especial chamada <strong>tweak</strong>, que personaliza a operação para cada setor ou bloco físico, evitando repetições previsíveis.</p>
+<p>XTS é um modo baseado em <strong>XEX (XOR-Encrypt-XOR)</strong> com <strong>roubo de texto cifrado (ciphertext stealing)</strong>, permitindo lidar com entradas que não são múltiplas do tamanho do bloco sem recorrer a padding.</p>
+<blockquote>
+<p>XTS é o modo de operação recomendado por padrões como IEEE P1619 para cifragem de dados em discos.</p>
+</blockquote>
+<h3 id="estrutura-geral"><a class="header" href="#estrutura-geral">Estrutura geral</a></h3>
+<ul>
+<li>Usa <strong>duas chaves</strong>: uma para a cifra principal (<code>K1</code>) e outra para o tweak (<code>K2</code>)</li>
+<li>Gera um tweak a partir do número de setor ou posição lógica do bloco</li>
+<li>Aplica o tweak com XOR antes e depois da cifra (XOR-Encrypt-XOR)</li>
+</ul>
+<h3 id="funcionamento-simplificado"><a class="header" href="#funcionamento-simplificado">Funcionamento simplificado</a></h3>
+<pre><code>Para cada bloco i:
+
+Tweak_i = cifra(K2, bloco_logico) &lt;&lt; i // ajustado por multiplicador
+
+M_i' = P_i ⊕ Tweak_i
+C_i' = cifra(K1, M_i')
+C_i  = C_i' ⊕ Tweak_i
+</code></pre>
+<p>Essa construção garante que dois blocos com mesmo conteúdo, mas localização diferente no disco, produzam saídas diferentes. Além disso, XTS suporta entradas que não completam um bloco inteiro usando roubo de bits do bloco seguinte (ciphertext stealing).</p>
+<h3 id="simulação-conceitual"><a class="header" href="#simulação-conceitual">Simulação conceitual</a></h3>
+<p>Para simplificar, podemos demonstrar apenas a ideia do uso de tweak e da dupla XOR:</p>
+<pre><code class="language-go">package main
+
+import "fmt"
+
+func xor(a, b string) string {
+	out := make([]byte, len(a))
+	for i := range a {
+		out[i] = a[i] ^ b[i]
+	}
+	return string(out)
+}
+
+func xts(blocks []string, tweakBase string) []string {
+	saida := make([]string, len(blocks))
+	for i, p := range blocks {
+		tweak := genTweak(tweakBase, i)
+		m1 := xor(p, tweak)
+		cifra := reverse(m1) // cifra principal simulada
+		saida[i] = xor(cifra, tweak)
+	}
+	return saida
+}
+
+func genTweak(base string, i int) string {
+	b := []byte(base)
+	for j := range b {
+		b[j] = b[j] ^ byte(i) // mistura simples com índice
+	}
+	return string(b)
+}
+
+func reverse(s string) string {
+	r := []rune(s)
+	for i, j := 0, len(r)-1; i &lt; j; i, j = i+1, j-1 {
+		r[i], r[j] = r[j], r[i]
+	}
+	return string(r)
+}
+
+func main() {
+	blocos := []string{"ExemploD", "eTextoCr", "iptograf", "ado\x00\x00\x00"}
+	tweak := "SETORESP"
+	saida := xts(blocos, tweak)
+	for i, b := range saida {
+		fmt.Printf("C%d: %q\n", i+1, b)
+	}
+}
+</code></pre>
+<h3 id="características"><a class="header" href="#características">Características</a></h3>
+<ul>
+<li>Suporta operação paralela</li>
+<li>Seguro contra repetições de padrões em setores</li>
+<li>Recomendado para cifragem de disco e armazenamento</li>
+</ul>
+<p>Embora mais complexo que os modos anteriores, o XTS resolve limitações práticas importantes na cifragem de dispositivos reais.</p>
+<p>Com isso, encerramos os principais modos de operação. A seguir, faremos uma comparação entre eles, destacando características técnicas e aplicações ideais.</p>
+<h1 id="comparação-entre-modos-de-operação"><a class="header" href="#comparação-entre-modos-de-operação">Comparação entre Modos de Operação</a></h1>
+<p>A análise técnica dos modos de operação não deve ser feita apenas com base em características isoladas, mas também considerando seu contexto histórico e a motivação por trás de cada proposta. A seguir, apresentamos uma visão evolutiva e comparativa entre os modos ECB, CBC, CFB, OFB, CTR e XTS.</p>
+<h2 id="evolução-histórica-e-motivação"><a class="header" href="#evolução-histórica-e-motivação">Evolução histórica e motivação</a></h2>
+<p>O primeiro modo amplamente utilizado foi o <strong>ECB (Electronic Codebook)</strong>. Seu funcionamento direto e paralelizável o tornava atraente, mas rapidamente ficou claro que ele era <strong>inadequado para dados estruturados</strong>: blocos iguais produziam saídas idênticas, expondo padrões — o que compromete completamente a segurança.</p>
+<p>Para contornar esse problema, surgiu o <strong>CBC (Cipher Block Chaining)</strong>. Ele introduziu <strong>encadeamento entre os blocos</strong>: cada bloco depende do anterior. Isso impede que blocos idênticos de entrada produzam saídas idênticas, mesmo com a mesma chave. Contudo, essa segurança adicional vem ao custo da <strong>impossibilidade de paralelismo na cifragem</strong> — já que é preciso aguardar o resultado do bloco anterior.</p>
+<p>O modo <strong>CFB (Cipher Feedback)</strong> foi criado como alternativa ao CBC para contextos de <strong>transmissão de dados em tempo real</strong>, permitindo cifragem de <strong>tamanhos menores que o bloco</strong> (como bytes ou bits). Seu encadeamento ocorre via saída anterior, o que o torna seguro, mas ainda dependente do processamento sequencial.</p>
+<p>Já o <strong>OFB (Output Feedback)</strong> nasce como uma variação do CFB, buscando resolver a propagação de erros: ao invés de realimentar com a saída cifrada, o OFB <strong>gera um fluxo independente da entrada</strong>, tornando o sistema mais tolerante a falhas e adequado para ambientes ruidosos (como transmissões digitais).</p>
+<p>O modo <strong>CTR (Counter Mode)</strong> representa uma mudança significativa: elimina o encadeamento e adota um <strong>contador como fonte de entropia</strong>. Cada bloco da entrada é combinado com a cifra do contador correspondente. Com isso, torna-se <strong>totalmente paralelizável</strong>, ideal para ambientes de alto desempenho, redes e sistemas distribuídos. A cifragem pode inclusive ser precomputada, desde que o contador e a chave sejam fixos.</p>
+<p>Por fim, o modo <strong>XTS</strong> surge para atender <strong>um problema prático não resolvido por nenhum dos anteriores</strong>: a cifragem segura de blocos físicos em discos. Ele se baseia em XEX (XOR-Encrypt-XOR), utiliza dois conjuntos de chaves, gera um tweak exclusivo por posição e ainda lida com blocos incompletos sem padding (via ciphertext stealing). XTS é, portanto, uma construção especializada, recomendada por padrões como o IEEE P1619.</p>
+<h2 id="relações-e-compensações"><a class="header" href="#relações-e-compensações">Relações e compensações</a></h2>
+<p>Cada modo surgiu como resposta a uma limitação do anterior:</p>
+<ul>
+<li><strong>CBC</strong> corrige a repetição de padrões do <strong>ECB</strong>.</li>
+<li><strong>CFB</strong> adapta o CBC para trabalhar em unidades menores.</li>
+<li><strong>OFB</strong> remove a propagação de erros do CFB.</li>
+<li><strong>CTR</strong> substitui todos os anteriores quando o foco é paralelismo e desempenho.</li>
+<li><strong>XTS</strong> trata o caso específico de cifragem de setores físicos.</li>
+</ul>
+<p>É importante compreender essas relações para fazer escolhas adequadas em projetos reais. Modos de operação não são equivalentes: cada um atende a um cenário específico de uso e impõe restrições distintas.</p>
+<p>Na próxima seção, faremos considerações finais sobre segurança, desempenho e práticas recomendadas.</p>
+<h1 id="considerações-finais-sobre-modos-de-operação"><a class="header" href="#considerações-finais-sobre-modos-de-operação">Considerações Finais sobre Modos de Operação</a></h1>
+<p>Os modos de operação analisados neste capítulo evidenciam como decisões de projeto em criptografia envolvem trocas entre <strong>segurança</strong>, <strong>eficiência</strong>, <strong>flexibilidade</strong> e <strong>resiliência a falhas</strong>. Nenhum modo é universalmente superior: cada um resolve um subconjunto de problemas e impõe restrições específicas.</p>
+<p>O objetivo deste capítulo foi <strong>isolar os modos de operação</strong>, apresentando suas características técnicas e funcionais de forma independente de algoritmos específicos. A relação com cifras reais (como AES ou ChaCha20), bem como as <strong>implicações práticas de segurança</strong> na escolha do modo, serão retomadas e aprofundadas em seções posteriores do livro.</p>
+<h2 id="sobre-segurança"><a class="header" href="#sobre-segurança">Sobre segurança</a></h2>
+<ul>
+<li><strong>ECB</strong> deve ser evitado em qualquer situação onde haja estrutura ou repetição nos dados. Seu uso é restrito a testes ou casos didáticos.</li>
+<li><strong>CBC</strong>, <strong>CFB</strong> e <strong>OFB</strong> oferecem segurança razoável quando combinados com IVs aleatórios e não reutilizados.</li>
+<li><strong>CTR</strong> e <strong>XTS</strong> são considerados seguros e modernos, desde que o <strong>contador ou tweak não se repita</strong> com a mesma chave.</li>
+</ul>
+<h2 id="sobre-desempenho-e-paralelismo"><a class="header" href="#sobre-desempenho-e-paralelismo">Sobre desempenho e paralelismo</a></h2>
+<ul>
+<li><strong>CTR</strong> e <strong>XTS</strong> são os únicos modos que permitem paralelismo total na cifra e decifra.</li>
+<li><strong>ECB</strong> também é paralelizável, mas inseguro.</li>
+<li><strong>CBC</strong>, <strong>CFB</strong> e <strong>OFB</strong> são sequenciais na cifra e, portanto, menos eficientes para grandes volumes de dados ou ambientes concorrentes.</li>
+</ul>
+<h2 id="sobre-robustez"><a class="header" href="#sobre-robustez">Sobre robustez</a></h2>
+<ul>
+<li><strong>OFB</strong> e <strong>CTR</strong> não propagam erros em cadeia, tornando-os ideais para canais com ruído.</li>
+<li><strong>CBC</strong> e <strong>CFB</strong> propagam erros de forma localizada, e podem corromper blocos subsequentes na decifra.</li>
+</ul>
+<h2 id="escolha-prática"><a class="header" href="#escolha-prática">Escolha prática</a></h2>
+<p>A escolha do modo de operação deve considerar:</p>
+<ul>
+<li>A natureza dos dados (texto, fluxo, armazenamento físico)</li>
+<li>A sensibilidade a erros de transmissão</li>
+<li>A necessidade de desempenho e paralelismo</li>
+<li>As garantias de segurança esperadas</li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th>Caso de uso</th><th>Modo recomendado</th></tr></thead><tbody>
+<tr><td>Criptografia de disco</td><td>XTS</td></tr>
+<tr><td>Comunicação em tempo real</td><td>CFB ou OFB</td></tr>
+<tr><td>Alta performance em redes</td><td>CTR</td></tr>
+<tr><td>Arquivos e backups</td><td>CBC</td></tr>
+</tbody></table>
+</div>
+<p>Em todos os casos, o uso de <strong>vetores de inicialização (IVs)</strong> únicos e imprevisíveis é essencial para garantir a segurança dos modos baseados em encadeamento ou contadores.</p>
+<p>Com isso, concluímos a análise dos modos de operação. As próximas seções tratarão da implementação de cifras reais e da integração com essas estruturas de controle de fluxo.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="introdução-1"><a class="header" href="#introdução-1">Introdução</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
@@ -1549,7 +2276,7 @@ func main() {
 <p>[4] D. Coppersmith, The Data Encryption Standard (DES) and Its Strength Against Attacks, IBM Journal of Research and Development, 1994.</p>
 <p>[5] D. E. Knuth, The Art of Computer Programming, Vol. 2, Addison-Wesley, 1997.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="confusão-e-difusão-1"><a class="header" href="#confusão-e-difusão-1">Confusão e Difusão</a></h1>
+<h1 id="confusão-e-difusão"><a class="header" href="#confusão-e-difusão">Confusão e Difusão</a></h1>
 <p>As propriedades de <strong>confusão</strong> e <strong>difusão</strong> são dois princípios fundamentais estabelecidos por Shannon [1], constituindo pilares da segurança em sistemas criptográficos modernos. Esses conceitos têm como objetivo maximizar a incerteza e a dispersão das relações estatísticas entre a mensagem não cifrada e a mensagem cifrada, dificultando ataques baseados em análise de frequência ou estrutura.</p>
 <h2 id="definições-formais"><a class="header" href="#definições-formais">Definições formais</a></h2>
 <p><strong>Confusão</strong>: o objetivo é tornar complexa a relação entre a chave de encriptação e o texto cifrado. De acordo com Shannon, "o sistema deve ser projetado de modo que cada bit da chave afete, de forma imprevisível, muitos bits da saída". Confusão impede que um atacante deduza partes da chave mesmo conhecendo partes do texto cifrado.</p>
@@ -1641,7 +2368,7 @@ func main() {
 <p>[1] C. E. Shannon, Communication Theory of Secrecy Systems, Bell System Technical Journal, 1949.</p>
 <p>[5] D. E. Knuth, The Art of Computer Programming, Volume 2: Seminumerical Algorithms, 3rd Edition, Addison-Wesley, 1997.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="permutações-e-trocas-1"><a class="header" href="#permutações-e-trocas-1">Permutações e Trocas</a></h1>
+<h1 id="permutações-e-trocas"><a class="header" href="#permutações-e-trocas">Permutações e Trocas</a></h1>
 <p>Em cifras simétricas, a dispersão de dependências locais — fundamental para a difusão — pode ser alcançada por meio de operações lineares, como multiplicações matriciais, ou estruturais, como permutações e trocas de posição. Este tipo de transformação reorganiza os dados sem alterar seu conteúdo individual, mas com profundo impacto estatístico na propagação de alterações pela estrutura do algoritmo.</p>
 <h2 id="permutações-como-mecanismo-de-difusão"><a class="header" href="#permutações-como-mecanismo-de-difusão">Permutações como mecanismo de difusão</a></h2>
 <p>Uma permutação é uma bijeção sobre o conjunto de posições de bits ou bytes. Aplicada a um vetor de entrada, ela redistribui os elementos segundo uma ordem fixa ou pseudoaleatória. Embora não introduza não-linearidade, a permutação é essencial para ampliar o alcance das alterações provocadas pelas S-Boxes ou outras funções não lineares.</p>
@@ -1704,12 +2431,12 @@ func main() {
 <p>Permutações e trocas estruturadas são ferramentas indispensáveis na construção de cifras robustas. Embora não introduzam entropia ou não-linearidade, são essenciais para distribuir os efeitos locais das S-Boxes e garantir que os princípios de difusão definidos por Shannon sejam plenamente realizados.</p>
 <p>Além disso, entender como essas operações interagem com as camadas de substituição permite projetar SPNs eficientes e compreender como redes de Feistel obtêm segurança mesmo com funções internas relativamente simples.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="geradores-de-números-pseudoaleatórios-prng-1"><a class="header" href="#geradores-de-números-pseudoaleatórios-prng-1">Geradores de Números Pseudoaleatórios (PRNG)</a></h1>
+<h1 id="geradores-de-números-pseudoaleatórios-prng"><a class="header" href="#geradores-de-números-pseudoaleatórios-prng">Geradores de Números Pseudoaleatórios (PRNG)</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="lfsr--linear-feedback-shift-register"><a class="header" href="#lfsr--linear-feedback-shift-register">LFSR – Linear Feedback Shift Register</a></h1>
 <p>O LFSR (Registrador de Deslocamento com Realimentação Linear em português) é uma estrutura fundamental na geração de números pseudoaleatórios (PRNGs) e desempenha papel central em técnicas de criptografia de fluxo. Nesta seção vamos entender como o LFSR funciona e como ele é usado para gerar números aleatórios.</p>
 <p>Ao final, implementaremos um LFSR em Go para ilustrar seu funcionamento simulando as funções srand e rand tais como as encontradas na biblioteca padrão de C. O LFSR sozinho não é um algorítmo seguro, mas é uma ferramenta útil para entender como os PRNGs funcionam.</p>
-<h2 id="funcionamento"><a class="header" href="#funcionamento">Funcionamento</a></h2>
+<h2 id="funcionamento-4"><a class="header" href="#funcionamento-4">Funcionamento</a></h2>
 <p>Um LFSR é composto por um vetor de bits que representa o estado interno. A cada iteração, os bits do registrador são deslocados à direita, e um novo bit entra pela extremidade esquerda. Esse novo bit, chamado de feedback, é calculado usando XOR com certos bits do estado atual que chamamos de taps.</p>
 <p>A escolha dos taps não é arbitrária. Eles devem corresponder a um polinômio primitivo sobre o corpo finito <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathbb">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, garantindo que o LFSR atinja seu período máximo, ou seja, percorra todos os <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7477em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> estados possíveis (exceto o estado nulo).</p>
 <h2 id="taps-e-polinômios"><a class="header" href="#taps-e-polinômios">Taps e Polinômios</a></h2>
