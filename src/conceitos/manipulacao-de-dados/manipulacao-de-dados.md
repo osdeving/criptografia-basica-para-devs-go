@@ -8,4 +8,6 @@ Em seguida, em **Operadores Bitwise**, exploraremos os operadores bit a bit, que
 
 Veremos depois, em **Operações em Blocos**, os modos de operação (ECB, CBC, etc.) como técnicas de controle de fluxo entre blocos de dados — uma estrutura essencial para cifras reais. Aqui a conexão com criptografia é mais acentuada, mas o foco continua sendo como manipular blocos binários de forma sistemática.
 
-> Esses conceitos serão reaproveitados ao longo do livro e servem de base para o entendimento de algoritmos criptográficos reais. O objetivo é diminuir o esforço cognitivo ao apresentar tópicos mais avançados, dando a chance do leitor se familiarizar com tópicos mais gerais envolvendo manipulação de dados. 
+Na sequência, estudaremos três conceitos fundamentais para o projeto de cifras modernas: **Confusão e Difusão**, **S-Box** e **Permutações e Trocas**. Embora estejam mais diretamente associados ao campo da criptografia, todos eles são, na essência, formas especializadas de manipulação de dados binários. Por esse motivo, optamos por incluí-los nesta seção, mantendo a coerência conceitual com os tópicos anteriores.
+
+> Esses conceitos serão reaproveitados ao longo do livro e servem de base para o entendimento de algoritmos criptográficos reais. O objetivo é diminuir o esforço cognitivo ao apresentar tópicos mais avançados, dando a chance do leitor se familiarizar com tópicos mais gerais envolvendo manipulação de dados.
