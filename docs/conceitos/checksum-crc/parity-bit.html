@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Parity Bit - Criptografia para Desenvolvedores Go</title>
+        <title>Bit de Paridade - Criptografia para Desenvolvedores Go</title>
 
 
         <!-- Custom HTML head -->
@@ -153,26 +153,94 @@
                 <div id="content" class="content">
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="parity-bit"><a class="header" href="#parity-bit">Parity Bit</a></h1>
-<p>Parity bit é um código de detecção de erros em que um bit extra é adicionado ao final da mensagem para garantir que o número total de bits "1" seja par (paridade par) ou ímpar (paridade ímpar). Se um único bit for invertido durante a transmissão, o receptor perceberá a inconsistência e poderá solicitar o reenvio.</p>
-<p>Exemplo de paridade par:</p>
+<h1 id="bit-de-paridade-parity-bit"><a class="header" href="#bit-de-paridade-parity-bit">Bit de Paridade (Parity Bit)</a></h1>
+<p>O <strong>bit de paridade</strong> é um dos mecanismos mais simples de detecção de erros. Consiste em adicionar um único bit à mensagem original para que o total de bits com valor 1 na transmissão seja par (<em>paridade par</em>) ou ímpar (<em>paridade ímpar</em>).</p>
+<p>Esse bit adicional permite detectar se ocorreu a inversão de um único bit durante a transmissão ou armazenamento. Contudo, não permite localizar o erro nem corrigi-lo, e não detecta alterações que envolvam um número par de bits.</p>
+<hr />
+<h2 id="paridade-par"><a class="header" href="#paridade-par">Paridade Par</a></h2>
+<p>Garante que o número total de bits 1 na mensagem, incluindo o bit de paridade, seja par.</p>
+<p>Exemplo:</p>
 <pre><code>Mensagem original: 10101110 (8 bits)
-Número de bits "1": 5
-Bit de paridade: 1 (para tornar o total par)
+Número de bits "1": 5 (impar)
+Bit de paridade: 1  → Total de bits "1" passa a ser 6 (par)
 Mensagem transmitida: 101011101
 </code></pre>
-<p>Se um erro ocorrer e inverter um bit:</p>
-<pre><code>Recebido: 101001101 (erro no terceiro bit)
-Número de bits "1": 4 → Inconsistência detectada.
+<h2 id="paridade-Ímpar"><a class="header" href="#paridade-Ímpar">Paridade Ímpar</a></h2>
+<p>Garante que o total de bits 1 seja ímpar.</p>
+<pre><code>Mensagem original: 10101110
+Número de bits "1": 5 (impar)
+Bit de paridade: 0  → Total de bits "1" continua ímpar
+Mensagem transmitida: 101011100
 </code></pre>
-<p>Embora simples, a paridade tem limitações: não detecta erros em um número par de bits invertidos, tornando-a inadequada para muitas aplicações.</p>
-<p>Como alternativa, poderíamos enviar a mensagem duas vezes e comparar ambas as cópias. No entanto, isso dobra o consumo de banda e não garante detecção total de erros se ambas as cópias forem corrompidas de forma idêntica.</p>
-<p>O ideal é encontrar um código de verificação que minimize o custo de transmissão e maximize a capacidade de detecção de erros. Os dois métodos mais utilizados são:</p>
+<hr />
+<h2 id="verificação"><a class="header" href="#verificação">Verificação</a></h2>
+<p>O receptor recalcula a paridade da mensagem recebida (incluindo o bit de paridade) e verifica se o valor é coerente com a paridade esperada (par ou ímpar).</p>
+<p>Exemplo de erro detectado:</p>
+<pre><code>Transmissão esperada: 101011101 (paridade par)
+Erro no terceiro bit:
+Recebido: 101001101
+Número de bits "1": 4 (paridade inesperada) → erro detectado
+</code></pre>
+<p>Erro não detectado (dois bits invertidos):</p>
+<pre><code>Erro nos bits 2 e 6:
+Original: 101011101
+Recebido: 111001101
+Número de bits "1": 6 (mesma paridade) → erro não detectado
+</code></pre>
+<hr />
+<h2 id="implementação-em-go"><a class="header" href="#implementação-em-go">Implementação em Go</a></h2>
+<pre><code class="language-go">package main
+
+import (
+	"fmt"
+	"math/bits"
+)
+
+// Calcula paridade par (retorna 0 ou 1)
+func parityBit(data byte) byte {
+	if bits.OnesCount8(data)%2 == 0 {
+		return 0 // já é par
+	}
+	return 1
+}
+
+// Verifica a paridade de um byte + bit extra
+func checkParity(data byte, parity byte) bool {
+	return parityBit(data) == parity
+}
+
+func main() {
+	data := byte(0b10101110) // 5 bits 1
+	parity := parityBit(data)
+	fmt.Printf("Paridade calculada: %d\n", parity)
+
+	valid := checkParity(data, parity)
+	fmt.Printf("Verificação: %v\n", valid)
+
+	// Simulando erro
+	corrupted := data ^ 0b00000100 // inverte o bit 2
+	valid = checkParity(corrupted, parity)
+	fmt.Printf("Verificação após erro: %v\n", valid)
+}
+</code></pre>
+<hr />
+<h2 id="limitações-e-aplicabilidades"><a class="header" href="#limitações-e-aplicabilidades">Limitações e Aplicabilidades</a></h2>
 <ul>
-<li>Checksums – Somam os valores dos bytes da mensagem e armazenam o resultado junto com os dados.</li>
-<li>Cyclic Redundancy Check (CRC) – Usa operações matemáticas sobre polinômios para gerar um código de verificação mais robusto.</li>
+<li>Detecta apenas <strong>um erro de bit</strong>.</li>
+<li>Não localiza nem corrige o erro.</li>
+<li>Falha em detectar erros com número par de bits invertidos.</li>
+<li>É adequado para ambientes com ruído limitado e simplicidade de hardware.</li>
 </ul>
-<p>Nos próximos tópicos, exploraremos esses métodos em detalhes, mostrando suas implementações e aplicações.</p>
+<h3 id="exemplos-de-uso"><a class="header" href="#exemplos-de-uso">Exemplos de uso:</a></h3>
+<ul>
+<li>Memórias RAM com detecção simples</li>
+<li>Protocolos seriais (UART, RS-232)</li>
+<li>Dispositivos com restrição de custo e complexidade</li>
+<li>Parte de códigos de correção como Hamming</li>
+</ul>
+<hr />
+<h2 id="considerações-finais"><a class="header" href="#considerações-finais">Considerações finais</a></h2>
+<p>O bit de paridade ilustra o conceito central da detecção de erros com custo mínimo de redundância. Apesar de suas limitações, é historicamente importante e ainda aplicável em contextos restritos. Os próximos métodos que estudaremos, <strong>Checksums</strong> e <strong>CRC</strong>, vão superar essas limitações oferecendo maior poder de detecção sem aumento significativo de complexidade.</p>
 
                     </main>
 

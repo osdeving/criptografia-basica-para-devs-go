@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Checksum e CRC - Verificação de Integridade - Criptografia para Desenvolvedores Go</title>
+        <title>Codificação de Dados: Representações Reversíveis para Armazenamento e Transmissão - Criptografia para Desenvolvedores Go</title>
 
 
         <!-- Custom HTML head -->
@@ -153,18 +153,23 @@
                 <div id="content" class="content">
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="checksum-e-crc---verificação-de-integridade"><a class="header" href="#checksum-e-crc---verificação-de-integridade">Checksum e CRC - Verificação de Integridade</a></h1>
-<p><img src="images/image.png" alt="Checksum" /></p>
+<h1 id="codificação-de-dados-representações-reversíveis-para-armazenamento-e-transmissão"><a class="header" href="#codificação-de-dados-representações-reversíveis-para-armazenamento-e-transmissão">Codificação de Dados: Representações Reversíveis para Armazenamento e Transmissão</a></h1>
+<p>Esta seção reúne os principais esquemas de codificação utilizados para converter dados binários em formatos textuais seguros e reversíveis. Embora essas codificações não tenham relação direta com criptografia, elas desempenham papel essencial em aplicações que exigem compatibilidade com sistemas baseados em texto, como e-mails (MIME), URLs, APIs web, arquivos JSON e representações de chaves ou hashes.</p>
+<p>Começamos com a codificação Base64, amplamente utilizada para transmitir dados binários por meios que aceitam apenas texto. Em seguida, analisamos variações como Base64URL (usada em JWT), Base32 (utilizada em TOTP e sistemas de backup de chaves) e Base16 (hexadecimal), muito comum na representação de hashes e valores binários compactos.</p>
+<p>Completamos a análise com codificações mais especializadas como Base85 (PostScript, Git), Base58 (endereços Bitcoin) e Percent-Encoding, usada para garantir segurança sintática em URLs.</p>
+<blockquote>
+<p>Todas as codificações aqui tratadas são <strong>reversíveis</strong> e <strong>determinísticas</strong>, ou seja, não envolvem chave, sigilo ou aleatoriedade. São ferramentas auxiliares para transmissão e representação segura de dados, e servirão de base para os capítulos futuros onde aparecerão como parte de algoritmos criptográficos reais.</p>
+</blockquote>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../conceitos/encode-decode/base64.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../conceitos/manipulacao-de-dados/permutacoes.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../conceitos/checksum-crc/introduction.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../conceitos/encode-decode/introduction.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -174,11 +179,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../conceitos/encode-decode/base64.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../conceitos/manipulacao-de-dados/permutacoes.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../conceitos/checksum-crc/introduction.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../conceitos/encode-decode/introduction.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

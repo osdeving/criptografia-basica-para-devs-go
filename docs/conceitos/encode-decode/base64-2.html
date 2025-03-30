@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Introdução - Criptografia para Desenvolvedores Go</title>
+        <title>Base64 - Criptografia para Desenvolvedores Go</title>
 
 
         <!-- Custom HTML head -->
@@ -153,18 +153,135 @@
                 <div id="content" class="content">
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="introdução"><a class="header" href="#introdução">Introdução</a></h1>
-<p>Se o capítulo ficar complexo, incluir aqui uma introdução mais aprofundada sobre codificação e decodificação</p>
+<h1 id="base64"><a class="header" href="#base64">Base64</a></h1>
+<p>Base64 é uma codificação reversível que converte qualquer sequência de bytes em uma representação textual composta por um conjunto de 64 caracteres, conforme especificado na RFC 4648 [1]. Ela é amplamente utilizada para permitir o transporte de dados binários por meios que só aceitam texto, como e-mails (MIME), URLs ou JSON.</p>
+<p>A codificação Base64 funciona agrupando a entrada em blocos de 3 bytes (24 bits) e dividindo-os em 4 grupos de 6 bits. Cada grupo de 6 bits é então convertido em um caractere da tabela Base64, a qual é formada da seguinte forma:</p>
+<ul>
+<li>Letras maiúsculas (A–Z) → índices 0 a 25</li>
+<li>Letras minúsculas (a–z) → índices 26 a 51</li>
+<li>Números (0–9) → índices 52 a 61</li>
+<li>Símbolos especiais <code>+</code> e <code>/</code> → índices 62 e 63</li>
+</ul>
+<p>Em Go, podemos representar essa tabela como uma string:</p>
+<pre><code class="language-go">const base64Table = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+</code></pre>
+<p>Quando a entrada não é múltiplo exato de 3 bytes, a codificação adiciona preenchimento (o caractere <code>=</code>) ao final para manter consistência com o número de blocos.</p>
+<p>Cabe ressaltar que Base64 <strong>não é criptografia</strong>. Qualquer pessoa pode decodificar sua saída e seu uso é exclusivamente para <strong>representação e compatibilidade</strong>.</p>
+<h2 id="exemplo-codificando-rox"><a class="header" href="#exemplo-codificando-rox">Exemplo: Codificando "Rox"</a></h2>
+<h3 id="passo-1-conversão-para-ascii"><a class="header" href="#passo-1-conversão-para-ascii">Passo 1: Conversão para ASCII</a></h3>
+<pre><code>R → 82
+o → 111
+x → 120
+</code></pre>
+<h3 id="passo-2-conversão-para-binário-8-bits-por-caractere"><a class="header" href="#passo-2-conversão-para-binário-8-bits-por-caractere">Passo 2: Conversão para binário (8 bits por caractere)</a></h3>
+<pre><code>82  → 01010010
+o  → 01101111
+x  → 01111000
+</code></pre>
+<p>Agrupados: <code>01010010 01101111 01111000</code> (24 bits)</p>
+<h3 id="passo-3-dividir-em-4-blocos-de-6-bits"><a class="header" href="#passo-3-dividir-em-4-blocos-de-6-bits">Passo 3: Dividir em 4 blocos de 6 bits</a></h3>
+<pre><code>010100 100110 111101 111000
+</code></pre>
+<h3 id="passo-4-converter-cada-bloco-para-decimal"><a class="header" href="#passo-4-converter-cada-bloco-para-decimal">Passo 4: Converter cada bloco para decimal</a></h3>
+<pre><code>20, 38, 61, 56
+</code></pre>
+<h3 id="passo-5-mapear-na-tabela-base64"><a class="header" href="#passo-5-mapear-na-tabela-base64">Passo 5: Mapear na tabela Base64</a></h3>
+<pre><code>base64Table[20] = "U"
+base64Table[38] = "m"
+base64Table[61] = "9"
+base64Table[56] = "4"
+</code></pre>
+<p>Resultado: <code>Um94</code></p>
+<blockquote>
+<p>Para extrair os grupos de 6 bits, utilizamos <strong>bitwise AND</strong> com uma máscara <code>0b00111111</code>. Para uma explicação mais detalhada sobre manipulação de bits, consulte a seção <a href="../manipulacao-de-dados/operadores-bitwise.html">Operadores Bitwise</a>.</p>
+</blockquote>
+<h2 id="implementação-em-go"><a class="header" href="#implementação-em-go">Implementação em Go</a></h2>
+<pre><code class="language-go">const b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+
+func Encb64(in []byte) string {
+    var out []byte
+    len := len(in)
+    rem := len % 3
+
+    for i := 0; i &lt; len - rem; i += 3 {
+        blk := int64(in[i]) &lt;&lt; 16 | int64(in[i+1]) &lt;&lt; 8 | int64(in[i+2])
+        out = append(out,
+            b64[(blk&gt;&gt;18)&amp;0b111111],
+            b64[(blk&gt;&gt;12)&amp;0b111111],
+            b64[(blk&gt;&gt;6) &amp;0b111111],
+            b64[blk&amp;0b111111],
+        )
+    }
+
+    if rem == 1 {
+        blk := int64(in[len - 1]) &lt;&lt; 16
+        out = append(out,
+            b64[(blk&gt;&gt;18)&amp;0b111111],
+            b64[(blk&gt;&gt;12)&amp;0b111111], '=', '=',
+        )
+    } else if rem == 2 {
+        blk := int64(in[len - 2]) &lt;&lt; 16 | int64(in[len - 1]) &lt;&lt; 8
+        out = append(out,
+            b64[(blk&gt;&gt;18)&amp;0b111111],
+            b64[(blk&gt;&gt;12)&amp;0b111111],
+            b64[(blk&gt;&gt;6) &amp;0b111111], '=',
+        )
+    }
+
+    return string(out)
+}
+</code></pre>
+<h3 id="explicação-do-código"><a class="header" href="#explicação-do-código">Explicação do código</a></h3>
+<p>Cada grupo de 3 bytes (24 bits) é combinado em um único inteiro (<code>blk</code>) usando operações de shift e OR. Por exemplo:</p>
+<pre><code class="language-go">blk := int64(in[i]) &lt;&lt; 16 | int64(in[i+1]) &lt;&lt; 8 | int64(in[i+2])
+</code></pre>
+<p>Dessa forma, <code>blk</code> conseguimos compactar os 3 bytes dentro de um inteiro, onde:</p>
+<ul>
+<li>o primeiro byte ocupa os bits 16 a 23</li>
+<li>o segundo byte ocupa os bits 8 a 15</li>
+<li>o terceiro byte ocupa os bits 0 a 7</li>
+</ul>
+<p>A extração dos grupos de 6 bits é feita da esquerda para a direita com deslocamento (<code>&gt;&gt;</code>) e máscara (<code>&amp; 0b111111</code>), isolando cada conjunto de 6 bits:</p>
+<pre><code class="language-go">b64_1 = (blk &gt;&gt; 18) &amp; 0b111111
+b64_2 = (blk &gt;&gt; 12) &amp; 0b111111
+b64_3 = (blk &gt;&gt; 6)  &amp; 0b111111
+b64_4 =  blk        &amp; 0b111111
+</code></pre>
+<p>Esses índices são então usados diretamente para acessar os caracteres na tabela Base64.</p>
+<p>Quando sobram bytes (i.e. 1 ou 2 bytes) estes são tratados separadamente, incluindo o padding <code>=</code> conforme especificação.</p>
+<h2 id="variante-base64url"><a class="header" href="#variante-base64url">Variante: Base64URL</a></h2>
+<p>Uma variação comum do Base64 é o Base64URL, também definida na RFC 4648. Ela foi projetada para ser segura em contextos como URLs, nomes de arquivos e parâmetros HTTP, e, em especial, com JWT (Json Web Tokens). As modificações são as seguintes:</p>
+<ol>
+<li>
+<p>Substituir os caracteres:</p>
+<p><code>+</code> por <code>-</code> e <code>/</code> por <code>_</code></p>
+</li>
+<li>
+<p>O caractere de preenchimento <code>=</code> pode ser omitido, já que o comprimento da string pode indicar os bits ausentes na decodificação.</p>
+</li>
+</ol>
+<p>A lógica de codificação permanece idêntica ao Base64 padrão; apenas a tabela de caracteres muda:</p>
+<pre><code class="language-go">const b64Url = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
+</code></pre>
+<h2 id="considerações-finais"><a class="header" href="#considerações-finais">Considerações finais</a></h2>
+<ul>
+<li>Base64 é uma transformação <strong>reversível</strong>.</li>
+<li>Aumenta o tamanho da entrada em cerca de <strong>33%</strong>.</li>
+<li>Útil para compatibilidade textual, não para segurança.</li>
+</ul>
+<p>Outras codificações com finalidades semelhantes incluem Base32, Base85 e Hex.</p>
+<h2 id="referências"><a class="header" href="#referências">Referências</a></h2>
+<p>[1] RFC 4648 – The Base16, Base32, and Base64 Data Encodings. Internet Engineering Task Force (IETF). Disponível em: https://datatracker.ietf.org/doc/html/rfc4648</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../conceitos/encode-decode/codification.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../conceitos/encode-decode/introduction.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../conceitos/encode-decode/base64-2.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../conceitos/encode-decode/base32.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -174,11 +291,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../conceitos/encode-decode/codification.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../conceitos/encode-decode/introduction.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../conceitos/encode-decode/base64-2.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../conceitos/encode-decode/base32.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

@@ -155,7 +155,7 @@
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="checksum"><a class="header" href="#checksum">Checksum</a></h1>
 <p>O checksum é a forma mais simples de verificação de integridade, sendo calculado somando os valores dos bytes ou palavras de um dado e armazenando essa soma junto com os dados. Ao receber ou ler os dados, a soma é recalculada e comparada com o checksum armazenado. Se os valores diferirem, isso indica um erro na transmissão ou no armazenamento.</p>
-<h3 id="exemplo-de-checksum-simples-soma-de-bytes"><a class="header" href="#exemplo-de-checksum-simples-soma-de-bytes">Exemplo de Checksum Simples (Soma de Bytes)</a></h3>
+<h2 id="exemplo-de-checksum-simples-soma-de-bytes"><a class="header" href="#exemplo-de-checksum-simples-soma-de-bytes">Exemplo de Checksum Simples (Soma de Bytes)</a></h2>
 <p>Vamos criar uma implementação básica de checksum em Go, somando os valores dos bytes da mensagem e calculando o módulo 256 para manter um valor fixo de 8 bits.</p>
 <pre><code class="language-go">package main
 
@@ -209,7 +209,9 @@ func UDPChecksum(data []byte) uint16 {
 
 	// Processa os dados em blocos de 16 bits
 	for i := 0; i &lt; len(data)-1; i += 2 {
-		word := binary.BigEndian.Uint16(data[i : i+2]) // Converte dois bytes em um uint16
+		// Converte dois bytes em um uint16
+		word := binary.BigEndian.Uint16(data[i : i+2]) 
+		
 		sum += uint32(word)
 	}
 
@@ -284,8 +286,7 @@ CRC-64
 Adler-32
 Fletcher-16/32</p>
 <p>Cada algoritmo tem um nível diferente de eficiência e resistência a erros. CRC-32, por exemplo, é usado no ZIP e no protocolo de rede Ethernet devido à sua confiabilidade e baixo custo computacional.</p>
-<h2 id="diferença-entre-checksum-crc-e-funções-hash"><a class="header" href="#diferença-entre-checksum-crc-e-funções-hash">Diferença entre Checksum, CRC e Funções Hash</a></h2>
-<h3 id="conclusão"><a class="header" href="#conclusão">Conclusão</a></h3>
+<h2 id="considerações-finais"><a class="header" href="#considerações-finais">Considerações Finais</a></h2>
 <p>O checksum é uma técnica básica e eficiente para detecção de erros simples, mas tem falhas para detecção de padrões mais complexos. O CRC usa divisão polinomial para criar uma verificação mais robusta contra corrupção de dados, sendo amplamente utilizado em redes e armazenamento. Nenhum desses métodos deve ser confundido com funções hash criptográficas, que garantem segurança contra alterações intencionais nos dados.</p>
 <p>Se queremos segurança contra modificações maliciosas, devemos usar HMAC, SHA-256 ou outras funções hash seguras.</p>
 <p>Agora que entendemos essas formas de verificação de integridade fraca, podemos avançar para a família MD (Message Digest), que evolui de checksums simples para funções hash mais sofisticadas.</p>

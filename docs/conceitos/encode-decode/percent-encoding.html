@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Introdução - Criptografia para Desenvolvedores Go</title>
+        <title>Percent-Encoding - Criptografia para Desenvolvedores Go</title>
 
 
         <!-- Custom HTML head -->
@@ -153,18 +153,82 @@
                 <div id="content" class="content">
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="introdução"><a class="header" href="#introdução">Introdução</a></h1>
-<p>Se o capítulo ficar complexo, incluir aqui uma introdução mais aprofundada sobre codificação e decodificação</p>
+<h1 id="percent-encoding-url-encoding"><a class="header" href="#percent-encoding-url-encoding">Percent-Encoding (URL Encoding)</a></h1>
+<p>O <strong>Percent-Encoding</strong>, também conhecido como <strong>URL encoding</strong>, é um mecanismo definido pela RFC 3986 [1] para representar caracteres arbitrários em URLs utilizando apenas um subconjunto seguro de ASCII. Esse método codifica bytes utilizando o símbolo <code>%</code> seguido de dois dígitos hexadecimais (0–9, A–F) que representam o valor do byte.</p>
+<p>Essa codificação é comumente usada em:</p>
+<ul>
+<li>URLs e URIs</li>
+<li>Parâmetros de requisições HTTP</li>
+<li>JSON Web Tokens (JWT) no modo compact</li>
+<li>Formulários HTML (<code>application/x-www-form-urlencoded</code>)</li>
+</ul>
+<hr />
+<h2 id="exemplo"><a class="header" href="#exemplo">Exemplo</a></h2>
+<p>Se quisermos transmitir o valor <code>senha=meu segredo</code> como parte de uma URL:</p>
+<pre><code>senha=meu segredo
+</code></pre>
+<p>Espaços e caracteres especiais são codificados:</p>
+<pre><code>senha=meu%20segredo
+</code></pre>
+<p>Outro exemplo, com caracteres não-ASCII:</p>
+<pre><code>entrada: café
+</code></pre>
+<p>O caractere <code>é</code> (0xC3A9 em UTF-8) é convertido para:</p>
+<pre><code>caf%C3%A9
+</code></pre>
+<hr />
+<h2 id="caracteres-codificados-obrigatoriamente"><a class="header" href="#caracteres-codificados-obrigatoriamente">Caracteres codificados obrigatoriamente</a></h2>
+<p>Qualquer caractere fora do conjunto seguro é codificado. O conjunto seguro inclui:</p>
+<ul>
+<li>Letras (<code>A</code>–<code>Z</code>, <code>a</code>–<code>z</code>)</li>
+<li>Dígitos (<code>0</code>–<code>9</code>)</li>
+<li>Caracteres especiais: <code>-</code>, <code>_</code>, <code>.</code>, <code>~</code></li>
+</ul>
+<p>Tudo mais é substituído por <code>%XX</code>, onde <code>XX</code> é o byte em hexadecimal.</p>
+<hr />
+<h2 id="implementação-em-go"><a class="header" href="#implementação-em-go">Implementação em Go</a></h2>
+<p>A biblioteca padrão oferece suporte completo via o pacote <code>net/url</code>:</p>
+<pre><code class="language-go">import (
+	"fmt"
+	"net/url"
+)
+
+func main() {
+	entrada := "café &amp; açúcar"
+	encoded := url.QueryEscape(entrada)
+	fmt.Println("Percent-encoded:", encoded)
+}
+</code></pre>
+<p>Saída:</p>
+<pre><code>Percent-encoded: caf%C3%A9+%26+a%C3%A7%C3%BAcar
+</code></pre>
+<p>Obs: Espaços podem ser representados como <code>+</code> (formulário) ou <code>%20</code> (padrão URI).</p>
+<h2 id="como-a-codificação-xx-é-construída"><a class="header" href="#como-a-codificação-xx-é-construída">Como a codificação %XX é construída</a></h2>
+<p>A codificação Percent-Encoding é determinada diretamente pelo valor binário de cada byte. Se o byte não pertence ao conjunto de caracteres seguros, ele será convertido para sua representação hexadecimal de dois dígitos, prefixada por %. Por exemplo, o caractere @ (código decimal 64) é codificado como %40 porque 0x40 é a representação hexadecimal de 64.</p>
+<p>Essa transformação segue a fórmula:</p>
+<pre><code>% + UPPERCASE(HEX(byte))
+
+</code></pre>
+<h2 id="considerações"><a class="header" href="#considerações">Considerações</a></h2>
+<ul>
+<li>Reversível: a decodificação é trivial.</li>
+<li>Não fornece sigilo ou autenticidade.</li>
+<li>Essencial para interoperabilidade com HTTP e navegadores.</li>
+<li>Aparece como pré-processamento em várias aplicações web.</li>
+</ul>
+<hr />
+<h2 id="referências"><a class="header" href="#referências">Referências</a></h2>
+<p>[1] RFC 3986 – Uniform Resource Identifier (URI): Generic Syntax. IETF. Disponível em: https://datatracker.ietf.org/doc/html/rfc3986</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../conceitos/encode-decode/codification.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../conceitos/encode-decode/base58.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../conceitos/encode-decode/base64-2.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../conceitos/checksum-crc/data-integrity.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -174,11 +238,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../conceitos/encode-decode/codification.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../conceitos/encode-decode/base58.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../conceitos/encode-decode/base64-2.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../conceitos/checksum-crc/data-integrity.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

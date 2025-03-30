@@ -2,7 +2,7 @@
 
 O checksum é a forma mais simples de verificação de integridade, sendo calculado somando os valores dos bytes ou palavras de um dado e armazenando essa soma junto com os dados. Ao receber ou ler os dados, a soma é recalculada e comparada com o checksum armazenado. Se os valores diferirem, isso indica um erro na transmissão ou no armazenamento.
 
-### Exemplo de Checksum Simples (Soma de Bytes)
+## Exemplo de Checksum Simples (Soma de Bytes)
 
 Vamos criar uma implementação básica de checksum em Go, somando os valores dos bytes da mensagem e calculando o módulo 256 para manter um valor fixo de 8 bits.
 
@@ -66,7 +66,9 @@ func UDPChecksum(data []byte) uint16 {
 
 	// Processa os dados em blocos de 16 bits
 	for i := 0; i < len(data)-1; i += 2 {
-		word := binary.BigEndian.Uint16(data[i : i+2]) // Converte dois bytes em um uint16
+		// Converte dois bytes em um uint16
+		word := binary.BigEndian.Uint16(data[i : i+2]) 
+		
 		sum += uint32(word)
 	}
 
@@ -153,10 +155,8 @@ Fletcher-16/32
 
 Cada algoritmo tem um nível diferente de eficiência e resistência a erros. CRC-32, por exemplo, é usado no ZIP e no protocolo de rede Ethernet devido à sua confiabilidade e baixo custo computacional.
 
-## Diferença entre Checksum, CRC e Funções Hash
 
-
-### Conclusão
+## Considerações Finais
 
 
 O checksum é uma técnica básica e eficiente para detecção de erros simples, mas tem falhas para detecção de padrões mais complexos. O CRC usa divisão polinomial para criar uma verificação mais robusta contra corrupção de dados, sendo amplamente utilizado em redes e armazenamento. Nenhum desses métodos deve ser confundido com funções hash criptográficas, que garantem segurança contra alterações intencionais nos dados.

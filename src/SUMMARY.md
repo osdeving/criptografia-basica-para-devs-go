@@ -1,6 +1,9 @@
 # Sumário
 
+[capa](capa.md)
+[Prefácio](prefacio.md)
 [Introdução](README.md)
+
 
 # Conceitos Fundamentais
 - [Manipulação de Dados](conceitos/manipulacao-de-dados/manipulacao-de-dados.md)
@@ -11,14 +14,19 @@
     - [Confusão e Difusão](conceitos/manipulacao-de-dados/confusao-difusao.md)
     - [S-Box](conceitos/manipulacao-de-dados/s-box.md)
     - [Permutações e Trocas](conceitos/manipulacao-de-dados/permutacoes.md)
-- [Base64 e Codificação](conceitos/encode-decode/introduction.md)
+- [Codificação de Dados: Representações Reversíveis para Armazenamento e Transmissão](conceitos/encode-decode/codification.md)
     - [Introdução](conceitos/encode-decode/introduction.md)
-    - [Base64](conceitos/encode-decode/base64.md)
-- [Checksum e CRC - Verificação de Integridade](conceitos/checksum-crc/checksum-crc.md)
+    - [Base64](conceitos/encode-decode/base64-2.md)
+    - [Base32](conceitos/encode-decode/base32.md)
+    - [Base16](conceitos/encode-decode/base16.md)
+    - [Base85](conceitos/encode-decode/base85.md)
+    - [Base58](conceitos/encode-decode/base58.md)
+    - [Percent-Encoding](conceitos/encode-decode/percent-encoding.md)
+- [Veirificação de Integridade de Dados: Checksum, Bit de Paridade e CRC](conceitos/checksum-crc/data-integrity.md)
     - [Introdução](conceitos/checksum-crc/introduction.md)
-    - [Parity Bit](conceitos/checksum-crc/parity-bit.md)
+    - [Bit de Paridade](conceitos/checksum-crc/parity-bit.md)
     - [Checksum](conceitos/checksum-crc/checksum.md)
-    - [CRC - Cyclic Redundandy Check](conceitos/checksum-crc/crc.md)
+    - [CRC - Cyclic Redundancy Check](conceitos/checksum-crc/crc.md)
 - [Funções Hash Criptográficas](conceitos/hash/sha256.md)
     - [Funções Hash](conceitos/hash/sha256.md)
     - [Família de Algoritmos MD - Message Digest](conceitos/hash/message-digest.md)

@@ -1,29 +1,116 @@
-# Parity Bit
+# Bit de Paridade (Parity Bit)
 
-Parity bit é um código de detecção de erros em que um bit extra é adicionado ao final da mensagem para garantir que o número total de bits "1" seja par (paridade par) ou ímpar (paridade ímpar). Se um único bit for invertido durante a transmissão, o receptor perceberá a inconsistência e poderá solicitar o reenvio.
+O **bit de paridade** é um dos mecanismos mais simples de detecção de erros. Consiste em adicionar um único bit à mensagem original para que o total de bits com valor 1 na transmissão seja par (*paridade par*) ou ímpar (*paridade ímpar*).
 
-Exemplo de paridade par:
+Esse bit adicional permite detectar se ocorreu a inversão de um único bit durante a transmissão ou armazenamento. Contudo, não permite localizar o erro nem corrigi-lo, e não detecta alterações que envolvam um número par de bits.
+
+---
+
+## Paridade Par
+
+Garante que o número total de bits 1 na mensagem, incluindo o bit de paridade, seja par.
+
+Exemplo:
 
 ```
 Mensagem original: 10101110 (8 bits)
-Número de bits "1": 5
-Bit de paridade: 1 (para tornar o total par)
+Número de bits "1": 5 (impar)
+Bit de paridade: 1  → Total de bits "1" passa a ser 6 (par)
 Mensagem transmitida: 101011101
 ```
 
-Se um erro ocorrer e inverter um bit:
+## Paridade Ímpar
+
+Garante que o total de bits 1 seja ímpar.
 
 ```
-Recebido: 101001101 (erro no terceiro bit)
-Número de bits "1": 4 → Inconsistência detectada.
+Mensagem original: 10101110
+Número de bits "1": 5 (impar)
+Bit de paridade: 0  → Total de bits "1" continua ímpar
+Mensagem transmitida: 101011100
 ```
-Embora simples, a paridade tem limitações: não detecta erros em um número par de bits invertidos, tornando-a inadequada para muitas aplicações.
 
-Como alternativa, poderíamos enviar a mensagem duas vezes e comparar ambas as cópias. No entanto, isso dobra o consumo de banda e não garante detecção total de erros se ambas as cópias forem corrompidas de forma idêntica.
+---
 
-O ideal é encontrar um código de verificação que minimize o custo de transmissão e maximize a capacidade de detecção de erros. Os dois métodos mais utilizados são:
+## Verificação
 
-- Checksums – Somam os valores dos bytes da mensagem e armazenam o resultado junto com os dados.
-- Cyclic Redundancy Check (CRC) – Usa operações matemáticas sobre polinômios para gerar um código de verificação mais robusto.
+O receptor recalcula a paridade da mensagem recebida (incluindo o bit de paridade) e verifica se o valor é coerente com a paridade esperada (par ou ímpar).
 
-Nos próximos tópicos, exploraremos esses métodos em detalhes, mostrando suas implementações e aplicações.
+Exemplo de erro detectado:
+
+```
+Transmissão esperada: 101011101 (paridade par)
+Erro no terceiro bit:
+Recebido: 101001101
+Número de bits "1": 4 (paridade inesperada) → erro detectado
+```
+
+Erro não detectado (dois bits invertidos):
+
+```
+Erro nos bits 2 e 6:
+Original: 101011101
+Recebido: 111001101
+Número de bits "1": 6 (mesma paridade) → erro não detectado
+```
+
+---
+
+## Implementação em Go
+
+```go
+package main
+
+import (
+	"fmt"
+	"math/bits"
+)
+
+// Calcula paridade par (retorna 0 ou 1)
+func parityBit(data byte) byte {
+	if bits.OnesCount8(data)%2 == 0 {
+		return 0 // já é par
+	}
+	return 1
+}
+
+// Verifica a paridade de um byte + bit extra
+func checkParity(data byte, parity byte) bool {
+	return parityBit(data) == parity
+}
+
+func main() {
+	data := byte(0b10101110) // 5 bits 1
+	parity := parityBit(data)
+	fmt.Printf("Paridade calculada: %d\n", parity)
+
+	valid := checkParity(data, parity)
+	fmt.Printf("Verificação: %v\n", valid)
+
+	// Simulando erro
+	corrupted := data ^ 0b00000100 // inverte o bit 2
+	valid = checkParity(corrupted, parity)
+	fmt.Printf("Verificação após erro: %v\n", valid)
+}
+```
+
+---
+
+## Limitações e Aplicabilidades
+
+- Detecta apenas **um erro de bit**.
+- Não localiza nem corrige o erro.
+- Falha em detectar erros com número par de bits invertidos.
+- É adequado para ambientes com ruído limitado e simplicidade de hardware.
+
+### Exemplos de uso:
+- Memórias RAM com detecção simples
+- Protocolos seriais (UART, RS-232)
+- Dispositivos com restrição de custo e complexidade
+- Parte de códigos de correção como Hamming
+
+---
+
+## Considerações finais
+
+O bit de paridade ilustra o conceito central da detecção de erros com custo mínimo de redundância. Apesar de suas limitações, é historicamente importante e ainda aplicável em contextos restritos. Os próximos métodos que estudaremos, **Checksums** e **CRC**, vão superar essas limitações oferecendo maior poder de detecção sem aumento significativo de complexidade.

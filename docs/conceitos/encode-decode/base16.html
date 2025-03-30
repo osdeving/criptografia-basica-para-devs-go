@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Introdução - Criptografia para Desenvolvedores Go</title>
+        <title>Base16 - Criptografia para Desenvolvedores Go</title>
 
 
         <!-- Custom HTML head -->
@@ -153,18 +153,77 @@
                 <div id="content" class="content">
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="introdução"><a class="header" href="#introdução">Introdução</a></h1>
-<p>Se o capítulo ficar complexo, incluir aqui uma introdução mais aprofundada sobre codificação e decodificação</p>
+<h1 id="base16-hexadecimal"><a class="header" href="#base16-hexadecimal">Base16 (Hexadecimal)</a></h1>
+<p>Base16, ou codificação <strong>hexadecimal</strong>, é uma forma de representar dados binários em texto usando 16 símbolos: os dígitos de <code>0</code> a <code>9</code> e as letras <code>A</code> a <code>F</code>. Cada byte (8 bits) é representado por dois caracteres hexadecimais — ou seja, 4 bits por caractere.</p>
+<p>Essa codificação é amplamente utilizada em sistemas criptográficos para exibir valores binários de forma legível e padronizada, como hashes (MD5, SHA-1, SHA-256), chaves, IVs, e blocos de dados.</p>
+<p>Está formalmente definida na RFC 4648 [1] como uma das representações canônicas para dados binários.</p>
+<hr />
+<h2 id="tabela-de-correspondência"><a class="header" href="#tabela-de-correspondência">Tabela de correspondência</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Binário</th><th>Hex</th></tr></thead><tbody>
+<tr><td>0000</td><td>0</td></tr>
+<tr><td>0001</td><td>1</td></tr>
+<tr><td>0010</td><td>2</td></tr>
+<tr><td>0011</td><td>3</td></tr>
+<tr><td>0100</td><td>4</td></tr>
+<tr><td>0101</td><td>5</td></tr>
+<tr><td>0110</td><td>6</td></tr>
+<tr><td>0111</td><td>7</td></tr>
+<tr><td>1000</td><td>8</td></tr>
+<tr><td>1001</td><td>9</td></tr>
+<tr><td>1010</td><td>A</td></tr>
+<tr><td>1011</td><td>B</td></tr>
+<tr><td>1100</td><td>C</td></tr>
+<tr><td>1101</td><td>D</td></tr>
+<tr><td>1110</td><td>E</td></tr>
+<tr><td>1111</td><td>F</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="exemplo-hi"><a class="header" href="#exemplo-hi">Exemplo: "Hi"</a></h2>
+<p>A string "Hi" possui dois bytes:</p>
+<pre><code>H → 0x48 → 01001000
+i → 0x69 → 01101001
+</code></pre>
+<p>Convertendo byte a byte para hexadecimal:</p>
+<pre><code>0x48 → 4 e 8 → "48"
+0x69 → 6 e 9 → "69"
+</code></pre>
+<p>Resultado final: <code>4869</code></p>
+<hr />
+<h2 id="implementação-em-go"><a class="header" href="#implementação-em-go">Implementação em Go</a></h2>
+<pre><code class="language-go">import (
+	"encoding/hex"
+	"fmt"
+)
+
+func main() {
+	entrada := []byte("Hi")
+	saida := hex.EncodeToString(entrada)
+	fmt.Println("Hex: ", saida)
+}
+</code></pre>
+<p>Essa é a forma canônica implementada na biblioteca padrão de Go, e pode ser usada para representar qualquer dado binário de forma segura, compacta e legível.</p>
+<hr />
+<h2 id="considerações"><a class="header" href="#considerações">Considerações</a></h2>
+<ul>
+<li>Cada byte vira 2 caracteres → aumento de 100% no tamanho.</li>
+<li>Alta legibilidade e padronização.</li>
+<li>Forma mais comum de visualizar hashes e chaves.</li>
+<li>Diferente do Base64, <strong>não precisa de padding</strong>.</li>
+</ul>
+<hr />
+<h2 id="referências"><a class="header" href="#referências">Referências</a></h2>
+<p>[1] RFC 4648 – The Base16, Base32, and Base64 Data Encodings. IETF. Disponível em: https://datatracker.ietf.org/doc/html/rfc4648</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../conceitos/encode-decode/codification.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../conceitos/encode-decode/base32.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../conceitos/encode-decode/base64-2.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../conceitos/encode-decode/base85.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -174,11 +233,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../conceitos/encode-decode/codification.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../conceitos/encode-decode/base32.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../conceitos/encode-decode/base64-2.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../conceitos/encode-decode/base85.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

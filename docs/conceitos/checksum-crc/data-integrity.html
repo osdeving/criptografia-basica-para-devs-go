@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Introdução - Criptografia para Desenvolvedores Go</title>
+        <title>Veirificação de Integridade de Dados: Checksum, Bit de Paridade e CRC - Criptografia para Desenvolvedores Go</title>
 
 
         <!-- Custom HTML head -->
@@ -153,18 +153,24 @@
                 <div id="content" class="content">
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="introdução"><a class="header" href="#introdução">Introdução</a></h1>
-<p>Se o capítulo ficar complexo, incluir aqui uma introdução mais aprofundada sobre codificação e decodificação</p>
+<h1 id="verificação-de-integridade-de-dados-checksum-bit-de-paridade-e-crc"><a class="header" href="#verificação-de-integridade-de-dados-checksum-bit-de-paridade-e-crc">Verificação de Integridade de Dados: Checksum, Bit de Paridade e CRC</a></h1>
+<p>Nesta seção, estudaremos mecanismos clássicos de verificação de integridade aplicados em transmissão e armazenamento de dados. Esses mecanismos são baseados em operações determinísticas que permitem identificar se houve erro ou corrupção durante o transporte ou gravação de informação.</p>
+<p>Começamos com o <strong>Bit de Paridade</strong>, um dos métodos mais simples de detecção de erro, amplamente usado em memória RAM, protocolos seriais e dispositivos de baixo custo.</p>
+<p>Em seguida, analisamos o <strong>Checksum</strong>, que agrupa e soma blocos de dados para gerar um valor de referência simples. Apesar de fraco do ponto de vista criptográfico, é eficiente para detectar corrupção acidental.</p>
+<p>Por fim, estudamos o <strong>CRC (Cyclic Redundancy Check)</strong>, um algoritmo baseado em operações binárias e teoria de polinômios sobre GF(2), amplamente usado em redes, discos e protocolos robustos de comunicação como Ethernet e USB.</p>
+<blockquote>
+<p>Ao contrário das funções hash criptográficas, os algoritmos desta seção não são projetados para resistir a ataques intencionais, mas sim para detectar falhas acidentais. Servem como base histórica e técnica para compreender os limites da verificação simples de integridade antes de abordarmos as construções criptográficas propriamente ditas.</p>
+</blockquote>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../conceitos/encode-decode/codification.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../conceitos/encode-decode/percent-encoding.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../conceitos/encode-decode/base64-2.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../conceitos/checksum-crc/introduction.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -174,11 +180,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../conceitos/encode-decode/codification.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../conceitos/encode-decode/percent-encoding.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../conceitos/encode-decode/base64-2.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../conceitos/checksum-crc/introduction.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

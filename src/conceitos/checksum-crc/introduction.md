@@ -1,11 +1,9 @@
 # Introdução
 
-Na seção anterior, discutimos a codificação e o transporte de dados. Agora, avançamos para um aspecto essencial da transmissão e armazenamento de informações: a verificação de integridade. Esse processo garante que os dados recebidos são os mesmos que foram enviados, sem terem sido alterados ou corrompidos durante a transmissão ou armazenamento.
+Ao armazenar ou transmitir dados em sistemas computacionais, há sempre o risco de que a informação sofra alterações não intencionais — seja por falhas físicas, ruído elétrico, setores defeituosos ou erros de software. A verificação de integridade tem como objetivo detectar esse tipo de corrupção de maneira eficiente e automática.
 
-A integridade dos dados pode ser comprometida por diversos fatores, como erros humanos, falhas sistêmicas (por exemplo, setores defeituosos em discos rígidos) ou perdas de pacotes em redes devido a interferências ou congestionamento.
+Nesta seção, estudaremos algoritmos simples, mas historicamente relevantes, usados para validar a integridade de dados em diferentes contextos. Ao contrário das funções hash criptográficas, esses métodos não têm resistência contra ataques intencionais, mas são ideais para detectar erros acidentais com baixa sobrecarga computacional.
 
-Para detectar essas falhas, foram desenvolvidos mecanismos como os checksums e os CRC (Cyclic Redundancy Check), que permitem identificar se os dados foram alterados de forma acidental.
+Nosso foco será entender os fundamentos e limites dessas técnicas, que antecedem as construções criptográficas modernas. Estudaremos como mecanismos como o bit de paridade, checksums e CRCs são aplicados em sistemas reais — desde memórias e redes até arquivos e protocolos industriais.
 
-É importante diferenciar esses métodos das funções hash criptográficas, como MD5 e SHA-256, que abordaremos mais adiante neste livro. Enquanto checksums e CRCs são projetados para detectar erros acidentais, funções hash criptográficas garantem a integridade contra modificações intencionais, oferecendo resistência a ataques e manipulação maliciosa.
-
-Nesta seção, exploraremos como checksums simples podem ser utilizados para verificar integridade e, em seguida, como os CRC oferecem um método mais robusto para detectar erros em sistemas computacionais.
+Esses conhecimentos são importantes não apenas por seu valor prático, mas também como base para compreender os objetivos e os desafios das abordagens mais robustas de integridade que serão tratadas posteriormente neste livro.
