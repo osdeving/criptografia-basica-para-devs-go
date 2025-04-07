@@ -1,0 +1,1 @@
+# Modos de operação

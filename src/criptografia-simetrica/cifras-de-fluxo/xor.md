@@ -1,0 +1,1 @@
+# XOR como primitiva central

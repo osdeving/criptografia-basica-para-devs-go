@@ -1,0 +1,1 @@
+# AES: funcionamento interno
