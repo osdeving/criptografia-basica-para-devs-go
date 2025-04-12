@@ -2,16 +2,16 @@
 
 ## O que são modos de operação?
 
-Muitos algoritmos lidam com blocos de dados de tamanho fixo, como 64 ou 128 bits. Quando a entrada é maior que um único bloco, é necessário dividir os dados e aplicar transformações **bloco a bloco**, seguindo um **modo de operação**.
+Algoritmos de cifra simétrica, como AES e DES, operam sobre **blocos de dados de tamanho fixo**. Quando a mensagem é maior que um único bloco, é necessário dividi-la em blocos e aplicar a cifra **bloco a bloco**, segundo um esquema conhecido como **modo de operação** (_mode of operation_).
 
-Embora esses modos sejam usados em contextos criptográficos, o objetivo aqui é entender **como os dados são processados tecnicamente**, sem considerar a lógica de cifra. Vamos nos concentrar em:
+Nesta seção, o foco não será a lógica interna da cifra, mas sim **como os blocos são processados e encadeados** durante a cifragem. Veremos:
 
 - Como os blocos são encadeados
 - Qual a dependência entre entradas e saídas
 - Como o estado interno evolui
-- Como entrada, saída e IV interagem
+- Como a entrada, a saída e o vetor de inicialização (IV) interagem
 
-Para fins ilustrativos, faremos comentários como `// aplicar cifra aqui`, mas **não implementaremos cifra real nesta seção**.
+Para fins ilustrativos, onde normalmente seria invocada a cifra real, usaremos apenas o comentário `// aplicar cifra aqui`.
 
 
 ## Divisão em blocos
@@ -33,7 +33,7 @@ B4 = "ado\x00\x00\x00" // padding se aplicado
 A seguir, vamos examinar os principais modos de operação: ECB, CBC, CFB, OFB, CTR e outros opcionais.
 
 
-## ECB — Electronic Codebook
+## ECB — Electronic Codebook [Editar essa seção]
 
 O modo ECB é o mais simples de todos: cada bloco de entrada é processado **de forma independente** dos demais. Não há encadeamento, nem dependência de bloco anterior. Por isso, é possível aplicar a transformação a todos os blocos **em paralelo**.
 
@@ -43,6 +43,7 @@ Apesar de sua simplicidade, esse comportamento pode expor padrões quando blocos
 
 ### Funcionamento
 
+[Criar uma imagem legal para ECB]
 ```
 Entrada:     B1   B2   B3   B4
              |    |    |    |
@@ -52,7 +53,7 @@ Saída:      C1   C2   C3   C4
 // Cada Ci = cifra(Bi)
 ```
 
-### Implementação simulada em Go
+### Implementação
 
 ```go
 package main
@@ -115,7 +116,7 @@ IV ---> XOR   |    |    |    |
 // C4 = cifra(B4 ⊕ C3)
 ```
 
-### Implementação simulada em Go
+### Implementação
 
 ```go
 package main
@@ -181,7 +182,7 @@ IV -----> cifra     |      |      |
 
 Diferente do CBC, a cifra é aplicada sobre a saída anterior, não sobre a entrada. Isso permite que a cifra seja usada como um gerador de fluxo pseudoaleatório que é então combinado com os dados reais.
 
-### Implementação simulada em Go
+### Implementação
 
 ```go
 package main
@@ -240,6 +241,7 @@ Na prática, o OFB transforma uma cifra de bloco em uma cifra de fluxo pura, ond
 
 ### Funcionamento
 
+[TODO: criar imagem para o modo OFB]
 ```
 Entrada:     P1     P2     P3     P4
               |      |      |      |

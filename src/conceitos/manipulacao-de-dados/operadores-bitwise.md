@@ -2,22 +2,23 @@
 
 ## O que são operadores bit a bit?
 
-Operadores bitwise (bit a bit) são operadores que atuam diretamente sobre os bits de inteiros binários. São fundamentais em implementações de algoritmos criptográficos, protocolos binários, manipulação de flags e otimizações de espaço e tempo.
+Operadores bitwise (bit a bit) são operadores que atuam diretamente sobre os bits de inteiros binários. São fundamentais em implementações de algoritmos criptográficos, protocolos binários, manipulação de flags e otimizações.
 
-Ao contrário dos operadores aritméticos tradicionais `(+, -, *, /)`, operadores bitwise operam posição a posição, diretamente sobre os bits das representações binárias dos operandos.
+Ao contrário dos operadores aritméticos tradicionais `(+, -, *, /)`, operadores bitwise operam diretamente sobre os bits das representações binárias dos operandos.
 
-## Operadores Fundamentais
+## Operadores Bitwise
 
 | Operador | Nome | Descrição |
 | -------- | ---- | --------- |
 | &        | AND  | Retorna 1 se ambos os bits forem 1. |
 | \|       | OR   | Retorna 1 se pelo menos um dos bits é 1. |
-| ^        | XOR  | Exclusivo: Retorna 1 se exatamente um dos bits é 1. |
+| ^        | XOR¹  | Exclusivo: Retorna 1 se apenas um dos bits é 1. |
 | ~        | NOT  | Inverte todos os bits. |
 | &^        | AND NOT (Go)  | Zera os bits do primeiro operando que forem 1 no segundo operando. |
-| <<       | Deslocamento à esquerda | Desloca os bits n posições à esquerda. (equivalente a multiplicar por $2^n$) |
-| >>       | Deslocamento à direita | Desloca os bits n posições à direita. (equivalente a dividir por $2^n$) |
+| <<       | Deslocamento à esquerda | Desloca os bits $n$ posições à esquerda. (equivalente a multiplicar por $2^n$) |
+| >>       | Deslocamento à direita | Desloca os bits $n$ posições à direita. (equivalente a dividir por $2^n$) |
 
+¹ O operador `XOR` é representado matematicamente com o símbolo $\oplus$, p.ex.: $A \oplus B$.
 
 A tabela a seguir ilustra como os operadores bitwise atuam sobre valores binários. Os exemplos utilizam inteiros de 8 bits para facilitar a visualização:
 
@@ -35,9 +36,9 @@ A tabela a seguir ilustra como os operadores bitwise atuam sobre valores binári
 
 ² O operador `&^` é específico da linguagem Go e realiza uma operação conhecida como "bit clear". Ele equivale a `a & (~b)`, ou seja, **faz um NOT bit a bit do segundo operando e aplica AND com o primeiro**. Em C, essa operação seria expressa como `a & (~b)`.
 
-## Exemplo prático 1: isolando bits com máscaras (Base64, SHA, etc)
+## Exemplo prático 1: isolando bits com máscaras
 
-Uma das aplicações mais comuns do operador AND (`&`) é a extração de porções específicas de um número binário, por meio de máscaras. Isso é amplamente usado em codificações como Base64, compressão, protocolos e algoritmos criptográficos.
+Uma das aplicações mais comuns do operador AND (`&`) é a extração de porções específicas de um número binário, por meio de máscaras.
 
 Suponha que você queira extrair os 6 bits menos significativos de um byte. Para isso, podemos usar uma máscara `0b00111111`, que equivale a `0x3F` em hexadecimal. Veja:
 
@@ -48,7 +49,7 @@ Resultado após AND:       00010010  (18 em decimal)
 
 ```
 
-O operador `&` preserva apenas os bits em que ambos os operandos são 1. Portanto, ele serve como uma forma seletiva de “manter” ou “zerar” bits.
+O operador `&` preserva apenas os bits em que ambos os operandos são 1. Portanto, ele serve como uma forma de “manter” ou “zerar” bits.
 
 **Tabela verdade para `AND`**
 
@@ -152,17 +153,20 @@ O operador NOT (`~`) inverte cada bit individualmente:
 | 0 | ~   | 1         |
 
 
-## Exemplo prático 3: usando `XOR` em PRNGs e criptografia
+## Exemplo prático 3: usando `XOR`
 
-O operador XOR (`^`) é um dos mais utilizados em criptografia moderna, principalmente por suas propriedades de reversibilidade e difusão controlada. Ele também aparece como base de muitos geradores de números pseudoaleatórios (PRNGs), como a família **Xorshift**.
+O operador XOR (`^`) é um dos mais utilizados em criptografia, principalmente por suas propriedades de reversibilidade e difusão controlada. Ele também aparece como base de muitos geradores de números pseudoaleatórios (PRNGs), como a família **Xorshift**.
 
 A propriedade central do `XOR` é:
 
-```
-A ^ A = 0        (auto-cancelamento)
-A ^ 0 = A        (identidade)
-A ^ B ^ B = A    (reversível)
-```
+$$
+\begin{aligned}
+A \oplus A &= 0 \quad &\text{(auto-cancelamento)} \\
+A \oplus 0 &= A \quad &\text{(identidade)} \\
+A \oplus B \oplus B &= A \quad &\text{(reversível)}
+\end{aligned}
+$$
+
 Essas propriedades tornam o `XOR` ideal para cifragem, embaralhamento e geração determinística de entropia.
 
 ### Xorshift simplificado
@@ -210,7 +214,7 @@ Os operadores de deslocamento `<<` (shift à esquerda) e `>>` (shift à direita)
 
 A operação `x << n` desloca os bits de `x` para a esquerda em `n` posições, preenchendo com `0` à direita. Já `x >> n` desloca os bits para a direita, preenchendo com `0` à esquerda (em inteiros sem sinal).
 
-### Aplicação prática: passo de um LFSR (Linear Feedback Shift Register)
+### Aplicação prática: LFSR (Linear Feedback Shift Register)
 
 Sem entrar nos detalhes do algoritmo agora, podemos observar um exemplo de uso de deslocamento para atualizar um valor de estado:
 
@@ -271,6 +275,6 @@ Operadores bitwise são usados constantemente em algoritmos criptográficos. Exe
 
 ## Considerações
 
-Dominar os operadores bitwise é essencial para compreender o funcionamento interno de muitos algoritmos criptográficos. Além disso, esse tipo de manipulação é eficiente, compacta e amplamente utilizada em implementações de baixo nível, seja em bibliotecas de segurança, protocolos ou microcontroladores.
+Dominar os operadores bitwise é importante para compreender o funcionamento interno de muitos algoritmos criptográficos. Além disso, esse tipo de manipulação é eficiente, compacta e muito utilizada em implementações de baixo nível.
 
 Nos próximos tópicos, aplicaremos esses conceitos na manipulação de blocos de dados, operações estruturais e transformação binária direta.

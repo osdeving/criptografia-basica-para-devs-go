@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>capa - Criptografia para Desenvolvedores Go</title>
+        <title>capa - Criptografia para Desenvolvedores: Fundamentos e Prática</title>
 
 
         <!-- Custom HTML head -->
@@ -120,7 +120,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Criptografia para Desenvolvedores Go</h1>
+                    <h1 class="menu-title">Criptografia para Desenvolvedores: Fundamentos e Prática</h1>
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -154,11 +154,8 @@
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <div align="center">
-<img src="assets/capa.png" width="500" />
-<h1 id="fundamentos-de-criptografia-para-desenvolvedores-fundamentos-e-prática"><a class="header" href="#fundamentos-de-criptografia-para-desenvolvedores-fundamentos-e-prática"><strong>Fundamentos de Criptografia para Desenvolvedores: Fundamentos e Prática</strong></a></h1>
-<h3 id="criptografia-para-desenvollvedores"><a class="header" href="#criptografia-para-desenvollvedores">Criptografia para Desenvollvedores</a></h3>
-<h4 id="por-willams-santos-de-sousa"><a class="header" href="#por-willams-santos-de-sousa">por Willams Santos de Sousa</a></h4>
-<hr />
+<img src="assets/capa.jpg" width="550" />
+---
 </div>
 
                     </main>
@@ -184,6 +181,22 @@
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

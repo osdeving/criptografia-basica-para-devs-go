@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Manipulação de Dados - Criptografia para Desenvolvedores Go</title>
+        <title>Manipulação de Dados - Criptografia para Desenvolvedores: Fundamentos e Prática</title>
 
 
         <!-- Custom HTML head -->
@@ -120,7 +120,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Criptografia para Desenvolvedores Go</h1>
+                    <h1 class="menu-title">Criptografia para Desenvolvedores: Fundamentos e Prática</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -154,13 +154,14 @@
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="manipulação-de-dados"><a class="header" href="#manipulação-de-dados">Manipulação de Dados</a></h1>
-<p>Esta seção estabelece os fundamentos práticos para entender como os dados binários são tratados internamente — ponto essencial para compreender cifras, hashes e protocolos.</p>
-<p>Começaremos com uma explicação rápida sobre endianness em <strong>Endianness – Organização de Bytes na Memória</strong>, que aborda como diferentes arquiteturas armazenam inteiros e como isso afeta a interoperabilidade e o uso seguro da criptografia.</p>
+<p>Esta seção estabelece os fundamentos práticos para entender como os dados binários são tratados internamente — essencial para compreender os algoritmos de cifra, hashes e protocolos.</p>
+<p>Começaremos com uma explicação rápida sobre endianness em <strong>Endianness – Organização de Bytes na Memória</strong>, que aborda como diferentes arquiteturas armazenam inteiros e como isso afeta a interoperabilidade e o seu papel no
+com os variados algorítmos de criptografia.</p>
 <p>Em seguida, em <strong>Operadores Bitwise</strong>, exploraremos os operadores bit a bit, que são fundamentais para a construção de cifras e hashes. Mostraremos como AND, OR, XOR e deslocamentos são usados na manipulação de bits, no controle de flags e na implementação de PRNGs e mecanismos criptográficos.</p>
-<p>Veremos depois, em <strong>Operações em Blocos</strong>, os modos de operação (ECB, CBC, etc.) como técnicas de controle de fluxo entre blocos de dados — uma estrutura essencial para cifras reais. Aqui a conexão com criptografia é mais acentuada, mas o foco continua sendo como manipular blocos binários de forma sistemática.</p>
-<p>Na sequência, estudaremos três conceitos fundamentais para o projeto de cifras modernas: <strong>Confusão e Difusão</strong>, <strong>S-Box</strong> e <strong>Permutações e Trocas</strong>. Embora estejam mais diretamente associados ao campo da criptografia, todos eles são, na essência, formas especializadas de manipulação de dados binários. Por esse motivo, optamos por incluí-los nesta seção, mantendo a coerência conceitual com os tópicos anteriores.</p>
+<p>Veremos depois, em <strong>Operações em Blocos</strong>, os modos de operação (ECB, CBC, etc.) como técnicas de controle de fluxo entre blocos de dados — uma estrutura usada encadear operações de cifra. Aqui a conexão com criptografia é mais acentuada, mas o foco continua sendo como manipular blocos binários de forma sistemática.</p>
+<p>Na sequência, estudaremos três conceitos fundamentais para o projeto de cifras modernas: <strong>Confusão e Difusão</strong>, <strong>S-Box</strong> e <strong>Permutações e Trocas</strong>. Embora estejam mais diretamente associados ao campo da criptografia, todos eles são, na essência, formas especializadas de manipulação de dados binários. Por esse motivo, optamos por incluí-los nesta seção.</p>
 <blockquote>
-<p>Esses conceitos serão reaproveitados ao longo do livro e servem de base para o entendimento de algoritmos criptográficos reais. O objetivo é diminuir o esforço cognitivo ao apresentar tópicos mais avançados, dando a chance do leitor se familiarizar com tópicos mais gerais envolvendo manipulação de dados.</p>
+<p>Esses conceitos serão reaproveitados ao longo do livro e servem de base para o entendimento de algoritmos criptográficos reais quando explorados de forma pŕatica estudando as suas implementações. O objetivo é diminuir o esforço cognitivo ao apresentar tópicos mais avançados, dando a chance do leitor se familiarizar com tópicos mais gerais envolvendo manipulação de dados.</p>
 </blockquote>
 
                     </main>
@@ -192,6 +193,22 @@
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

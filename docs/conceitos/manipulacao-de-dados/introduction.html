@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Introdução - Criptografia para Desenvolvedores Go</title>
+        <title>Introdução - Criptografia para Desenvolvedores: Fundamentos e Prática</title>
 
 
         <!-- Custom HTML head -->
@@ -120,7 +120,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Criptografia para Desenvolvedores Go</h1>
+                    <h1 class="menu-title">Criptografia para Desenvolvedores: Fundamentos e Prática</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -154,7 +154,7 @@
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="introdução"><a class="header" href="#introdução">Introdução</a></h1>
-<p>Antes de explorarmos algoritmos criptográficos como funções hash, cifras de bloco ou mecanismos de assinatura, é essencial compreender <strong>como os dados são representados e manipulados em baixo nível</strong>. A criptografia opera sobre sequências binárias, e muitas de suas construções dependem de operações como <strong>máscaras de bits, deslocamentos, permutações, concatenação e particionamento de blocos</strong>.</p>
+<p>Antes de explorarmos algoritmos criptográficos como funções hash, cifras de bloco ou mecanismos de assinatura, é importante compreender <strong>como os dados são representados e manipulados em baixo nível</strong>. A criptografia opera sobre sequências binárias, e muitas de suas construções dependem de operações como <strong>máscaras de bits, deslocamentos, permutações, concatenação e particionamento de blocos</strong>.</p>
 <p>Esta seção reúne os fundamentos práticos que formam a base para a implementação e compreensão de algoritmos criptográficos. Embora não envolvam segurança por si só, esses conceitos estruturam a <strong>transformação e o fluxo de dados</strong>, e são usados repetidamente em construções como:</p>
 <ul>
 <li>
@@ -164,20 +164,20 @@
 <p>Rotação de palavras (como em SHA e AES)</p>
 </li>
 <li>
-<p>Aplicação de máscaras e XORs (ubíquos em todas as cifras)</p>
+<p>Aplicação de máscaras e XORs (presentes em todas as cifras)</p>
 </li>
 <li>
 <p>Organização de blocos e endianness (em PBKDF2, HMAC, etc.)</p>
 </li>
 </ul>
-<p>Mesmo algoritmos clássicos, como MD2, baseiam parte de sua segurança e funcionamento em <strong>operações simples, porém precisas, sobre bytes e bits</strong>. Por isso, essa preparação técnica é indispensável para leitura crítica, implementação correta e análise de sistemas criptográficos.</p>
+<p>Algoritmos clássicos, como MD2, baseiam parte de sua segurança e funcionamento em <strong>operações simples sobre bytes e bits</strong>. Em todos os algorítmos teremos de uma forma ou outra operações em nível de bits. Por isso, essa preparação técnica é indispensável para leitura crítica e compreensão da implementação de sistemas criptográficos.</p>
 <p>Nos próximos tópicos, cobriremos:</p>
 <ul>
 <li>
 <p>A ordem dos bytes na memória (<strong>endianness</strong>)</p>
 </li>
 <li>
-<p>Os operadores de bit mais utilizados (<strong>bitwise</strong>)</p>
+<p>Os operadores de bit a bit (<strong>bitwise</strong>)</p>
 </li>
 <li>
 <p>Como manipular dados em blocos, rotacionar e reorganizar estruturas</p>
@@ -214,6 +214,22 @@
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 
