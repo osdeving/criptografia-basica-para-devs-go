@@ -68,59 +68,6 @@ Em cada rodada, a subchave kᵢ é gerada a partir da chave principal de 56 bits
 Do ponto de vista matemático, a estrutura de Feistel mapeia bijetivamente os 64 bits de entrada para os 64 bits de saída — ou seja, cada entrada tem uma única saída correspondente, e vice-versa. Isso permanece verdadeiro mesmo que a função f interna não seja bijetiva. No caso do DES, a f é uma função não injetora, que mapeia 32 bits de entrada para 32 bits de saída, usando uma subchave de 48 bits.
 
 
-```
-texto longo explicando
-```
-vs 
-
-```go
-// Entrada: bloco de 64 bits
-block := [...]byte{...}
-
-// Permutação inicial
-permuted := IP(block)
-
-// Divisão em L₀ e R₀
-L[0] = permuted[:4] // primeiros 32 bits
-R[0] = permuted[4:] // últimos 32 bits
-
-// 16 rodadas de Feistel
-for i := 1; i <= 16; i++ {
-    L[i] = R[i-1]
-    R[i] = L[i-1] ^ f(R[i-1], k[i])
-}
-
-// Swap final
-preOutput := R[16] || L[16]
-
-// Permutação final
-ciphertext := IPInv(preOutput)
-
-```
-
-vs
-
-```
-Bloco de 64 bits
-↓
-Permutação inicial (IP)
-↓
-Divisão em L₀ e R₀
-↓
-Para i = 1 até 16:
-    Lᵢ = Rᵢ₋₁
-    Rᵢ = Lᵢ₋₁ ⊕ f(Rᵢ₋₁, kᵢ)
-↓
-Swap final (R₁₆, L₁₆)
-↓
-Permutação final (IP⁻¹)
-↓
-Bloco cifrado
-
-```
-
-vs
-
 > $$
 \begin{aligned}
 &\textbf{1. Permutação Inicial (IP)} \\
@@ -139,40 +86,5 @@ vs
 \end{aligned}
 $$
 
-> $$
-\begin{aligned}
-&\textbf{Função } f(R, k): \{0,1\}^{32} \times \{0,1\}^{48} \rightarrow \{0,1\}^{32} \\[0.5em]
+![DES](des-image.svg)
 
-&\quad \text{1. Expansão: } R \xrightarrow{E} E(R) \in \{0,1\}^{48} \\
-
-&\quad \text{2. Combinação com subchave: } E(R) \oplus k \\
-
-&\quad \text{3. Substituição: } S(E(R) \oplus k) \in \{0,1\}^{32} \\
-
-&\quad \text{4. Permutação: } P(S(\cdot)) \rightarrow f(R, k) \\[0.5em]
-
-&\text{Portanto: } f(R, k) = P\left(S\left(E(R) \oplus k\right)\right)
-\end{aligned}
-$$
-
-> $$
-\begin{aligned}
-&\textbf{Chave original: } K \in \{0,1\}^{64} \\
-
-&\quad \text{1. Remoção dos bits de paridade: } PC_1(K) \rightarrow K' \in \{0,1\}^{56} \\
-
-&\quad \text{2. Divisão: } K' = C_0 \parallel D_0, \quad C_0, D_0 \in \{0,1\}^{28} \\[0.5em]
-
-&\quad \text{3. Para cada rodada } i = 1,\dots,16: \\
-&\quad\quad C_i = \text{LeftShift}(C_{i-1}, r_i) \\
-&\quad\quad D_i = \text{LeftShift}(D_{i-1}, r_i) \\
-
-&\quad\quad \text{Subchave: } k_i = PC_2(C_i \parallel D_i), \quad k_i \in \{0,1\}^{48}
-\end{aligned}
-$$
-
-
-![DES](des.png)
-
-
-![DES](des-feistel.png)
