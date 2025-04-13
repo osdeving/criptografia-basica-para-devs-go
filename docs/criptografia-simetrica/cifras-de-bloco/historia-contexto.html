@@ -1,0 +1,226 @@
+<!DOCTYPE HTML>
+<html lang="pt_BR" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>História, Personagens e Controvérsias do DES - Criptografia para Desenvolvedores: Fundamentos e Prática</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Criptografia para Desenvolvedores: Fundamentos e Prática</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="história-personagens-e-controvérsias-do-des"><a class="header" href="#história-personagens-e-controvérsias-do-des">História, Personagens e Controvérsias do DES</a></h1>
+<p>Esta seção apresenta a trajetória do Data Encryption Standard (DES), desde suas origens nos laboratórios da IBM até as polêmicas envolvendo sua padronização e posterior quebra. O objetivo é fornecer um panorama histórico que permita entender por que o DES desempenhou papel central no desenvolvimento da criptografia moderna.</p>
+<h2 id="origens"><a class="header" href="#origens">Origens</a></h2>
+<p>O DES tem suas raízes no projeto <strong>Lucifer</strong>, desenvolvido pela IBM no início da década de 1970. Este algoritmo surgiu de uma série de pesquisas conduzidas por <strong>Horst Feistel</strong>, um cientista de origem alemã vinculado aos laboratórios Watson da IBM. Feistel propôs um modelo de cifra baseado em operações repetidas sobre metades de blocos de dados — estrutura hoje conhecida como rede de Feistel. Essa abordagem, já discutida em <a href="criptografia-simetrica/cifras-de-bloco/feistel.html">A estrutura de Feistel</a>, viria a influenciar diretamente o projeto do DES e de diversas cifras simétricas nas décadas seguintes [1].</p>
+<p>A equipe de Feistel incluía nomes como <strong>Don Coppersmith</strong>, <strong>Walter Tuchman</strong> e <strong>Alan Konheim</strong>, que trabalharam na elaboração de variantes do Lucifer para uso prático. A versão original do algoritmo operava sobre blocos de 128 bits com chaves de igual comprimento. No entanto, considerações de desempenho e implementação motivaram a IBM a simplificar o esquema, reduzindo o tamanho dos blocos e da chave, o que resultaria em um protótipo mais adequado para padronização nacional.</p>
+<h2 id="adoção-pelo-nbs"><a class="header" href="#adoção-pelo-nbs">Adoção pelo NBS</a></h2>
+<p>Em 1973, o <strong>National Bureau of Standards (NBS)</strong>, agência federal dos Estados Unidos responsável por padrões técnicos, iniciou um processo para selecionar um algoritmo de cifra de bloco que pudesse ser adotado como padrão para comunicação segura no setor civil. Um dos requisitos centrais era que o algoritmo fosse <strong>de conhecimento público</strong>, permitindo auditoria independente por especialistas e livre implementação pela indústria.</p>
+<p>A IBM apresentou uma versão adaptada do Lucifer, que rapidamente se destacou entre as propostas recebidas. O NBS, sem expertise criptográfica interna suficiente, recorreu à <strong>National Security Agency (NSA)</strong> para revisão técnica da proposta. A versão final, com alterações feitas sob orientação da NSA, foi aprovada em 1976 e publicada oficialmente em 1977 como o <strong>Data Encryption Standard</strong>. Foi publicado pelo <strong>Federal Information Processing Standards</strong> (FIPS), órgão responsável por definir padrões federais de processamento de informações nos Estados Unidos, sob a especificação FIPS PUB 46 [2].</p>
+<h2 id="o-papel-da-nsa"><a class="header" href="#o-papel-da-nsa">O papel da NSA</a></h2>
+<p>A participação da NSA no processo de revisão gerou incertezas e especulações. A agência recomendou modificações em dois aspectos cruciais do algoritmo. O primeiro foi a <strong>redução do tamanho da chave</strong> de 128 para <strong>56 bits</strong>. A justificativa oficial envolvia considerações de implementação, mas não foram apresentados argumentos técnicos transparentes. Os oito bits restantes, completando os 64 da chave, foram reservados para verificação de paridade — um mecanismo de controle de integridade simples, abordado em <a href="conceitos/checksum-crc/parity-bit.html">Bit de Paridade</a> — e não participam do processo de cifragem propriamente dito [2].</p>
+<p>A segunda alteração foi a substituição das <strong>S-boxes</strong> (cf. <a href="conceitos/manipulacao-de-dados/s-box.html">S-Box</a>) originais por uma nova versão desenvolvida em colaboração com a NSA. Por décadas, não se soube se essas modificações comprometiam a segurança do DES. A ausência de transparência levantou suspeitas sobre a possibilidade de um <strong>backdoor criptográfico</strong> embutido.</p>
+<p>Somente nos anos 1990 veio à tona que as S-boxes haviam sido ajustadas para resistir a uma técnica chamada <strong>criptoanálise diferencial</strong>, descoberta posteriormente por <strong>Eli Biham</strong> e <strong>Adi Shamir</strong>. Em declaração publicada em artigo da IBM, <strong>Coppersmith</strong> revelou que a equipe da IBM já conhecia essa vulnerabilidade, mas havia sido instruída a não revelar detalhes públicos [3].</p>
+<h2 id="polêmicas-e-críticas"><a class="header" href="#polêmicas-e-críticas">Polêmicas e críticas</a></h2>
+<p>O lançamento do DES causou reações imediatas por parte da comunidade acadêmica. <strong>Whitfield Diffie</strong> e <strong>Martin Hellman</strong> publicaram uma série de artigos apontando que uma chave de 56 bits não oferecia segurança adequada contra ataques de força bruta [4]. Outros pesquisadores, como <strong>Ron Rivest</strong>, ecoaram as críticas e solicitaram que os detalhes das alterações feitas pela NSA fossem divulgados.</p>
+<p>As suspeitas foram alimentadas pela dificuldade de realizar uma análise independente das S-boxes. Sem saber sua motivação de projeto, não era possível avaliar sua robustez. A posterior descoberta da resistência à criptoanálise diferencial mudou essa perspectiva, mas não eliminou o desconforto quanto à atuação da NSA.</p>
+<p>A crítica final ao DES veio em 1998, quando a <strong>Electronic Frontier Foundation (EFF)</strong> construiu o <strong>Deep Crack</strong>, um dispositivo dedicado capaz de quebrar o DES por força bruta em menos de 24 horas. O custo estimado do equipamento era inferior a US$ 250 mil, o que demonstrava que a cifra já não era adequada para proteger informações sensíveis [5].</p>
+<h2 id="impacto-histórico"><a class="header" href="#impacto-histórico">Impacto histórico</a></h2>
+<p>Apesar das limitações identificadas, o DES teve um papel central no amadurecimento da criptografia aplicada. Foi o primeiro algoritmo padronizado para uso civil, incentivou o surgimento de literatura técnica acessível e fomentou o estudo de criptoanálise como disciplina prática. Serviu também como base para o desenvolvimento do <strong>Triple DES (3DES)</strong> e, posteriormente, para a seleção do <strong>Advanced Encryption Standard (AES)</strong>, iniciado em 1997.</p>
+<p>O DES permanece como um caso clássico de interação entre avanço técnico, regulação estatal e debate público sobre segurança da informação.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../criptografia-simetrica/cifras-de-bloco/o-que-e-des.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../criptografia-simetrica/cifras-de-bloco/arquitetura-geral.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../criptografia-simetrica/cifras-de-bloco/o-que-e-des.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../criptografia-simetrica/cifras-de-bloco/arquitetura-geral.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
