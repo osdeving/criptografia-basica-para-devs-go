@@ -4,9 +4,6 @@
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="OKMkMEvzD6gkjavkUlb_-144" value="" style="group;dashed=1;dashPattern=8 8;container=0;labelBackgroundColor=none;" parent="1" vertex="1" connectable="0">
-          <mxGeometry x="3" y="27" width="291" height="273.9" as="geometry" />
-        </mxCell>
         <mxCell id="GtqArmKW4LwAKt0dd6zW-107" value="" style="group" vertex="1" connectable="0" parent="1">
           <mxGeometry x="282" y="27" width="473.65999999999997" height="697" as="geometry" />
         </mxCell>
@@ -288,26 +285,32 @@
             <mxPoint x="489" y="366" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="OKMkMEvzD6gkjavkUlb_-141" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;Legenda&lt;/font&gt;&lt;/h1&gt;&lt;p&gt;&lt;font&gt;&lt;span style=&quot;background-color: transparent;&quot;&gt;&lt;b&gt;Lₙ&lt;/b&gt;&lt;/span&gt;&lt;b&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;Metade esquerda da rodada n&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&lt;/p&gt;&lt;p&gt;&lt;font&gt;&lt;span style=&quot;background-color: transparent;&quot;&gt;&lt;b&gt;Rₙ&lt;/b&gt;&lt;/span&gt;&lt;b&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;Metade direita da rodada n&lt;/b&gt;&lt;/font&gt;&lt;/p&gt;&lt;p&gt;&lt;font&gt;&lt;b&gt;IP&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;Tabela de permutação inicial&lt;/b&gt;&lt;/font&gt;&lt;/p&gt;&lt;p&gt;&lt;font&gt;&lt;b style=&quot;background-color: transparent; font-family: Helvetica; text-align: center;&quot;&gt;IP&lt;/b&gt;&lt;span style=&quot;background-color: transparent; font-family: Helvetica; text-align: center;&quot;&gt;⁻¹&lt;/span&gt;&lt;b&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;Tabela de permutação final&lt;/b&gt;&lt;/font&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-size: 0px; text-wrap-mode: nowrap; background-color: transparent;&quot;&gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20value%3D%22%22%20style%3D%22shape%3Dimage%3Bhtml%3D1%3BverticalLabelPosition%3Dbottom%3BverticalAlign%3Dtop%3BimageAspect%3D1%3Baspect%3Dfixed%3Bimage%3Dimg%2Fclipart%2FGear_128x128.png%22%20vertex%3D%221%22%20parent%3D%221%22%3E%3CmxGeometry%20x%3D%22390%22%20y%3D%22153.5%22%20width%3D%2236.66%22%20height%3D%2243%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;font style=&quot;font-size: 9px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;fontFamily=Tahoma;labelBackgroundColor=none;fontColor=light-dark(#000000,#000000);" parent="1" vertex="1">
-          <mxGeometry x="10" y="21" width="261" height="188.76432795784143" as="geometry" />
+        <mxCell id="GtqArmKW4LwAKt0dd6zW-117" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="3" y="21" width="291" height="279.9" as="geometry" />
         </mxCell>
-        <mxCell id="OKMkMEvzD6gkjavkUlb_-142" value="" style="shape=image;html=1;verticalLabelPosition=bottom;verticalAlign=top;imageAspect=1;aspect=fixed;image=img/clipart/Gear_128x128.png;labelBackgroundColor=none;" parent="1" vertex="1">
-          <mxGeometry x="10" y="240.68980844080463" width="21.781052631578948" height="25.543859649122805" as="geometry" />
+        <mxCell id="OKMkMEvzD6gkjavkUlb_-144" value="" style="group;dashed=1;dashPattern=8 8;container=0;labelBackgroundColor=none;" parent="GtqArmKW4LwAKt0dd6zW-117" vertex="1" connectable="0">
+          <mxGeometry y="6" width="291" height="273.9" as="geometry" />
         </mxCell>
-        <mxCell id="OKMkMEvzD6gkjavkUlb_-143" value="&lt;font&gt;&lt;b&gt;&amp;nbsp;Aplica permutação dos bits com a tabela&lt;/b&gt;&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Tahoma;labelBackgroundColor=none;fontColor=light-dark(#000000,#000000);" parent="1" vertex="1">
-          <mxGeometry x="35" y="235.22299738436328" width="239.99" height="36.77227168009898" as="geometry" />
+        <mxCell id="OKMkMEvzD6gkjavkUlb_-141" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;Legenda&lt;/font&gt;&lt;/h1&gt;&lt;p&gt;&lt;font&gt;&lt;span style=&quot;background-color: transparent;&quot;&gt;&lt;b&gt;Lₙ&lt;/b&gt;&lt;/span&gt;&lt;b&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;Metade esquerda da rodada n&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&lt;/p&gt;&lt;p&gt;&lt;font&gt;&lt;span style=&quot;background-color: transparent;&quot;&gt;&lt;b&gt;Rₙ&lt;/b&gt;&lt;/span&gt;&lt;b&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;Metade direita da rodada n&lt;/b&gt;&lt;/font&gt;&lt;/p&gt;&lt;p&gt;&lt;font&gt;&lt;b&gt;IP&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;Tabela de permutação inicial&lt;/b&gt;&lt;/font&gt;&lt;/p&gt;&lt;p&gt;&lt;font&gt;&lt;b style=&quot;background-color: transparent; font-family: Helvetica; text-align: center;&quot;&gt;IP&lt;/b&gt;&lt;span style=&quot;background-color: transparent; font-family: Helvetica; text-align: center;&quot;&gt;⁻¹&lt;/span&gt;&lt;b&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;Tabela de permutação final&lt;/b&gt;&lt;/font&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-size: 0px; text-wrap-mode: nowrap; background-color: transparent;&quot;&gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20value%3D%22%22%20style%3D%22shape%3Dimage%3Bhtml%3D1%3BverticalLabelPosition%3Dbottom%3BverticalAlign%3Dtop%3BimageAspect%3D1%3Baspect%3Dfixed%3Bimage%3Dimg%2Fclipart%2FGear_128x128.png%22%20vertex%3D%221%22%20parent%3D%221%22%3E%3CmxGeometry%20x%3D%22390%22%20y%3D%22153.5%22%20width%3D%2236.66%22%20height%3D%2243%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;font style=&quot;font-size: 9px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;fontFamily=Tahoma;labelBackgroundColor=none;fontColor=light-dark(#000000,#000000);" parent="GtqArmKW4LwAKt0dd6zW-117" vertex="1">
+          <mxGeometry x="7" width="261" height="188.76432795784143" as="geometry" />
         </mxCell>
-        <mxCell id="PkwB0OAWQbsNOSKVEP2Q-2" value="&lt;font&gt;&lt;font&gt;&lt;b&gt;Aplica&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&lt;b&gt;Lₙ₋₁ ⊕ f(Rₙ₋₁, Kₙ)&lt;/b&gt;&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Tahoma;labelBackgroundColor=none;fontColor=light-dark(#000000,#000000);fontSize=12;" parent="1" vertex="1">
-          <mxGeometry x="51.11" y="201.184131232485" width="160.89" height="36.77227168009898" as="geometry" />
+        <mxCell id="OKMkMEvzD6gkjavkUlb_-142" value="" style="shape=image;html=1;verticalLabelPosition=bottom;verticalAlign=top;imageAspect=1;aspect=fixed;image=img/clipart/Gear_128x128.png;labelBackgroundColor=none;" parent="GtqArmKW4LwAKt0dd6zW-117" vertex="1">
+          <mxGeometry x="7" y="219.68980844080463" width="21.781052631578948" height="25.543859649122805" as="geometry" />
         </mxCell>
-        <mxCell id="GtqArmKW4LwAKt0dd6zW-104" value="" style="verticalLabelPosition=bottom;shadow=0;dashed=0;align=center;html=1;verticalAlign=top;shape=mxgraph.electrical.rot_mech.verticalLabelPosition=bottom;shadow=0;dashed=0;align=center;fillColor=strokeColor;html=1;verticalAlign=top;strokeWidth=1;shape=mxgraph.electrical.rot_mech.rotation;strokeColor=light-dark(#000000,#990000);direction=west;labelBorderColor=default;" vertex="1" parent="1">
-          <mxGeometry x="10" y="209.76432795784143" width="21.11" height="19.61187822938612" as="geometry" />
+        <mxCell id="OKMkMEvzD6gkjavkUlb_-143" value="&lt;font&gt;&lt;b&gt;&amp;nbsp;Aplica permutação dos bits com a tabela&lt;/b&gt;&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Tahoma;labelBackgroundColor=none;fontColor=light-dark(#000000,#000000);" parent="GtqArmKW4LwAKt0dd6zW-117" vertex="1">
+          <mxGeometry x="32" y="214.22299738436328" width="239.99" height="36.77227168009898" as="geometry" />
         </mxCell>
-        <mxCell id="GtqArmKW4LwAKt0dd6zW-112" value="&lt;font&gt;&lt;b&gt;Key da rodada usada pela função f&lt;/b&gt;&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Tahoma;labelBackgroundColor=none;fontColor=light-dark(#000000,#000000);" vertex="1" parent="1">
-          <mxGeometry x="48.44" y="171.11" width="188.11" height="36.77" as="geometry" />
+        <mxCell id="PkwB0OAWQbsNOSKVEP2Q-2" value="&lt;font&gt;&lt;font&gt;&lt;b&gt;Aplica&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&lt;b&gt;Lₙ₋₁ ⊕ f(Rₙ₋₁, Kₙ)&lt;/b&gt;&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Tahoma;labelBackgroundColor=none;fontColor=light-dark(#000000,#000000);fontSize=12;" parent="GtqArmKW4LwAKt0dd6zW-117" vertex="1">
+          <mxGeometry x="48.11" y="180.184131232485" width="160.89" height="36.77227168009898" as="geometry" />
         </mxCell>
-        <mxCell id="GtqArmKW4LwAKt0dd6zW-115" value="" style="sketch=0;aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#00188D;shape=mxgraph.mscae.enterprise.key_permissions" vertex="1" parent="1">
-          <mxGeometry x="10" y="173.5" width="16.64" height="32" as="geometry" />
+        <mxCell id="GtqArmKW4LwAKt0dd6zW-104" value="" style="verticalLabelPosition=bottom;shadow=0;dashed=0;align=center;html=1;verticalAlign=top;shape=mxgraph.electrical.rot_mech.verticalLabelPosition=bottom;shadow=0;dashed=0;align=center;fillColor=strokeColor;html=1;verticalAlign=top;strokeWidth=1;shape=mxgraph.electrical.rot_mech.rotation;strokeColor=light-dark(#000000,#990000);direction=west;labelBorderColor=default;" vertex="1" parent="GtqArmKW4LwAKt0dd6zW-117">
+          <mxGeometry x="7" y="188.76432795784143" width="21.11" height="19.61187822938612" as="geometry" />
+        </mxCell>
+        <mxCell id="GtqArmKW4LwAKt0dd6zW-112" value="&lt;font&gt;&lt;b&gt;Key da rodada usada pela função f&lt;/b&gt;&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Tahoma;labelBackgroundColor=none;fontColor=light-dark(#000000,#000000);" vertex="1" parent="GtqArmKW4LwAKt0dd6zW-117">
+          <mxGeometry x="45.44" y="150.11" width="188.11" height="36.77" as="geometry" />
+        </mxCell>
+        <mxCell id="GtqArmKW4LwAKt0dd6zW-115" value="" style="sketch=0;aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#00188D;shape=mxgraph.mscae.enterprise.key_permissions" vertex="1" parent="GtqArmKW4LwAKt0dd6zW-117">
+          <mxGeometry x="7" y="152.5" width="16.64" height="32" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

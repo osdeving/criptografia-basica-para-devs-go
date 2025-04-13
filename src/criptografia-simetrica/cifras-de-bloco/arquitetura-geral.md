@@ -54,7 +54,6 @@ $$
 
 <br>
 
-## Considerações Finais
 
 As permutações inicial e final não interferem na segurança e têm papel meramente operacional: visam otimizar a manipulação dos dados em implementações físicas, especialmente em circuitos integrados da década de 1970.
 
