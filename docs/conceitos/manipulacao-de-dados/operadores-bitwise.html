@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Operadores Bitwise - Criptografia para Desenvolvedores Go</title>
+        <title>Operadores Bitwise - Criptografia para Desenvolvedores: Fundamentos e Prática</title>
 
 
         <!-- Custom HTML head -->
@@ -123,7 +123,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Criptografia para Desenvolvedores Go</h1>
+                    <h1 class="menu-title">Criptografia para Desenvolvedores: Fundamentos e Prática</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -158,19 +158,20 @@
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="operadores-bitwise"><a class="header" href="#operadores-bitwise">Operadores Bitwise</a></h1>
 <h2 id="o-que-são-operadores-bit-a-bit"><a class="header" href="#o-que-são-operadores-bit-a-bit">O que são operadores bit a bit?</a></h2>
-<p>Operadores bitwise (bit a bit) são operadores que atuam diretamente sobre os bits de inteiros binários. São fundamentais em implementações de algoritmos criptográficos, protocolos binários, manipulação de flags e otimizações de espaço e tempo.</p>
-<p>Ao contrário dos operadores aritméticos tradicionais <code>(+, -, *, /)</code>, operadores bitwise operam posição a posição, diretamente sobre os bits das representações binárias dos operandos.</p>
-<h2 id="operadores-fundamentais"><a class="header" href="#operadores-fundamentais">Operadores Fundamentais</a></h2>
+<p>Operadores bitwise (bit a bit) são operadores que atuam diretamente sobre os bits de inteiros binários. São fundamentais em implementações de algoritmos criptográficos, protocolos binários, manipulação de flags e otimizações.</p>
+<p>Ao contrário dos operadores aritméticos tradicionais <code>(+, -, *, /)</code>, operadores bitwise operam diretamente sobre os bits das representações binárias dos operandos.</p>
+<h2 id="operadores-bitwise-1"><a class="header" href="#operadores-bitwise-1">Operadores Bitwise</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>Operador</th><th>Nome</th><th>Descrição</th></tr></thead><tbody>
 <tr><td>&amp;</td><td>AND</td><td>Retorna 1 se ambos os bits forem 1.</td></tr>
 <tr><td>|</td><td>OR</td><td>Retorna 1 se pelo menos um dos bits é 1.</td></tr>
-<tr><td>^</td><td>XOR</td><td>Exclusivo: Retorna 1 se exatamente um dos bits é 1.</td></tr>
+<tr><td>^</td><td>XOR¹</td><td>Exclusivo: Retorna 1 se apenas um dos bits é 1.</td></tr>
 <tr><td>~</td><td>NOT</td><td>Inverte todos os bits.</td></tr>
 <tr><td>&amp;^</td><td>AND NOT (Go)</td><td>Zera os bits do primeiro operando que forem 1 no segundo operando.</td></tr>
-<tr><td>&lt;&lt;</td><td>Deslocamento à esquerda</td><td>Desloca os bits n posições à esquerda. (equivalente a multiplicar por <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span></span></span></span>)</td></tr>
-<tr><td>&gt;&gt;</td><td>Deslocamento à direita</td><td>Desloca os bits n posições à direita. (equivalente a dividir por <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span></span></span></span>)</td></tr>
+<tr><td>&lt;&lt;</td><td>Deslocamento à esquerda</td><td>Desloca os bits <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> posições à esquerda. (equivalente a multiplicar por <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span></span></span></span>)</td></tr>
+<tr><td>&gt;&gt;</td><td>Deslocamento à direita</td><td>Desloca os bits <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> posições à direita. (equivalente a dividir por <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span></span></span></span>)</td></tr>
 </tbody></table>
 </div>
+<p>¹ O operador <code>XOR</code> é representado matematicamente com o símbolo <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">⊕</span></span></span></span>, p.ex.: <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span></span>.</p>
 <p>A tabela a seguir ilustra como os operadores bitwise atuam sobre valores binários. Os exemplos utilizam inteiros de 8 bits para facilitar a visualização:</p>
 <div class="table-wrapper"><table><thead><tr><th>Expressão</th><th>Operação</th><th>Resultado Binário</th><th>Resultado Decimal</th></tr></thead><tbody>
 <tr><td><code>0b1100 &amp; 0b1010</code></td><td>AND</td><td><code>0b1000</code></td><td><code>8</code></td></tr>
@@ -184,15 +185,15 @@
 </div>
 <p>¹ Em Go, o operador <code>^</code> representa o NOT unário. O resultado depende do tipo da variável (<code>uint8</code>, <code>int</code>, etc.). Por exemplo, <code>^uint8(0b1100)</code> resulta em <code>0b11110011</code> (243 decimal).</p>
 <p>² O operador <code>&amp;^</code> é específico da linguagem Go e realiza uma operação conhecida como "bit clear". Ele equivale a <code>a &amp; (~b)</code>, ou seja, <strong>faz um NOT bit a bit do segundo operando e aplica AND com o primeiro</strong>. Em C, essa operação seria expressa como <code>a &amp; (~b)</code>.</p>
-<h2 id="exemplo-prático-1-isolando-bits-com-máscaras-base64-sha-etc"><a class="header" href="#exemplo-prático-1-isolando-bits-com-máscaras-base64-sha-etc">Exemplo prático 1: isolando bits com máscaras (Base64, SHA, etc)</a></h2>
-<p>Uma das aplicações mais comuns do operador AND (<code>&amp;</code>) é a extração de porções específicas de um número binário, por meio de máscaras. Isso é amplamente usado em codificações como Base64, compressão, protocolos e algoritmos criptográficos.</p>
+<h2 id="exemplo-prático-1-isolando-bits-com-máscaras"><a class="header" href="#exemplo-prático-1-isolando-bits-com-máscaras">Exemplo prático 1: isolando bits com máscaras</a></h2>
+<p>Uma das aplicações mais comuns do operador AND (<code>&amp;</code>) é a extração de porções específicas de um número binário, por meio de máscaras.</p>
 <p>Suponha que você queira extrair os 6 bits menos significativos de um byte. Para isso, podemos usar uma máscara <code>0b00111111</code>, que equivale a <code>0x3F</code> em hexadecimal. Veja:</p>
 <pre><code>BYTE qualquer:            01010010  (82 em decimal)
 Máscara de 6 bits:        00111111  (0x3F em hexadecimal)
 Resultado após AND:       00010010  (18 em decimal)
 
 </code></pre>
-<p>O operador <code>&amp;</code> preserva apenas os bits em que ambos os operandos são 1. Portanto, ele serve como uma forma seletiva de “manter” ou “zerar” bits.</p>
+<p>O operador <code>&amp;</code> preserva apenas os bits em que ambos os operandos são 1. Portanto, ele serve como uma forma de “manter” ou “zerar” bits.</p>
 <p><strong>Tabela verdade para <code>AND</code></strong></p>
 <div class="table-wrapper"><table><thead><tr><th>A</th><th>AND</th><th>B</th><th>Resultado</th></tr></thead><tbody>
 <tr><td>1</td><td>&amp;</td><td>1</td><td>1</td></tr>
@@ -269,13 +270,10 @@ kakashi := Jounin | Ambu                      // 00001100
 <tr><td>0</td><td>~</td><td>1</td></tr>
 </tbody></table>
 </div>
-<h2 id="exemplo-prático-3-usando-xor-em-prngs-e-criptografia"><a class="header" href="#exemplo-prático-3-usando-xor-em-prngs-e-criptografia">Exemplo prático 3: usando <code>XOR</code> em PRNGs e criptografia</a></h2>
-<p>O operador XOR (<code>^</code>) é um dos mais utilizados em criptografia moderna, principalmente por suas propriedades de reversibilidade e difusão controlada. Ele também aparece como base de muitos geradores de números pseudoaleatórios (PRNGs), como a família <strong>Xorshift</strong>.</p>
+<h2 id="exemplo-prático-3-usando-xor"><a class="header" href="#exemplo-prático-3-usando-xor">Exemplo prático 3: usando <code>XOR</code></a></h2>
+<p>O operador XOR (<code>^</code>) é um dos mais utilizados em criptografia, principalmente por suas propriedades de reversibilidade e difusão controlada. Ele também aparece como base de muitos geradores de números pseudoaleatórios (PRNGs), como a família <strong>Xorshift</strong>.</p>
 <p>A propriedade central do <code>XOR</code> é:</p>
-<pre><code>A ^ A = 0        (auto-cancelamento)
-A ^ 0 = A        (identidade)
-A ^ B ^ B = A    (reversível)
-</code></pre>
+<p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:4.5em;vertical-align:-2em;"></span><span class="mord"><span class="mtable"><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.5em;"><span style="top:-4.66em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal">A</span></span></span><span style="top:-3.16em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">0</span></span></span><span style="top:-1.66em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2em;"><span></span></span></span></span></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.5em;"><span style="top:-4.66em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:1em;"></span></span></span><span style="top:-3.16em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:1em;"></span></span></span><span style="top:-1.66em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:1em;"></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:1em;"></span><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.5em;"><span style="top:-4.66em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">(auto-cancelamento)</span></span></span></span><span style="top:-3.16em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">(identidade)</span></span></span></span><span style="top:-1.66em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">(revers</span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6944em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord latin_fallback">ı</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">ˊ</span></span></span></span></span></span></span><span class="mord">vel)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2em;"><span></span></span></span></span></span></span></span></span></span></span></span></p>
 <p>Essas propriedades tornam o <code>XOR</code> ideal para cifragem, embaralhamento e geração determinística de entropia.</p>
 <h3 id="xorshift-simplificado"><a class="header" href="#xorshift-simplificado">Xorshift simplificado</a></h3>
 <p>A seguir, um PRNG de 32 bits usando apenas <code>XOR</code> e <code>shifts</code>:</p>
@@ -311,7 +309,7 @@ func main() {
 <h2 id="exemplo-prático-4-deslocamento-de-bits--e-"><a class="header" href="#exemplo-prático-4-deslocamento-de-bits--e-">Exemplo prático 4: deslocamento de bits (<code>&lt;&lt;</code> e <code>&gt;&gt;</code>)</a></h2>
 <p>Os operadores de deslocamento <code>&lt;&lt;</code> (shift à esquerda) e <code>&gt;&gt;</code> (shift à direita) são amplamente utilizados em operações de dispersão, ajustes de bits e estruturação de dados binários. Eles são comuns em geradores pseudoaleatórios, cifras e funções de hash.</p>
 <p>A operação <code>x &lt;&lt; n</code> desloca os bits de <code>x</code> para a esquerda em <code>n</code> posições, preenchendo com <code>0</code> à direita. Já <code>x &gt;&gt; n</code> desloca os bits para a direita, preenchendo com <code>0</code> à esquerda (em inteiros sem sinal).</p>
-<h3 id="aplicação-prática-passo-de-um-lfsr-linear-feedback-shift-register"><a class="header" href="#aplicação-prática-passo-de-um-lfsr-linear-feedback-shift-register">Aplicação prática: passo de um LFSR (Linear Feedback Shift Register)</a></h3>
+<h3 id="aplicação-prática-lfsr-linear-feedback-shift-register"><a class="header" href="#aplicação-prática-lfsr-linear-feedback-shift-register">Aplicação prática: LFSR (Linear Feedback Shift Register)</a></h3>
 <p>Sem entrar nos detalhes do algoritmo agora, podemos observar um exemplo de uso de deslocamento para atualizar um valor de estado:</p>
 <pre><code class="language-go">package main
 
@@ -371,7 +369,7 @@ func main() {
 </li>
 </ul>
 <h2 id="considerações"><a class="header" href="#considerações">Considerações</a></h2>
-<p>Dominar os operadores bitwise é essencial para compreender o funcionamento interno de muitos algoritmos criptográficos. Além disso, esse tipo de manipulação é eficiente, compacta e amplamente utilizada em implementações de baixo nível, seja em bibliotecas de segurança, protocolos ou microcontroladores.</p>
+<p>Dominar os operadores bitwise é importante para compreender o funcionamento interno de muitos algoritmos criptográficos. Além disso, esse tipo de manipulação é eficiente, compacta e muito utilizada em implementações de baixo nível.</p>
 <p>Nos próximos tópicos, aplicaremos esses conceitos na manipulação de blocos de dados, operações estruturais e transformação binária direta.</p>
 
                     </main>

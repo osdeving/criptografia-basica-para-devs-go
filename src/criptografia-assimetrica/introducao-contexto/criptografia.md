@@ -1,0 +1,1 @@
+# Criptografia Simétrica vs Assimétrica

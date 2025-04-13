@@ -3,7 +3,7 @@ authors = ["Willams Sousa"]
 language = "pt_BR"
 multilingual = false
 src = "src"
-title = "Criptografia para Desenvolvedores Go"
+title = "Criptografia para Desenvolvedores: Fundamentos e Prática"
 [build]
 build-dir = "docs"
 

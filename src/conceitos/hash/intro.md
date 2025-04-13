@@ -1,1 +1,1 @@
-# Funções Hash Criptográficas
+# Funções Hash

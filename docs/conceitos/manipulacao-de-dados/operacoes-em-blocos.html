@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Operações em Blocos - Criptografia para Desenvolvedores Go</title>
+        <title>Operações em Blocos - Criptografia para Desenvolvedores: Fundamentos e Prática</title>
 
 
         <!-- Custom HTML head -->
@@ -123,7 +123,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Criptografia para Desenvolvedores Go</h1>
+                    <h1 class="menu-title">Criptografia para Desenvolvedores: Fundamentos e Prática</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -158,15 +158,15 @@
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="operações-em-blocos"><a class="header" href="#operações-em-blocos">Operações em Blocos</a></h1>
 <h2 id="o-que-são-modos-de-operação"><a class="header" href="#o-que-são-modos-de-operação">O que são modos de operação?</a></h2>
-<p>Muitos algoritmos lidam com blocos de dados de tamanho fixo, como 64 ou 128 bits. Quando a entrada é maior que um único bloco, é necessário dividir os dados e aplicar transformações <strong>bloco a bloco</strong>, seguindo um <strong>modo de operação</strong>.</p>
-<p>Embora esses modos sejam usados em contextos criptográficos, o objetivo aqui é entender <strong>como os dados são processados tecnicamente</strong>, sem considerar a lógica de cifra. Vamos nos concentrar em:</p>
+<p>Algoritmos de cifra simétrica, como AES e DES, operam sobre <strong>blocos de dados de tamanho fixo</strong>. Quando a mensagem é maior que um único bloco, é necessário dividi-la em blocos e aplicar a cifra <strong>bloco a bloco</strong>, segundo um esquema conhecido como <strong>modo de operação</strong> (<em>mode of operation</em>).</p>
+<p>Nesta seção, o foco não será a lógica interna da cifra, mas sim <strong>como os blocos são processados e encadeados</strong> durante a cifragem. Veremos:</p>
 <ul>
 <li>Como os blocos são encadeados</li>
 <li>Qual a dependência entre entradas e saídas</li>
 <li>Como o estado interno evolui</li>
-<li>Como entrada, saída e IV interagem</li>
+<li>Como a entrada, a saída e o vetor de inicialização (IV) interagem</li>
 </ul>
-<p>Para fins ilustrativos, faremos comentários como <code>// aplicar cifra aqui</code>, mas <strong>não implementaremos cifra real nesta seção</strong>.</p>
+<p>Para fins ilustrativos, onde normalmente seria invocada a cifra real, usaremos apenas o comentário <code>// aplicar cifra aqui</code>.</p>
 <h2 id="divisão-em-blocos"><a class="header" href="#divisão-em-blocos">Divisão em blocos</a></h2>
 <p>Antes de aplicar qualquer modo de operação, os dados precisam ser divididos em blocos de tamanho fixo. Se os dados não são múltiplo do tamanho do bloco, algum tipo de preenchimento (padding) será necessário. Veremos mais sobre padding em uma seção posterior, em especial quando estivermos falando sobre Base64.</p>
 <p>Exemplo com blocos de 8 bytes:</p>
@@ -179,11 +179,12 @@ B3 = "iptograf"
 B4 = "ado\x00\x00\x00" // padding se aplicado
 </code></pre>
 <p>A seguir, vamos examinar os principais modos de operação: ECB, CBC, CFB, OFB, CTR e outros opcionais.</p>
-<h2 id="ecb--electronic-codebook"><a class="header" href="#ecb--electronic-codebook">ECB — Electronic Codebook</a></h2>
+<h2 id="ecb--electronic-codebook-editar-essa-seção"><a class="header" href="#ecb--electronic-codebook-editar-essa-seção">ECB — Electronic Codebook [Editar essa seção]</a></h2>
 <p>O modo ECB é o mais simples de todos: cada bloco de entrada é processado <strong>de forma independente</strong> dos demais. Não há encadeamento, nem dependência de bloco anterior. Por isso, é possível aplicar a transformação a todos os blocos <strong>em paralelo</strong>.</p>
 <p>Uma analogia útil é pensar em ECB como um carimbo: para cada pedaço do texto, aplica-se sempre o mesmo molde. Se dois blocos forem iguais, o resultado será o mesmo.</p>
 <p>Apesar de sua simplicidade, esse comportamento pode expor padrões quando blocos repetidos resultam em saídas repetidas — por isso o ECB é desaconselhado em aplicações criptográficas. Mas como modelo de operação, é útil para entender a base dos modos.</p>
 <h3 id="funcionamento"><a class="header" href="#funcionamento">Funcionamento</a></h3>
+<p>[Criar uma imagem legal para ECB]</p>
 <pre><code>Entrada:     B1   B2   B3   B4
              |    |    |    |
              v    v    v    v
@@ -191,7 +192,7 @@ Saída:      C1   C2   C3   C4
 
 // Cada Ci = cifra(Bi)
 </code></pre>
-<h3 id="implementação-simulada-em-go"><a class="header" href="#implementação-simulada-em-go">Implementação simulada em Go</a></h3>
+<h3 id="implementação"><a class="header" href="#implementação">Implementação</a></h3>
 <pre><code class="language-go">package main
 
 import "fmt"
@@ -241,7 +242,7 @@ IV ---&gt; XOR   |    |    |    |
 // C3 = cifra(B3 ⊕ C2)
 // C4 = cifra(B4 ⊕ C3)
 </code></pre>
-<h3 id="implementação-simulada-em-go-1"><a class="header" href="#implementação-simulada-em-go-1">Implementação simulada em Go</a></h3>
+<h3 id="implementação-1"><a class="header" href="#implementação-1">Implementação</a></h3>
 <pre><code class="language-go">package main
 
 import "fmt"
@@ -295,7 +296,7 @@ IV -----&gt; cifra     |      |      |
 // C4 = P4 ⊕ cifra(C3)
 </code></pre>
 <p>Diferente do CBC, a cifra é aplicada sobre a saída anterior, não sobre a entrada. Isso permite que a cifra seja usada como um gerador de fluxo pseudoaleatório que é então combinado com os dados reais.</p>
-<h3 id="implementação-simulada-em-go-2"><a class="header" href="#implementação-simulada-em-go-2">Implementação simulada em Go</a></h3>
+<h3 id="implementação-2"><a class="header" href="#implementação-2">Implementação</a></h3>
 <pre><code class="language-go">package main
 
 import "fmt"
@@ -347,6 +348,7 @@ func main() {
 <p>O modo OFB (Output Feedback) é semelhante ao CFB, mas com uma diferença importante: o <strong>vetor de realimentação é atualizado independentemente da entrada</strong>. Isso significa que o fluxo pseudoaleatório gerado pela cifra é completamente dissociado do texto de entrada, permitindo paralelismo na geração e reutilização do keystream.</p>
 <p>Na prática, o OFB transforma uma cifra de bloco em uma cifra de fluxo pura, onde o texto de entrada é combinado com uma sequência pseudoaleatória de bits gerados iterativamente a partir do IV.</p>
 <h3 id="funcionamento-2"><a class="header" href="#funcionamento-2">Funcionamento</a></h3>
+<p>[TODO: criar imagem para o modo OFB]</p>
 <pre><code>Entrada:     P1     P2     P3     P4
               |      |      |      |
 IV -----&gt; cifra ---&gt; cifra ---&gt; cifra ---&gt;
@@ -363,7 +365,7 @@ IV -----&gt; cifra ---&gt; cifra ---&gt; cifra ---&gt;
 // Ci = Pi ⊕ Ei
 </code></pre>
 <p>Como o OFB não depende da entrada anterior, ele é ideal para ambientes em que erros de transmissão não podem propagar corrompendo blocos seguintes.</p>
-<h3 id="implementação-simulada-em-go-3"><a class="header" href="#implementação-simulada-em-go-3">Implementação simulada em Go</a></h3>
+<h3 id="implementação-simulada-em-go"><a class="header" href="#implementação-simulada-em-go">Implementação simulada em Go</a></h3>
 <pre><code class="language-go">package main
 
 import "fmt"
@@ -430,7 +432,7 @@ IV+0 --&gt; cifra
 // C4 = P4 ⊕ cifra(IV + 3)
 </code></pre>
 <p>Esse modo é muito utilizado por sua eficiência e por permitir operações em paralelo. Como o contador é previsível, os blocos de keystream podem ser gerados antes mesmo da chegada da mensagem.</p>
-<h3 id="implementação-simulada-em-go-4"><a class="header" href="#implementação-simulada-em-go-4">Implementação simulada em Go</a></h3>
+<h3 id="implementação-simulada-em-go-1"><a class="header" href="#implementação-simulada-em-go-1">Implementação simulada em Go</a></h3>
 <pre><code class="language-go">package main
 
 import (

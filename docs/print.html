@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Criptografia para Desenvolvedores Go</title>
+        <title>Criptografia para Desenvolvedores: Fundamentos e Prática</title>
         <meta name="robots" content="noindex">
 
 
@@ -124,7 +124,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Criptografia para Desenvolvedores Go</h1>
+                    <h1 class="menu-title">Criptografia para Desenvolvedores: Fundamentos e Prática</h1>
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -158,29 +158,33 @@
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <div align="center">
-<img src="assets/capa.png" width="500" />
-<h1 id="fundamentos-de-criptografia-para-desenvolvedores-fundamentos-e-prática"><a class="header" href="#fundamentos-de-criptografia-para-desenvolvedores-fundamentos-e-prática"><strong>Fundamentos de Criptografia para Desenvolvedores: Fundamentos e Prática</strong></a></h1>
-<h3 id="criptografia-para-desenvollvedores"><a class="header" href="#criptografia-para-desenvollvedores">Criptografia para Desenvollvedores</a></h3>
-<h4 id="por-willams-santos-de-sousa"><a class="header" href="#por-willams-santos-de-sousa">por Willams Santos de Sousa</a></h4>
-<hr />
+<img src="assets/capa.jpg" width="550" />
+---
 </div>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="prefácio"><a class="header" href="#prefácio">Prefácio</a></h1>
+<p>Livro em desenvolvimento...</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<div align="center">
+<img src="./assets/capa.jpg" width="200" />
+<hr />
+<h1 id="criptografia-para-desenvolvedores-fundamentos-e-prática"><a class="header" href="#criptografia-para-desenvolvedores-fundamentos-e-prática">Criptografia para Desenvolvedores: Fundamentos e Prática</a></h1>
+<h2 id="por-willams-sousa"><a class="header" href="#por-willams-sousa">por Willams Sousa</a></h2>
+<hr />
+</div><div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="manipulação-de-dados"><a class="header" href="#manipulação-de-dados">Manipulação de Dados</a></h1>
-<p>Esta seção estabelece os fundamentos práticos para entender como os dados binários são tratados internamente — ponto essencial para compreender cifras, hashes e protocolos.</p>
-<p>Começaremos com uma explicação rápida sobre endianness em <strong>Endianness – Organização de Bytes na Memória</strong>, que aborda como diferentes arquiteturas armazenam inteiros e como isso afeta a interoperabilidade e o uso seguro da criptografia.</p>
+<p>Esta seção estabelece os fundamentos práticos para entender como os dados binários são tratados internamente — essencial para compreender os algoritmos de cifra, hashes e protocolos.</p>
+<p>Começaremos com uma explicação rápida sobre endianness em <strong>Endianness – Organização de Bytes na Memória</strong>, que aborda como diferentes arquiteturas armazenam inteiros e como isso afeta a interoperabilidade e o seu papel no
+com os variados algorítmos de criptografia.</p>
 <p>Em seguida, em <strong>Operadores Bitwise</strong>, exploraremos os operadores bit a bit, que são fundamentais para a construção de cifras e hashes. Mostraremos como AND, OR, XOR e deslocamentos são usados na manipulação de bits, no controle de flags e na implementação de PRNGs e mecanismos criptográficos.</p>
-<p>Veremos depois, em <strong>Operações em Blocos</strong>, os modos de operação (ECB, CBC, etc.) como técnicas de controle de fluxo entre blocos de dados — uma estrutura essencial para cifras reais. Aqui a conexão com criptografia é mais acentuada, mas o foco continua sendo como manipular blocos binários de forma sistemática.</p>
-<p>Na sequência, estudaremos três conceitos fundamentais para o projeto de cifras modernas: <strong>Confusão e Difusão</strong>, <strong>S-Box</strong> e <strong>Permutações e Trocas</strong>. Embora estejam mais diretamente associados ao campo da criptografia, todos eles são, na essência, formas especializadas de manipulação de dados binários. Por esse motivo, optamos por incluí-los nesta seção, mantendo a coerência conceitual com os tópicos anteriores.</p>
+<p>Veremos depois, em <strong>Operações em Blocos</strong>, os modos de operação (ECB, CBC, etc.) como técnicas de controle de fluxo entre blocos de dados — uma estrutura usada encadear operações de cifra. Aqui a conexão com criptografia é mais acentuada, mas o foco continua sendo como manipular blocos binários de forma sistemática.</p>
+<p>Na sequência, estudaremos três conceitos fundamentais para o projeto de cifras modernas: <strong>Confusão e Difusão</strong>, <strong>S-Box</strong> e <strong>Permutações e Trocas</strong>. Embora estejam mais diretamente associados ao campo da criptografia, todos eles são, na essência, formas especializadas de manipulação de dados binários. Por esse motivo, optamos por incluí-los nesta seção.</p>
 <blockquote>
-<p>Esses conceitos serão reaproveitados ao longo do livro e servem de base para o entendimento de algoritmos criptográficos reais. O objetivo é diminuir o esforço cognitivo ao apresentar tópicos mais avançados, dando a chance do leitor se familiarizar com tópicos mais gerais envolvendo manipulação de dados.</p>
+<p>Esses conceitos serão reaproveitados ao longo do livro e servem de base para o entendimento de algoritmos criptográficos reais quando explorados de forma pŕatica estudando as suas implementações. O objetivo é diminuir o esforço cognitivo ao apresentar tópicos mais avançados, dando a chance do leitor se familiarizar com tópicos mais gerais envolvendo manipulação de dados.</p>
 </blockquote>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="introdução"><a class="header" href="#introdução">Introdução</a></h1>
-<p>Antes de explorarmos algoritmos criptográficos como funções hash, cifras de bloco ou mecanismos de assinatura, é essencial compreender <strong>como os dados são representados e manipulados em baixo nível</strong>. A criptografia opera sobre sequências binárias, e muitas de suas construções dependem de operações como <strong>máscaras de bits, deslocamentos, permutações, concatenação e particionamento de blocos</strong>.</p>
+<p>Antes de explorarmos algoritmos criptográficos como funções hash, cifras de bloco ou mecanismos de assinatura, é importante compreender <strong>como os dados são representados e manipulados em baixo nível</strong>. A criptografia opera sobre sequências binárias, e muitas de suas construções dependem de operações como <strong>máscaras de bits, deslocamentos, permutações, concatenação e particionamento de blocos</strong>.</p>
 <p>Esta seção reúne os fundamentos práticos que formam a base para a implementação e compreensão de algoritmos criptográficos. Embora não envolvam segurança por si só, esses conceitos estruturam a <strong>transformação e o fluxo de dados</strong>, e são usados repetidamente em construções como:</p>
 <ul>
 <li>
@@ -190,20 +194,20 @@
 <p>Rotação de palavras (como em SHA e AES)</p>
 </li>
 <li>
-<p>Aplicação de máscaras e XORs (ubíquos em todas as cifras)</p>
+<p>Aplicação de máscaras e XORs (presentes em todas as cifras)</p>
 </li>
 <li>
 <p>Organização de blocos e endianness (em PBKDF2, HMAC, etc.)</p>
 </li>
 </ul>
-<p>Mesmo algoritmos clássicos, como MD2, baseiam parte de sua segurança e funcionamento em <strong>operações simples, porém precisas, sobre bytes e bits</strong>. Por isso, essa preparação técnica é indispensável para leitura crítica, implementação correta e análise de sistemas criptográficos.</p>
+<p>Algoritmos clássicos, como MD2, baseiam parte de sua segurança e funcionamento em <strong>operações simples sobre bytes e bits</strong>. Em todos os algorítmos teremos de uma forma ou outra operações em nível de bits. Por isso, essa preparação técnica é indispensável para leitura crítica e compreensão da implementação de sistemas criptográficos.</p>
 <p>Nos próximos tópicos, cobriremos:</p>
 <ul>
 <li>
 <p>A ordem dos bytes na memória (<strong>endianness</strong>)</p>
 </li>
 <li>
-<p>Os operadores de bit mais utilizados (<strong>bitwise</strong>)</p>
+<p>Os operadores de bit a bit (<strong>bitwise</strong>)</p>
 </li>
 <li>
 <p>Como manipular dados em blocos, rotacionar e reorganizar estruturas</p>
@@ -233,8 +237,8 @@
 <tr><td>0x1003</td><td>0x78</td></tr>
 </tbody></table>
 </div>
-<h2 id="implementação-em-go"><a class="header" href="#implementação-em-go">Implementação em Go</a></h2>
-<p>Vamos verificar a ordem dos bytes em memória e converter entre endiannesses.</p>
+<h2 id="endianess-na-prática"><a class="header" href="#endianess-na-prática">Endianess na Prática</a></h2>
+<p>A ordem dos bytes na memória varia entre arquiteturas. A seguir, veremos como isso afeta a manipulação de dados binários e como determinar a ordem de bytes de um sistema.</p>
 <h3 id="detectando-o-endianness-do-sistema"><a class="header" href="#detectando-o-endianness-do-sistema">Detectando o endianness do sistema</a></h3>
 <pre><code class="language-go">package main
 
@@ -283,8 +287,56 @@ func main() {
 Little-endian: 04 03 02 01
 
 </code></pre>
+<h3 id="manipulação-de-bytes-individuais-de-acordo-com-o-endianness"><a class="header" href="#manipulação-de-bytes-individuais-de-acordo-com-o-endianness">Manipulação de bytes individuais de acordo com o endianness</a></h3>
+<p>Aqui está um exemplo que mostra como o endianness influencia diretamente a forma como blocos de dados são interpretados em cifras de bloco como o RC2 (ou mesmo DES). Vamos simular a codificação de um bloco de 64 bits em que a ordem dos bytes impacta o valor numérico processado:</p>
+<pre><code class="language-go">package main
+
+import (
+	"encoding/binary"
+	"fmt"
+)
+
+// Simula um processamento de bloco que depende da ordem dos bytes.
+// Ex: RC2/DES usam blocos de 64 bits interpretados como dois inteiros de 32 bits.
+func processBlock(b []byte, order binary.ByteOrder) {
+	if len(b) != 8 {
+		panic("Bloco precisa ter 8 bytes")
+	}
+
+	left := order.Uint32(b[:4])
+	right := order.Uint32(b[4:])
+
+	fmt.Printf("Bloco interpretado como:\n")
+	fmt.Printf("  L = 0x%08X\n", left)
+	fmt.Printf("  R = 0x%08X\n", right)
+}
+
+func main() {
+	// Exemplo de bloco de 64 bits (8 bytes) com valor fixo
+	block := []byte{0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF}
+
+	fmt.Println("== Interpretação Big-endian (protocolos de rede, SHA, etc.)")
+	processBlock(block, binary.BigEndian)
+
+	fmt.Println("\n== Interpretação Little-endian (como em x86 e x86_64)")
+	processBlock(block, binary.LittleEndian)
+}
+
+</code></pre>
+<p>Saída esperada:</p>
+<pre><code>== Interpretação Big-endian (protocolos de rede, SHA, etc.)
+Bloco interpretado como:
+  L = 0x01234567
+  R = 0x89ABCDEF
+
+== Interpretação Little-endian (como em x86 e xx86_64)
+Bloco interpretado como:
+  L = 0x67452301
+  R = 0xEFCDAB89
+</code></pre>
+<p>Esse exemplo mostra que o mesmo bloco de bytes resulta em valores completamente diferentes para L e R, dependendo do endianness. Esse fator afeta diretamente muitos algoritmos de cifra — especialmente cifras de bloco — que tratam blocos de N bits como inteiros de 16 ou 32 bits, sobre os quais aplicam operações lógicas, rotações e substituições.</p>
 <h2 id="considerações"><a class="header" href="#considerações">Considerações</a></h2>
-<p>Saber lidar com endianness é fundamental ao manipular dados binários em protocolos, arquivos binários, criptografia ou comunicação entre sistemas heterogêneos. Por exemplo:</p>
+<p>Endianness será um fator a ser considerado em diversas situações:</p>
 <ul>
 <li>
 <p>Algoritmos como <strong>SHA</strong> e <strong>MD5</strong> especificam explicitamente a ordem dos bytes em suas operações internas.</p>
@@ -293,23 +345,24 @@ Little-endian: 04 03 02 01
 <p>Protocolos de rede, como <strong>TCP/IP</strong>, utilizam o modelo <strong>big-endian</strong>, também chamado de <em>network byte order</em>.</p>
 </li>
 </ul>
-<p>Arquiteturas modernas como x86 e x86-64 (Intel/AMD) adotam o modelo little-endian como padrão. Isso significa que o byte menos significativo de uma palavra é armazenado no menor endereço de memória. Essa decisão de projeto afeta diretamente a forma como inteiros são representados internamente e exige atenção ao manipular dados provenientes de ambientes que utilizam big-endian, como redes ou formatos binários padronizados.</p>
+<p>Arquiteturas modernas como <code>x86</code> e <code>x86-64</code> (Intel/AMD) adotam o modelo <code>little-endian</code> como padrão. Isso significa que o byte menos significativo de uma palavra é armazenado no menor endereço de memória. Essa decisão de projeto afeta diretamente a forma como inteiros são representados internamente e exige atenção ao manipular dados provenientes de ambientes que utilizam big-endian, como redes ou formatos binários padronizados.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="operadores-bitwise"><a class="header" href="#operadores-bitwise">Operadores Bitwise</a></h1>
 <h2 id="o-que-são-operadores-bit-a-bit"><a class="header" href="#o-que-são-operadores-bit-a-bit">O que são operadores bit a bit?</a></h2>
-<p>Operadores bitwise (bit a bit) são operadores que atuam diretamente sobre os bits de inteiros binários. São fundamentais em implementações de algoritmos criptográficos, protocolos binários, manipulação de flags e otimizações de espaço e tempo.</p>
-<p>Ao contrário dos operadores aritméticos tradicionais <code>(+, -, *, /)</code>, operadores bitwise operam posição a posição, diretamente sobre os bits das representações binárias dos operandos.</p>
-<h2 id="operadores-fundamentais"><a class="header" href="#operadores-fundamentais">Operadores Fundamentais</a></h2>
+<p>Operadores bitwise (bit a bit) são operadores que atuam diretamente sobre os bits de inteiros binários. São fundamentais em implementações de algoritmos criptográficos, protocolos binários, manipulação de flags e otimizações.</p>
+<p>Ao contrário dos operadores aritméticos tradicionais <code>(+, -, *, /)</code>, operadores bitwise operam diretamente sobre os bits das representações binárias dos operandos.</p>
+<h2 id="operadores-bitwise-1"><a class="header" href="#operadores-bitwise-1">Operadores Bitwise</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>Operador</th><th>Nome</th><th>Descrição</th></tr></thead><tbody>
 <tr><td>&amp;</td><td>AND</td><td>Retorna 1 se ambos os bits forem 1.</td></tr>
 <tr><td>|</td><td>OR</td><td>Retorna 1 se pelo menos um dos bits é 1.</td></tr>
-<tr><td>^</td><td>XOR</td><td>Exclusivo: Retorna 1 se exatamente um dos bits é 1.</td></tr>
+<tr><td>^</td><td>XOR¹</td><td>Exclusivo: Retorna 1 se apenas um dos bits é 1.</td></tr>
 <tr><td>~</td><td>NOT</td><td>Inverte todos os bits.</td></tr>
 <tr><td>&amp;^</td><td>AND NOT (Go)</td><td>Zera os bits do primeiro operando que forem 1 no segundo operando.</td></tr>
-<tr><td>&lt;&lt;</td><td>Deslocamento à esquerda</td><td>Desloca os bits n posições à esquerda. (equivalente a multiplicar por <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span></span></span></span>)</td></tr>
-<tr><td>&gt;&gt;</td><td>Deslocamento à direita</td><td>Desloca os bits n posições à direita. (equivalente a dividir por <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span></span></span></span>)</td></tr>
+<tr><td>&lt;&lt;</td><td>Deslocamento à esquerda</td><td>Desloca os bits <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> posições à esquerda. (equivalente a multiplicar por <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span></span></span></span>)</td></tr>
+<tr><td>&gt;&gt;</td><td>Deslocamento à direita</td><td>Desloca os bits <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> posições à direita. (equivalente a dividir por <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span></span></span></span>)</td></tr>
 </tbody></table>
 </div>
+<p>¹ O operador <code>XOR</code> é representado matematicamente com o símbolo <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">⊕</span></span></span></span>, p.ex.: <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span></span>.</p>
 <p>A tabela a seguir ilustra como os operadores bitwise atuam sobre valores binários. Os exemplos utilizam inteiros de 8 bits para facilitar a visualização:</p>
 <div class="table-wrapper"><table><thead><tr><th>Expressão</th><th>Operação</th><th>Resultado Binário</th><th>Resultado Decimal</th></tr></thead><tbody>
 <tr><td><code>0b1100 &amp; 0b1010</code></td><td>AND</td><td><code>0b1000</code></td><td><code>8</code></td></tr>
@@ -323,15 +376,15 @@ Little-endian: 04 03 02 01
 </div>
 <p>¹ Em Go, o operador <code>^</code> representa o NOT unário. O resultado depende do tipo da variável (<code>uint8</code>, <code>int</code>, etc.). Por exemplo, <code>^uint8(0b1100)</code> resulta em <code>0b11110011</code> (243 decimal).</p>
 <p>² O operador <code>&amp;^</code> é específico da linguagem Go e realiza uma operação conhecida como "bit clear". Ele equivale a <code>a &amp; (~b)</code>, ou seja, <strong>faz um NOT bit a bit do segundo operando e aplica AND com o primeiro</strong>. Em C, essa operação seria expressa como <code>a &amp; (~b)</code>.</p>
-<h2 id="exemplo-prático-1-isolando-bits-com-máscaras-base64-sha-etc"><a class="header" href="#exemplo-prático-1-isolando-bits-com-máscaras-base64-sha-etc">Exemplo prático 1: isolando bits com máscaras (Base64, SHA, etc)</a></h2>
-<p>Uma das aplicações mais comuns do operador AND (<code>&amp;</code>) é a extração de porções específicas de um número binário, por meio de máscaras. Isso é amplamente usado em codificações como Base64, compressão, protocolos e algoritmos criptográficos.</p>
+<h2 id="exemplo-prático-1-isolando-bits-com-máscaras"><a class="header" href="#exemplo-prático-1-isolando-bits-com-máscaras">Exemplo prático 1: isolando bits com máscaras</a></h2>
+<p>Uma das aplicações mais comuns do operador AND (<code>&amp;</code>) é a extração de porções específicas de um número binário, por meio de máscaras.</p>
 <p>Suponha que você queira extrair os 6 bits menos significativos de um byte. Para isso, podemos usar uma máscara <code>0b00111111</code>, que equivale a <code>0x3F</code> em hexadecimal. Veja:</p>
 <pre><code>BYTE qualquer:            01010010  (82 em decimal)
 Máscara de 6 bits:        00111111  (0x3F em hexadecimal)
 Resultado após AND:       00010010  (18 em decimal)
 
 </code></pre>
-<p>O operador <code>&amp;</code> preserva apenas os bits em que ambos os operandos são 1. Portanto, ele serve como uma forma seletiva de “manter” ou “zerar” bits.</p>
+<p>O operador <code>&amp;</code> preserva apenas os bits em que ambos os operandos são 1. Portanto, ele serve como uma forma de “manter” ou “zerar” bits.</p>
 <p><strong>Tabela verdade para <code>AND</code></strong></p>
 <div class="table-wrapper"><table><thead><tr><th>A</th><th>AND</th><th>B</th><th>Resultado</th></tr></thead><tbody>
 <tr><td>1</td><td>&amp;</td><td>1</td><td>1</td></tr>
@@ -408,13 +461,10 @@ kakashi := Jounin | Ambu                      // 00001100
 <tr><td>0</td><td>~</td><td>1</td></tr>
 </tbody></table>
 </div>
-<h2 id="exemplo-prático-3-usando-xor-em-prngs-e-criptografia"><a class="header" href="#exemplo-prático-3-usando-xor-em-prngs-e-criptografia">Exemplo prático 3: usando <code>XOR</code> em PRNGs e criptografia</a></h2>
-<p>O operador XOR (<code>^</code>) é um dos mais utilizados em criptografia moderna, principalmente por suas propriedades de reversibilidade e difusão controlada. Ele também aparece como base de muitos geradores de números pseudoaleatórios (PRNGs), como a família <strong>Xorshift</strong>.</p>
+<h2 id="exemplo-prático-3-usando-xor"><a class="header" href="#exemplo-prático-3-usando-xor">Exemplo prático 3: usando <code>XOR</code></a></h2>
+<p>O operador XOR (<code>^</code>) é um dos mais utilizados em criptografia, principalmente por suas propriedades de reversibilidade e difusão controlada. Ele também aparece como base de muitos geradores de números pseudoaleatórios (PRNGs), como a família <strong>Xorshift</strong>.</p>
 <p>A propriedade central do <code>XOR</code> é:</p>
-<pre><code>A ^ A = 0        (auto-cancelamento)
-A ^ 0 = A        (identidade)
-A ^ B ^ B = A    (reversível)
-</code></pre>
+<p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:4.5em;vertical-align:-2em;"></span><span class="mord"><span class="mtable"><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.5em;"><span style="top:-4.66em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal">A</span></span></span><span style="top:-3.16em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">0</span></span></span><span style="top:-1.66em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2em;"><span></span></span></span></span></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.5em;"><span style="top:-4.66em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:1em;"></span></span></span><span style="top:-3.16em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:1em;"></span></span></span><span style="top:-1.66em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:1em;"></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:1em;"></span><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.5em;"><span style="top:-4.66em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">(auto-cancelamento)</span></span></span></span><span style="top:-3.16em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">(identidade)</span></span></span></span><span style="top:-1.66em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">(revers</span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6944em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord latin_fallback">ı</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">ˊ</span></span></span></span></span></span></span><span class="mord">vel)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2em;"><span></span></span></span></span></span></span></span></span></span></span></span></p>
 <p>Essas propriedades tornam o <code>XOR</code> ideal para cifragem, embaralhamento e geração determinística de entropia.</p>
 <h3 id="xorshift-simplificado"><a class="header" href="#xorshift-simplificado">Xorshift simplificado</a></h3>
 <p>A seguir, um PRNG de 32 bits usando apenas <code>XOR</code> e <code>shifts</code>:</p>
@@ -450,7 +500,7 @@ func main() {
 <h2 id="exemplo-prático-4-deslocamento-de-bits--e-"><a class="header" href="#exemplo-prático-4-deslocamento-de-bits--e-">Exemplo prático 4: deslocamento de bits (<code>&lt;&lt;</code> e <code>&gt;&gt;</code>)</a></h2>
 <p>Os operadores de deslocamento <code>&lt;&lt;</code> (shift à esquerda) e <code>&gt;&gt;</code> (shift à direita) são amplamente utilizados em operações de dispersão, ajustes de bits e estruturação de dados binários. Eles são comuns em geradores pseudoaleatórios, cifras e funções de hash.</p>
 <p>A operação <code>x &lt;&lt; n</code> desloca os bits de <code>x</code> para a esquerda em <code>n</code> posições, preenchendo com <code>0</code> à direita. Já <code>x &gt;&gt; n</code> desloca os bits para a direita, preenchendo com <code>0</code> à esquerda (em inteiros sem sinal).</p>
-<h3 id="aplicação-prática-passo-de-um-lfsr-linear-feedback-shift-register"><a class="header" href="#aplicação-prática-passo-de-um-lfsr-linear-feedback-shift-register">Aplicação prática: passo de um LFSR (Linear Feedback Shift Register)</a></h3>
+<h3 id="aplicação-prática-lfsr-linear-feedback-shift-register"><a class="header" href="#aplicação-prática-lfsr-linear-feedback-shift-register">Aplicação prática: LFSR (Linear Feedback Shift Register)</a></h3>
 <p>Sem entrar nos detalhes do algoritmo agora, podemos observar um exemplo de uso de deslocamento para atualizar um valor de estado:</p>
 <pre><code class="language-go">package main
 
@@ -510,20 +560,20 @@ func main() {
 </li>
 </ul>
 <h2 id="considerações-1"><a class="header" href="#considerações-1">Considerações</a></h2>
-<p>Dominar os operadores bitwise é essencial para compreender o funcionamento interno de muitos algoritmos criptográficos. Além disso, esse tipo de manipulação é eficiente, compacta e amplamente utilizada em implementações de baixo nível, seja em bibliotecas de segurança, protocolos ou microcontroladores.</p>
+<p>Dominar os operadores bitwise é importante para compreender o funcionamento interno de muitos algoritmos criptográficos. Além disso, esse tipo de manipulação é eficiente, compacta e muito utilizada em implementações de baixo nível.</p>
 <p>Nos próximos tópicos, aplicaremos esses conceitos na manipulação de blocos de dados, operações estruturais e transformação binária direta.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="operações-em-blocos"><a class="header" href="#operações-em-blocos">Operações em Blocos</a></h1>
 <h2 id="o-que-são-modos-de-operação"><a class="header" href="#o-que-são-modos-de-operação">O que são modos de operação?</a></h2>
-<p>Muitos algoritmos lidam com blocos de dados de tamanho fixo, como 64 ou 128 bits. Quando a entrada é maior que um único bloco, é necessário dividir os dados e aplicar transformações <strong>bloco a bloco</strong>, seguindo um <strong>modo de operação</strong>.</p>
-<p>Embora esses modos sejam usados em contextos criptográficos, o objetivo aqui é entender <strong>como os dados são processados tecnicamente</strong>, sem considerar a lógica de cifra. Vamos nos concentrar em:</p>
+<p>Algoritmos de cifra simétrica, como AES e DES, operam sobre <strong>blocos de dados de tamanho fixo</strong>. Quando a mensagem é maior que um único bloco, é necessário dividi-la em blocos e aplicar a cifra <strong>bloco a bloco</strong>, segundo um esquema conhecido como <strong>modo de operação</strong> (<em>mode of operation</em>).</p>
+<p>Nesta seção, o foco não será a lógica interna da cifra, mas sim <strong>como os blocos são processados e encadeados</strong> durante a cifragem. Veremos:</p>
 <ul>
 <li>Como os blocos são encadeados</li>
 <li>Qual a dependência entre entradas e saídas</li>
 <li>Como o estado interno evolui</li>
-<li>Como entrada, saída e IV interagem</li>
+<li>Como a entrada, a saída e o vetor de inicialização (IV) interagem</li>
 </ul>
-<p>Para fins ilustrativos, faremos comentários como <code>// aplicar cifra aqui</code>, mas <strong>não implementaremos cifra real nesta seção</strong>.</p>
+<p>Para fins ilustrativos, onde normalmente seria invocada a cifra real, usaremos apenas o comentário <code>// aplicar cifra aqui</code>.</p>
 <h2 id="divisão-em-blocos"><a class="header" href="#divisão-em-blocos">Divisão em blocos</a></h2>
 <p>Antes de aplicar qualquer modo de operação, os dados precisam ser divididos em blocos de tamanho fixo. Se os dados não são múltiplo do tamanho do bloco, algum tipo de preenchimento (padding) será necessário. Veremos mais sobre padding em uma seção posterior, em especial quando estivermos falando sobre Base64.</p>
 <p>Exemplo com blocos de 8 bytes:</p>
@@ -536,11 +586,12 @@ B3 = "iptograf"
 B4 = "ado\x00\x00\x00" // padding se aplicado
 </code></pre>
 <p>A seguir, vamos examinar os principais modos de operação: ECB, CBC, CFB, OFB, CTR e outros opcionais.</p>
-<h2 id="ecb--electronic-codebook"><a class="header" href="#ecb--electronic-codebook">ECB — Electronic Codebook</a></h2>
+<h2 id="ecb--electronic-codebook-editar-essa-seção"><a class="header" href="#ecb--electronic-codebook-editar-essa-seção">ECB — Electronic Codebook [Editar essa seção]</a></h2>
 <p>O modo ECB é o mais simples de todos: cada bloco de entrada é processado <strong>de forma independente</strong> dos demais. Não há encadeamento, nem dependência de bloco anterior. Por isso, é possível aplicar a transformação a todos os blocos <strong>em paralelo</strong>.</p>
 <p>Uma analogia útil é pensar em ECB como um carimbo: para cada pedaço do texto, aplica-se sempre o mesmo molde. Se dois blocos forem iguais, o resultado será o mesmo.</p>
 <p>Apesar de sua simplicidade, esse comportamento pode expor padrões quando blocos repetidos resultam em saídas repetidas — por isso o ECB é desaconselhado em aplicações criptográficas. Mas como modelo de operação, é útil para entender a base dos modos.</p>
 <h3 id="funcionamento"><a class="header" href="#funcionamento">Funcionamento</a></h3>
+<p>[Criar uma imagem legal para ECB]</p>
 <pre><code>Entrada:     B1   B2   B3   B4
              |    |    |    |
              v    v    v    v
@@ -548,7 +599,7 @@ Saída:      C1   C2   C3   C4
 
 // Cada Ci = cifra(Bi)
 </code></pre>
-<h3 id="implementação-simulada-em-go"><a class="header" href="#implementação-simulada-em-go">Implementação simulada em Go</a></h3>
+<h3 id="implementação"><a class="header" href="#implementação">Implementação</a></h3>
 <pre><code class="language-go">package main
 
 import "fmt"
@@ -598,7 +649,7 @@ IV ---&gt; XOR   |    |    |    |
 // C3 = cifra(B3 ⊕ C2)
 // C4 = cifra(B4 ⊕ C3)
 </code></pre>
-<h3 id="implementação-simulada-em-go-1"><a class="header" href="#implementação-simulada-em-go-1">Implementação simulada em Go</a></h3>
+<h3 id="implementação-1"><a class="header" href="#implementação-1">Implementação</a></h3>
 <pre><code class="language-go">package main
 
 import "fmt"
@@ -652,7 +703,7 @@ IV -----&gt; cifra     |      |      |
 // C4 = P4 ⊕ cifra(C3)
 </code></pre>
 <p>Diferente do CBC, a cifra é aplicada sobre a saída anterior, não sobre a entrada. Isso permite que a cifra seja usada como um gerador de fluxo pseudoaleatório que é então combinado com os dados reais.</p>
-<h3 id="implementação-simulada-em-go-2"><a class="header" href="#implementação-simulada-em-go-2">Implementação simulada em Go</a></h3>
+<h3 id="implementação-2"><a class="header" href="#implementação-2">Implementação</a></h3>
 <pre><code class="language-go">package main
 
 import "fmt"
@@ -704,6 +755,7 @@ func main() {
 <p>O modo OFB (Output Feedback) é semelhante ao CFB, mas com uma diferença importante: o <strong>vetor de realimentação é atualizado independentemente da entrada</strong>. Isso significa que o fluxo pseudoaleatório gerado pela cifra é completamente dissociado do texto de entrada, permitindo paralelismo na geração e reutilização do keystream.</p>
 <p>Na prática, o OFB transforma uma cifra de bloco em uma cifra de fluxo pura, onde o texto de entrada é combinado com uma sequência pseudoaleatória de bits gerados iterativamente a partir do IV.</p>
 <h3 id="funcionamento-2"><a class="header" href="#funcionamento-2">Funcionamento</a></h3>
+<p>[TODO: criar imagem para o modo OFB]</p>
 <pre><code>Entrada:     P1     P2     P3     P4
               |      |      |      |
 IV -----&gt; cifra ---&gt; cifra ---&gt; cifra ---&gt;
@@ -720,7 +772,7 @@ IV -----&gt; cifra ---&gt; cifra ---&gt; cifra ---&gt;
 // Ci = Pi ⊕ Ei
 </code></pre>
 <p>Como o OFB não depende da entrada anterior, ele é ideal para ambientes em que erros de transmissão não podem propagar corrompendo blocos seguintes.</p>
-<h3 id="implementação-simulada-em-go-3"><a class="header" href="#implementação-simulada-em-go-3">Implementação simulada em Go</a></h3>
+<h3 id="implementação-simulada-em-go"><a class="header" href="#implementação-simulada-em-go">Implementação simulada em Go</a></h3>
 <pre><code class="language-go">package main
 
 import "fmt"
@@ -774,7 +826,7 @@ func main() {
 <h3 id="funcionamento-3"><a class="header" href="#funcionamento-3">Funcionamento</a></h3>
 <pre><code>Entrada:     P1     P2     P3     P4
               |      |      |      |
-IV+0 --&gt; cifra        
+IV+0 --&gt; cifra
          |           |      |      |
          v           v      v      v
         XOR         XOR   XOR    XOR
@@ -787,7 +839,7 @@ IV+0 --&gt; cifra
 // C4 = P4 ⊕ cifra(IV + 3)
 </code></pre>
 <p>Esse modo é muito utilizado por sua eficiência e por permitir operações em paralelo. Como o contador é previsível, os blocos de keystream podem ser gerados antes mesmo da chegada da mensagem.</p>
-<h3 id="implementação-simulada-em-go-4"><a class="header" href="#implementação-simulada-em-go-4">Implementação simulada em Go</a></h3>
+<h3 id="implementação-simulada-em-go-1"><a class="header" href="#implementação-simulada-em-go-1">Implementação simulada em Go</a></h3>
 <pre><code class="language-go">package main
 
 import (
@@ -1323,7 +1375,7 @@ base64Table[56] = "4"
 <blockquote>
 <p>Para extrair os grupos de 6 bits, utilizamos <strong>bitwise AND</strong> com uma máscara <code>0b00111111</code>. Para uma explicação mais detalhada sobre manipulação de bits, consulte a seção <a href="conceitos/encode-decode/../manipulacao-de-dados/operadores-bitwise.html">Operadores Bitwise</a>.</p>
 </blockquote>
-<h2 id="implementação-em-go-1"><a class="header" href="#implementação-em-go-1">Implementação em Go</a></h2>
+<h2 id="implementação-em-go"><a class="header" href="#implementação-em-go">Implementação em Go</a></h2>
 <pre><code class="language-go">const b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 
 func Encb64(in []byte) string {
@@ -1524,7 +1576,7 @@ i → 0x69 → 01101001
 </code></pre>
 <p>Resultado final: <code>4869</code></p>
 <hr />
-<h2 id="implementação-em-go-2"><a class="header" href="#implementação-em-go-2">Implementação em Go</a></h2>
+<h2 id="implementação-em-go-1"><a class="header" href="#implementação-em-go-1">Implementação em Go</a></h2>
 <pre><code class="language-go">import (
 	"encoding/hex"
 	"fmt"
@@ -1588,7 +1640,7 @@ func main() {
 </ul>
 <p>Tudo mais é substituído por <code>%XX</code>, onde <code>XX</code> é o byte em hexadecimal.</p>
 <hr />
-<h2 id="implementação-em-go-3"><a class="header" href="#implementação-em-go-3">Implementação em Go</a></h2>
+<h2 id="implementação-em-go-2"><a class="header" href="#implementação-em-go-2">Implementação em Go</a></h2>
 <p>A biblioteca padrão oferece suporte completo via o pacote <code>net/url</code>:</p>
 <pre><code class="language-go">import (
 	"fmt"
@@ -1672,7 +1724,7 @@ Recebido: 111001101
 Número de bits "1": 6 (mesma paridade) → erro não detectado
 </code></pre>
 <hr />
-<h2 id="implementação-em-go-4"><a class="header" href="#implementação-em-go-4">Implementação em Go</a></h2>
+<h2 id="implementação-em-go-3"><a class="header" href="#implementação-em-go-3">Implementação em Go</a></h2>
 <pre><code class="language-go">package main
 
 import (
@@ -1783,8 +1835,8 @@ func UDPChecksum(data []byte) uint16 {
 	// Processa os dados em blocos de 16 bits
 	for i := 0; i &lt; len(data)-1; i += 2 {
 		// Converte dois bytes em um uint16
-		word := binary.BigEndian.Uint16(data[i : i+2]) 
-		
+		word := binary.BigEndian.Uint16(data[i : i+2])
+
 		sum += uint32(word)
 	}
 
@@ -1941,6 +1993,8 @@ Saída de tamanho fixo: A saída sempre tem 256 valores possíveis, independente
 <p>Contudo, o espaço da saída ainda é muito pequeno, estamos limitando a saída a 32 bits. Para grandes volumes de dados as colisões ainda serão inevitáveis e o algorítmo também não é resistente a pré-imagem. Além disso, pequenas mudanças na entrada não afetam significativamente a saída (efeito avalanche).</p>
 <p>Esses exemplos foram um ótimo ponto de partida, mas a computação exigiu funções hash mais poderosas. Vamos analisar como os algoritmos evoluíram ao longo do tempo até chegarmos às soluções modernas, como o SHA-256.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="funções-hash"><a class="header" href="#funções-hash">Funções Hash</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="família-de-algoritmos-md---message-digest"><a class="header" href="#família-de-algoritmos-md---message-digest">Família de Algoritmos MD - Message Digest</a></h1>
 <h2 id="md2"><a class="header" href="#md2">MD2</a></h2>
 <p>O primeiro algoritmo amplamente publicado da família MD (Message Digest) foi o MD2 e foi desenvolvido por Ronald Rivest em 1989 (não achei nenhuma publicação do MD1 nem do MD3). Ele foi projetado especificamente para computadores de 8 bits. Apesar de ter sido uma inovação importante, o MD2 se tornou obsoleto com o tempo devido a ataques criptográficos bem-sucedidos. Suas principais características eram:</p>
@@ -2009,7 +2063,7 @@ L = C[3] = 0x71
 <p>Essa fase adiciona o efeito de difusão na mensagem antes da fase final.</p>
 <p>A difusão é um conceito introduzido por Claude Shannon [Shannon, 1949] [1], onde pequenas mudanças na entrada devem se espalhar por toda a saída, dificultando a recuperação do texto original a partir do hash ou da cifra</p>
 <p>Após processar todos os blocos, os 16 bytes do checksum são anexados à mensagem.</p>
-<h5 id="implementação-em-go-5"><a class="header" href="#implementação-em-go-5">Implementação em Go</a></h5>
+<h5 id="implementação-em-go-4"><a class="header" href="#implementação-em-go-4">Implementação em Go</a></h5>
 <pre><code class="language-go">var SBox = [256]byte{
 	41, 46, 67, 201, 162, 216, 124, 1, 61, 54, 84, 161, 236, 240, 6, 19,
 	98, 167, 5, 243, 192, 199, 115, 140, 152, 147, 43, 217, 188, 76, 130, 202,
@@ -2168,9 +2222,9 @@ func MD2(input []byte) [16]byte {
 
 	// Parte 3: Transformação Principal
 	var X [48]byte
-	
+
     for i := 0; i &lt; len(input); i += 16 {
-		
+
         // Copia bloco para X
 		copy(X[16:32], input[i:i+16])
 		for j := 0; j &lt; 16; j++ {
@@ -2190,9 +2244,9 @@ func MD2(input []byte) [16]byte {
 
 	// O hash final está nos primeiros 16 bytes de X
 	var hash [16]byte
-	
+
     copy(hash[:], X[:16])
-	
+
     return hash
 }
 
@@ -2403,8 +2457,6 @@ func main() {
 </code></pre>
 <h3 id="md5"><a class="header" href="#md5">MD5</a></h3>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="família-de-algoritmos-des---data-encryption-standard"><a class="header" href="#família-de-algoritmos-des---data-encryption-standard">Família de Algoritmos DES - Data Encryption Standard</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="família-de-algoritmos-sha---secure-hash-algorithms"><a class="header" href="#família-de-algoritmos-sha---secure-hash-algorithms">Família de Algoritmos SHA - Secure Hash Algorithms</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="pbkdf2-argon2-e-scrypt---hash-para-senhas"><a class="header" href="#pbkdf2-argon2-e-scrypt---hash-para-senhas">PBKDF2, Argon2 e Scrypt - Hash para Senhas</a></h1>
@@ -2564,6 +2616,8 @@ Publicou trabalhos influentes sobre segurança prática e criptografia pós-quâ
 </ul>
 <p>A distinção entre essas abordagens impacta o desempenho, a segurança e o tipo de uso adequado para cada uma.</p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="modos-de-operação-e-sua-relação-com-cifras-de-fluxo"><a class="header" href="#modos-de-operação-e-sua-relação-com-cifras-de-fluxo">Modos de operação e sua relação com cifras de fluxo</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="cifras-de-fluxo"><a class="header" href="#cifras-de-fluxo">Cifras de Fluxo</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="conceito-e-aplicações"><a class="header" href="#conceito-e-aplicações">Conceito e aplicações</a></h1>
@@ -2585,103 +2639,111 @@ Publicou trabalhos influentes sobre segurança prática e criptografia pós-quâ
 <h1 id="o-que-é-uma-cifra-de-bloco"><a class="header" href="#o-que-é-uma-cifra-de-bloco">O que é uma cifra de bloco</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="a-estrutura-de-feistel"><a class="header" href="#a-estrutura-de-feistel">A estrutura de Feistel</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="des-arquitetura-s-boxes-e-permutações"><a class="header" href="#des-arquitetura-s-boxes-e-permutações">DES: arquitetura, S-boxes e permutações</a></h1>
-<h1 id="data-encryption-standard-des"><a class="header" href="#data-encryption-standard-des">Data Encryption Standard (DES)</a></h1>
-<p>O DES foi concebido no início dos anos 70 e pode ser considerado o primeiro algorítmo de cifra moderno. Ele foi o mais popular algoritmo de cifra simétrica nos anos 80 e 90. Embora o DES seja considerado inseguro em sua forma original, por causa de sua chave pequena, algumas de suas variantes, como o Triple DES (3DES), é ainda usado em muitos sistemas nos dias atuais. Triple DES é uma extensão do DES que usa o DES três vezes em sequência. O design do DES inspirou muitas cifras atuais tornando seu estudo importante para o entendimento de cifras modernas.</p>
-<p>Neste capítulo você aprenderá:</p>
-<ul>
-<li>O processo de desenvolvimento do DES, útil para entender a evolução técnica e pollítica da criptografia moderna.</li>
-<li>As idéias de projeto das cifras de bloco, incluindo confusão e difusão, que são propriedades importantes de todas as cifras de bloco modernas.</li>
-<li>A estrutura interna do DES, incluindo a estrutura de Feistel, S-boxes, permutações e o agendamento de chaves (key scheduling).</li>
-<li>Análise de segurança do DES, incluindo ataques de criptoanálise.</li>
-<li>Alternativas ao DES, incluindo 3DES e a cifra de bloco leve PRESENT.</li>
-</ul>
-<p>Em 1972, um ato levemente revolucionário foi realizado pelo National Bureau of Standards (NBS) dos Estados Unidos, atualmente chamado de National Institute of Standards and Technology (NIST): o NBS iniciou um processo de chamada pública de propostas para selecionar uma cifra padronizada nos EUA. A ideia era encontrar um único algoritmo criptográfico seguro que pudesse ser utilizado em diversas aplicações. Até então, os governos consideravam a criptografia — e especialmente a criptoanálise — algo tão crucial para a segurança nacional que deveria ser mantido em segredo. No entanto, no início da década de 1970, a demanda por criptografia em aplicações comerciais, como o setor bancário, tornou-se tão urgente que não poderia mais ser ignorada sem consequências econômicas.</p>
-<p>O NBS recebeu o candidato mais promissor em 1974, vindo de uma equipe de criptógrafos da IBM. O algoritmo submetido era baseado na cifra Lucifer. Lucifer era uma família de cifras desenvolvida por Horst Feistel no final da década de 1960, sendo uma das primeiras cifras de bloco projetadas para operar sobre dados digitais. Lucifer é uma cifra de Feistel que cifra blocos de 64 bits utilizando uma chave de 128 bits.</p>
-<p>Para avaliar a segurança dos algoritmos recebidos, o NBS solicitou ajuda da NSA (National Security Agency), que na época nem sequer admitia sua existência oficialmente. É praticamente certo que a NSA influenciou mudanças na cifra, que foi rebatizada como DES. Uma das alterações foi que o DES foi especificamente projetado para resistir à criptoanálise diferencial, um tipo de ataque que só se tornou conhecido publicamente em 1990. Não está claro se a equipe da IBM desenvolveu esse conhecimento de forma independente ou se foi orientada pela NSA. Supostamente, a NSA também teria convencido a IBM a reduzir o tamanho da chave de Lucifer de 128 bits para 56 bits — o que deixou o algoritmo muito mais vulnerável a ataques de força bruta.</p>
-<p>A participação da NSA gerou preocupações, pois havia o receio de que uma backdoor secreta — ou seja, uma propriedade matemática que permitiria quebrar o DES e que só seria conhecida pela NSA — fosse a verdadeira razão por trás das modificações. Outra crítica importante foi a redução do tamanho da chave. Algumas pessoas conjecturaram que a NSA teria capacidade computacional para explorar o espaço de chaves de 2⁵⁶ combinações e assim quebrar o algoritmo por força bruta. Nas décadas seguintes, a maioria dessas preocupações mostrou-se infundada.</p>
-<p>Apesar das críticas e controvérsias, em 1977 o NBS publicou todas as especificações da cifra modificada da IBM como o Data Encryption Standard (FIPS PUB 46). Embora a cifra seja descrita no padrão com precisão até o nível de bits, a motivação para diversas decisões de projeto (os chamados critérios de projeto), especialmente a escolha das caixas de substituição (S-boxes), nunca foi oficialmente divulgada.</p>
-<p>Com o crescimento rápido dos computadores pessoais no início da década de 1980 — e com todas as especificações do DES sendo públicas — tornou-se mais fácil analisar sua estrutura interna. Nesse período, a comunidade acadêmica de pesquisa em criptografia também cresceu, e o DES passou a ser alvo de intensa análise. No entanto, até 1990, nenhuma vulnerabilidade grave foi encontrada. Inicialmente, o DES foi padronizado por 10 anos, até 1987. Devido ao uso generalizado e à ausência de falhas críticas, o NIST reafirmou seu uso federal até 1999, quando foi finalmente substituído pelo Advanced Encryption Standard (AES).</p>
-<h2 id="311-confusion-and-diffusion"><a class="header" href="#311-confusion-and-diffusion">3.1.1 Confusion and Diffusion</a></h2>
-<p>Antes de analisarmos os detalhes do DES, é útil entender as operações básicas que podem ser aplicadas para alcançar uma criptografia forte. Segundo o famoso teórico da informação Claude Shannon, existem duas operações primitivas com as quais se pode construir algoritmos criptográficos robustos [232]:</p>
-<p>Confusão é uma operação criptográfica em que a relação entre a chave e o texto cifrado é obscurecida. Atualmente, um elemento comum para alcançar confusão é a substituição, presente tanto no DES quanto no AES.</p>
-<p>Difusão é uma operação criptográfica em que a influência de um símbolo do texto original é espalhada por muitos símbolos do texto cifrado, com o objetivo de ocultar propriedades estatísticas do texto original. Um exemplo simples de elemento de difusão é a permutação de bits, usada com frequência no DES. O AES utiliza a operação mais avançada chamada MixColumn.</p>
-<p>Cifras que aplicam apenas confusão — como a cifra de César ou a máquina Enigma usada na Segunda Guerra Mundial — não são seguras. O mesmo vale para cifras que aplicam apenas difusão. No entanto, ao combinar essas operações em sequência, é possível construir cifras robustas. A ideia de concatenar várias operações criptográficas também foi proposta por Shannon. Tais cifras são conhecidas como cifras de produto (product ciphers). Todas as cifras de bloco modernas pertencem a essa categoria, pois consistem em rodadas repetidas aplicadas aos dados (ver Figura 3.1).
-As cifras de bloco modernas possuem excelentes propriedades de difusão. Isso significa que, ao nível do algoritmo, uma alteração de um único bit no texto original (plaintext) tende a modificar, em média, metade dos bits de saída — fazendo com que o texto cifrado resultante pareça estatisticamente independente do original. Essa é uma propriedade fundamental a se ter em mente ao lidar com cifras de bloco. Podemos demonstrar esse comportamento com o exemplo a seguir:</p>
-<p>Exemplo 3.1
-Considere uma cifra de bloco simplificada com comprimento de bloco de 8 bits. A criptografia de dois textos originais x₁ e x₂, que diferem em apenas um bit, deve resultar aproximadamente na situação mostrada na Figura 3.2.</p>
-<p>Observe que cifras de bloco modernas operam com blocos de 64 ou 128 bits, mas exibem exatamente o mesmo comportamento se um único bit de entrada for alterado.</p>
-<p>3.2 Visão geral do algoritmo DES
-O DES é uma cifra que criptografa blocos de 64 bits utilizando uma chave de 56 bits (ver Figura 3.3).</p>
-<p>O DES é uma cifra simétrica, ou seja, a mesma chave é usada tanto para cifrar quanto para decifrar. Assim como praticamente todas as cifras de bloco modernas, o DES é um algoritmo baseado em rodadas. Para cada bloco de texto original, o processo de criptografia envolve 16 rodadas, todas com a mesma estrutura. A Figura 3.4 mostra essa estrutura. Em cada rodada é usada uma subchave diferente kᵢ, derivada da chave principal k.</p>
-<p>Vamos agora examinar com mais detalhes a estrutura interna do DES, conforme ilustrado na Figura 3.5. A estrutura apresentada é chamada de rede de Feistel (Feistel network), que pode formar cifras muito fortes se bem projetada. Redes de Feistel são utilizadas em outras cifras modernas (embora não em todas; por exemplo, o AES não é uma cifra de Feistel).</p>
-<p>💡 Vantagem prática: Um dos benefícios das redes de Feistel é que os processos de cifragem e decifragem são praticamente idênticos. A única diferença é a ordem das subchaves. Isso facilita a implementação em software e hardware.</p>
-<p>Após a permutação inicial de bits (IP) sobre o bloco de 64 bits de entrada x, o texto é dividido em duas metades: L₀ e R₀. Essas duas metades de 32 bits são a entrada para a rede de Feistel, que consiste em 16 rodadas. A metade direita Rᵢ é passada como entrada para a função f. O resultado da f é então XOR com a metade esquerda Lᵢ. Por fim, as metades são trocadas. Esse processo se repete nas rodadas seguintes, e pode ser descrito por:</p>
-<p>Lᵢ = Rᵢ₋₁<br />
-Rᵢ = Lᵢ₋₁ ⊕ f(Rᵢ₋₁, kᵢ)</p>
-<p>para i = 1, ..., 16.</p>
-<p>Após a rodada 16, as metades L₁₆ e R₁₆ são trocadas novamente, e a permutação final (IP⁻¹) é aplicada — sendo o inverso da permutação inicial IP.</p>
-<p>Em cada rodada, a subchave kᵢ é gerada a partir da chave principal de 56 bits, por meio de um processo chamado de agendamento de chaves (key schedule).</p>
-<p>É importante observar que a estrutura de Feistel criptografa, em cada rodada, apenas metade do bloco de entrada. A metade direita Rᵢ₋₁ passa pela função f, enquanto a metade esquerda é atualizada via XOR com a saída dessa função. A metade direita é apenas copiada para a próxima rodada.</p>
-<p>🎯 Interpretação útil: A função f pode ser vista como um gerador pseudoaleatório que recebe como entrada Rᵢ₋₁ e kᵢ. Sua saída serve para “embaralhar” Lᵢ₋₁ via XOR. Se a saída de f for imprevisível, o resultado é uma cifra forte.</p>
-<p>Do ponto de vista matemático, a estrutura de Feistel mapeia bijetivamente os 64 bits de entrada para os 64 bits de saída — ou seja, cada entrada tem uma única saída correspondente, e vice-versa. Isso permanece verdadeiro mesmo que a função f interna não seja bijetiva. No caso do DES, a f é uma função não injetora, que mapeia 32 bits de entrada para 32 bits de saída, usando uma subchave de 48 bits.</p>
-<pre><code>texto longo explicando
-</code></pre>
-<p>vs</p>
-<pre><code class="language-go">// Entrada: bloco de 64 bits
-block := [...]byte{...}
+<p>Vimos que cifras de bloco transformam blocos de dados de tamanho fixo (e.g. 64 bits) em blocos cifrados de mesmo tamanho. A <code>estrutura de Feistel</code> é um padrão de construção de cifras de bloco que permite aplicar <code>confusão</code> e <code>difusão</code>.</p>
+<p>A estrutura de Feistel (chamada também de <code>Feistel Network</code>), proposta por Horst Feistel em 1970, é uma abordagem muito utilizada para construir cifras de bloco a partir de funções não necessariamente invertíveis. A ideia central dessa estrutura é dividir o bloco de entrada em duas partes iguais, aplicar uma função não invertível a uma das partes e combinar o resultado com a outra parte usando uma operação <code>XOR</code>.</p>
+<h2 id="estrutura-geral-1"><a class="header" href="#estrutura-geral-1">Estrutura Geral</a></h2>
+<p>Dado um bloco de entrada de tamanho <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span><span class="mord mathnormal">n</span></span></span></span>, ele é dividido em duas partes iguais, <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> e <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0077em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>.</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:3em;vertical-align:-1.25em;"></span><span class="mord"><span class="mtable"><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.75em;"><span style="top:-3.91em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-2.41em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0077em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.25em;"><span></span></span></span></span></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.75em;"><span style="top:-3.91em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">←</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord text"><span class="mord">parte esquerda do bloco</span></span></span></span><span style="top:-2.41em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">←</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord text"><span class="mord">parte direita do bloco</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.25em;"><span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p>Cada rodada <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span> aplica a seguinte transformação:</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:3em;vertical-align:-1.25em;"></span><span class="mord"><span class="mtable"><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.75em;"><span style="top:-3.91em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-2.41em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0077em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.25em;"><span></span></span></span></span></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.75em;"><span style="top:-3.91em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0077em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2083em;"><span></span></span></span></span></span></span></span></span><span style="top:-2.41em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2083em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0077em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2083em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0315em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.25em;"><span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p>Aqui, <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span></span></span></span> é uma função que pode ser não invertível, e <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0315em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> é a subchave da rodada <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span>.</p>
+<p>Ao final das rodadas, o par <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0077em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> é combinado e (em alguns casos) passado por uma permutação final.</p>
+<p>Uma característica importante da estrutura de Feistel é que a decifração é realizada aplicando as mesmas operações em ordem inversa, com as subchaves utilizadas na ordem inversa.</p>
+<h3 id="exemplo-simplificado-rede-de-feistel-de-2-rodadas"><a class="header" href="#exemplo-simplificado-rede-de-feistel-de-2-rodadas">Exemplo simplificado (Rede de Feistel de 2 rodadas)</a></h3>
+<p>Para ilustrar, considere uma rede de Feistel com 2 rodadas e blocos de 8 bits, divididos em duas metades de 4 bits.</p>
+<pre><code class="language-go">package main
 
-// Permutação inicial
-permuted := IP(block)
+import (
+	"fmt"
+)
 
-// Divisão em L₀ e R₀
-L[0] = permuted[:4] // primeiros 32 bits
-R[0] = permuted[4:] // últimos 32 bits
-
-// 16 rodadas de Feistel
-for i := 1; i &lt;= 16; i++ {
-    L[i] = R[i-1]
-    R[i] = L[i-1] ^ f(R[i-1], k[i])
+func F(R, K byte) byte {
+	return (R + K) % 16
 }
 
-// Swap final
-preOutput := R[16] || L[16]
+func FeistelEncrypt(P byte, K []byte) byte {
+	L := (P &gt;&gt; 4) &amp; 0xF
+	R := P &amp; 0xF
 
-// Permutação final
-ciphertext := IPInv(preOutput)
+	for i := 0; i &lt; len(K); i++ {
+		newL := R
+		R = L ^ F(R, K[i])
+		L = newL
+	}
 
+	return (L &lt;&lt; 4) | R
+}
+
+func FeistelDecrypt(C byte, K []byte) byte {
+	L := (C &gt;&gt; 4) &amp; 0xF
+	R := C &amp; 0xF
+
+	for i := len(K) - 1; i &gt;= 0; i-- {
+		newR := L
+		L = R ^ F(L, K[i])
+		R = newR
+	}
+	return (L &lt;&lt; 4) | R
+}
+
+func main() {
+	P := byte('A')        // plaintext: bloco de 8 bits, caractere 'A' = 0x41 = 01000001
+	K := []byte{7, 3}     // chaves: 2 chaves de 4 bits para 2 rodadas
+
+	C := FeistelEncrypt(P, K)
+	D := FeistelDecrypt(C, K)
+
+	fmt.Println()
+	fmt.Println("=== Demonstração da Cifra de Feistel (2 rodadas, 8 bits) ===")
+	fmt.Println()
+	fmt.Printf("%-12s %-10s %-10s %-10s %-10s\n", "Tipo", "Char", "Bin", "Hex", "Decimal")
+	fmt.Println("------------------------------------------------------------")
+	fmt.Printf("%-12s %-10q %08b   0x%02X       %-10d\n", "Plaintext", P, P, P, P)
+	fmt.Printf("%-12s %-10q %08b   0x%02X       %-10d\n", "Ciphertext", C, C, C, C)
+	fmt.Printf("%-12s %-10q %08b   0x%02X       %-10d\n", "Decrypted", D, D, D, D)
+	fmt.Println()
+}
 </code></pre>
-<p>vs</p>
-<pre><code>Bloco de 64 bits
-↓
-Permutação inicial (IP)
-↓
-Divisão em L₀ e R₀
-↓
-Para i = 1 até 16:
-    Lᵢ = Rᵢ₋₁
-    Rᵢ = Lᵢ₋₁ ⊕ f(Rᵢ₋₁, kᵢ)
-↓
-Swap final (R₁₆, L₁₆)
-↓
-Permutação final (IP⁻¹)
-↓
-Bloco cifrado
-
-</code></pre>
-<p>vs</p>
+<p>Esse exemplo usa operações simples para fins didáticos. A ideia é mostrar como, mesmo com funções unilaterais simples, a estrutura de Feistel permite a construção de cifras reversíveis.</p>
+<h2 id="algoritmos-que-usam-a-estrutura-de-feistel"><a class="header" href="#algoritmos-que-usam-a-estrutura-de-feistel">Algoritmos que usam a estrutura de Feistel</a></h2>
+<p>Esses algoritmos seguem a estrutura clássica ou variantes da rede de Feistel:</p>
+<p>Clássicos / Históricos
+Lucifer (IBM, 1973): primeiro a usar Feistel explicitamente.</p>
+<p>DES (1977): 16 rodadas de Feistel com S-boxes e permutações fixas.</p>
+<p>3DES (Triple-DES): composição de DES, também baseado em Feistel.</p>
+<p>Modernos (até anos 2000)
+Blowfish (Schneier, 1993): Feistel de 16 rodadas com chave variável.</p>
+<p>Twofish (Schneier et al., 1998): usa uma estrutura pseudo-Feistel.</p>
+<p>CAST-128/CAST-256: cifras de Feistel com funções não lineares.</p>
+<p>Camellia (NTT, Mitsubishi, 2000): estrutura Feistel com S-boxes inspiradas no AES.</p>
+<p>MARS (IBM, candidato AES): usa um núcleo do tipo Feistel.</p>
+<p>GOST 28147-89 (União Soviética): 32 rodadas de Feistel com S-boxes configuráveis.</p>
+<p>RC5 / RC6: estrutura Feistel modificada (dependendo da parametrização).</p>
+<p>Outros exemplos notáveis
+ICE (Information Concealment Engine)</p>
+<p>FEAL (Fast Data Encipherment Algorithm)</p>
+<p>HIGHT (cifra leve baseada em Feistel, usada em IoT)</p>
+<p>LEA (cifra leve coreana, com estrutura semelhante a Feistel)</p>
+<h2 id="algoritmos-que-não-usam-rede-de-feistel"><a class="header" href="#algoritmos-que-não-usam-rede-de-feistel">Algoritmos que não usam rede de Feistel</a></h2>
+<p>Esses usam redes de substituição-permutação (SPN) ou outras estruturas:</p>
+<p>AES e derivados
+AES (Rijndael): usa uma rede SPN (Substituição–Permutação Network), não é Feistel.</p>
+<p>PRESENT: cifra leve SPN, amplamente usada em hardware.</p>
+<p>LED (Lightweight Encryption Device): também SPN.</p>
+<p>Modernos e pós-quantum
+SIMON / SPECK (NSA): SIMON usa estrutura bitwise alternada, não exatamente Feistel.</p>
+<p>ASCON (padrão NIST para cifragem autenticada): SPN com permutação.</p>
+<p>NOEKEON: cifra leve, rede SPN.</p>
+<p>PRINCE: estrutura reflexiva, não Feistel.</p>
+<p>Outros exemplos
+Khazad / Anubis: SPN, baseados em ideias do AES.</p>
+<p>Grain / Trivium: cifras de fluxo (não são cifras de bloco, mas também não usam Feistel).</p>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="data-encryption-standard-des"><a class="header" href="#data-encryption-standard-des">Data Encryption Standard (DES)</a></h1>
 <blockquote>
 <p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:18.1863em;vertical-align:-8.8432em;"></span><span class="mord"><span class="mtable"><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:9.3432em;"><span style="top:-11.4572em;"><span class="pstrut" style="height:2.954em;"></span><span class="mord"></span></span><span style="top:-9.9331em;"><span class="pstrut" style="height:2.954em;"></span><span class="mord"></span></span><span style="top:-8.409em;"><span class="pstrut" style="height:2.954em;"></span><span class="mord"></span></span><span style="top:-5.909em;"><span class="pstrut" style="height:2.954em;"></span><span class="mord"></span></span><span style="top:-4.409em;"><span class="pstrut" style="height:2.954em;"></span><span class="mord"></span></span><span style="top:-2.909em;"><span class="pstrut" style="height:2.954em;"></span><span class="mord"></span></span><span style="top:-0.409em;"><span class="pstrut" style="height:2.954em;"></span><span class="mord"></span></span><span style="top:1.091em;"><span class="pstrut" style="height:2.954em;"></span><span class="mord"></span></span><span style="top:3.705em;"><span class="pstrut" style="height:2.954em;"></span><span class="mord"></span></span><span style="top:5.2292em;"><span class="pstrut" style="height:2.954em;"></span><span class="mord"></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:8.8432em;"><span></span></span></span></span></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:9.3432em;"><span style="top:-11.5032em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mord text"><span class="mord textbf">1. Permuta</span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.4444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord textbf">c</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.2556em;"><span class="mord textbf">¸</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1701em;"><span></span></span></span></span></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7079em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord textbf">a</span></span><span style="top:-3.0134em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.2875em;"><span class="mord textbf">˜</span></span></span></span></span></span></span><span class="mord textbf">o Inicial (IP)</span></span></span></span><span style="top:-9.9791em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:1em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:1em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">onde </span></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mopen">{</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mclose"><span class="mclose">}</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">64</span></span></span></span></span></span></span></span></span></span></span><span style="top:-8.455em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:1em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∥</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0077em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:1em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0077em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mopen">{</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mclose"><span class="mclose">}</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">32</span></span></span></span></span></span></span></span></span></span></span><span style="top:-5.955em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mord text"><span class="mord textbf">2. Rodadas de Feistel (i = 1,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord textbf">,16)</span></span></span></span><span style="top:-4.455em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:1em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0077em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2083em;"><span></span></span></span></span></span></span></span></span><span style="top:-2.955em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:1em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0077em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2083em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0077em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2083em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0315em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span><span style="top:-0.455em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mord text"><span class="mord textbf">3. Troca final (Swap)</span></span></span></span><span style="top:1.045em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:1em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0077em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">16</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∥</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">16</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:3.6591em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mord"><span class="mord text"><span class="mord textbf">4. Permuta</span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.4444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord textbf">c</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.2556em;"><span class="mord textbf">¸</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1701em;"><span></span></span></span></span></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7079em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord textbf">a</span></span><span style="top:-3.0134em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.2875em;"><span class="mord textbf">˜</span></span></span></span></span></span></span><span class="mord textbf">o Final (IP</span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.954em;"><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mord text"><span class="mord textbf">)</span></span></span></span><span style="top:5.1832em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:1em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:1em;"></span><span class="mord text"><span class="mord">(bloco cifrado)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:8.8432em;"><span></span></span></span></span></span></span></span></span></span></span></span></p>
 </blockquote>
-<blockquote>
-<p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:10.3085em;vertical-align:-4.9043em;"></span><span class="mord"><span class="mtable"><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:5.4043em;"><span style="top:-7.6405em;"><span class="pstrut" style="height:3.1003em;"></span><span class="mord"></span></span><span style="top:-5.3802em;"><span class="pstrut" style="height:3.1003em;"></span><span class="mord"></span></span><span style="top:-3.8802em;"><span class="pstrut" style="height:3.1003em;"></span><span class="mord"></span></span><span style="top:-2.3561em;"><span class="pstrut" style="height:3.1003em;"></span><span class="mord"></span></span><span style="top:-0.8561em;"><span class="pstrut" style="height:3.1003em;"></span><span class="mord"></span></span><span style="top:1.1439em;"><span class="pstrut" style="height:3.1003em;"></span><span class="mord"></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:4.9043em;"><span></span></span></span></span></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:5.4043em;"><span style="top:-7.6405em;"><span class="pstrut" style="height:3.1003em;"></span><span class="mord"><span class="mord"></span><span class="mord text"><span class="mord textbf">Fun</span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.4444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord textbf">c</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.2556em;"><span class="mord textbf">¸</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1701em;"><span></span></span></span></span></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7079em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord textbf">a</span></span><span style="top:-3.0134em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.2875em;"><span class="mord textbf">˜</span></span></span></span></span></span></span><span class="mord textbf">o </span></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mopen">{</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mclose"><span class="mclose">}</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">32</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mopen">{</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mclose"><span class="mclose">}</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">48</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mopen">{</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mclose"><span class="mclose">}</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">32</span></span></span></span></span></span></span></span></span></span></span><span style="top:-5.3802em;"><span class="pstrut" style="height:3.1003em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:1em;"></span><span class="mord text"><span class="mord">1. Expans</span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6679em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord">a</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">˜</span></span></span></span></span></span></span><span class="mord">o: </span></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel x-arrow"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.1003em;"><span style="top:-3.322em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight x-arrow-pad"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.05764em;">E</span></span></span></span><span class="svg-align" style="top:-2.689em;"><span class="pstrut" style="height:2.7em;"></span><span class="hide-tail" style="height:0.522em;min-width:1.469em;"><svg xmlns="http://www.w3.org/2000/svg" width='400em' height='0.522em' viewBox='0 0 400000 522' preserveAspectRatio='xMaxYMin slice'><path d='M0 241v40h399891c-47.3 35.3-84 78-110 128 -16.7 32-27.7 63.7-33 95 0 1.3-.2 2.7-.5 4-.3 1.3-.5 2.3-.5 3 0 7.3 6.7 11 20  11 8 0 13.2-.8 15.5-2.5 2.3-1.7 4.2-5.5 5.5-11.5 2-13.3 5.7-27 11-41 14.7-44.7  39-84.5 73-119.5s73.7-60.2 119-75.5c6-2 9-5.7 9-11s-3-9-9-11c-45.3-15.3-85 -40.5-119-75.5s-58.3-74.8-73-119.5c-4.7-14-8.3-27.3-11-40-1.3-6.7-3.2-10.8-5.5 -12.5-2.3-1.7-7.5-2.5-15.5-2.5-14 0-21 3.7-21 11 0 2 2 10.3 6 25 20.7 83.3 67  151.7 139 205zm0 0v40h399900v-40z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.011em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mopen">{</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mclose"><span class="mclose">}</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">48</span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.8802em;"><span class="pstrut" style="height:3.1003em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:1em;"></span><span class="mord text"><span class="mord">2. Combina</span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.4306em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord">c</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.2222em;"><span class="mord">¸</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1701em;"><span></span></span></span></span></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6679em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord">a</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">˜</span></span></span></span></span></span></span><span class="mord">o com subchave: </span></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span><span style="top:-2.3561em;"><span class="pstrut" style="height:3.1003em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:1em;"></span><span class="mord text"><span class="mord">3. Substitui</span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.4306em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord">c</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.2222em;"><span class="mord">¸</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1701em;"><span></span></span></span></span></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6679em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord">a</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">˜</span></span></span></span></span></span></span><span class="mord">o: </span></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mopen">{</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mclose"><span class="mclose">}</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">32</span></span></span></span></span></span></span></span></span></span></span><span style="top:-0.8561em;"><span class="pstrut" style="height:3.1003em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:1em;"></span><span class="mord text"><span class="mord">4. Permuta</span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.4306em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord">c</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.2222em;"><span class="mord">¸</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1701em;"><span></span></span></span></span></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6679em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord">a</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">˜</span></span></span></span></span></span></span><span class="mord">o: </span></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mopen">(</span><span class="mord">⋅</span><span class="mclose">))</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mclose">)</span></span></span><span style="top:1.1439em;"><span class="pstrut" style="height:3.1003em;"></span><span class="mord"><span class="mord"></span><span class="mord text"><span class="mord">Portanto: </span></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mclose delimcenter" style="top:0em;">)</span></span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:4.9043em;"><span></span></span></span></span></span></span></span></span></span></span></span></p>
-</blockquote>
-<blockquote>
-<p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:11.0964em;vertical-align:-5.2982em;"></span><span class="mord"><span class="mtable"><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:5.7982em;"><span style="top:-7.7982em;"><span class="pstrut" style="height:2.8641em;"></span><span class="mord"></span></span><span style="top:-6.2741em;"><span class="pstrut" style="height:2.8641em;"></span><span class="mord"></span></span><span style="top:-4.75em;"><span class="pstrut" style="height:2.8641em;"></span><span class="mord"></span></span><span style="top:-2.75em;"><span class="pstrut" style="height:2.8641em;"></span><span class="mord"></span></span><span style="top:-1.25em;"><span class="pstrut" style="height:2.8641em;"></span><span class="mord"></span></span><span style="top:0.25em;"><span class="pstrut" style="height:2.8641em;"></span><span class="mord"></span></span><span style="top:1.7741em;"><span class="pstrut" style="height:2.8641em;"></span><span class="mord"></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:5.2982em;"><span></span></span></span></span></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:5.7982em;"><span style="top:-7.9341em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mord text"><span class="mord textbf">Chave original: </span></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mopen">{</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mclose"><span class="mclose">}</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">64</span></span></span></span></span></span></span></span></span></span></span><span style="top:-6.41em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:1em;"></span><span class="mord text"><span class="mord">1. Remo</span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.4306em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord">c</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.2222em;"><span class="mord">¸</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1701em;"><span></span></span></span></span></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6679em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord">a</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">˜</span></span></span></span></span></span></span><span class="mord">o dos bits de paridade: </span></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mopen">{</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mclose"><span class="mclose">}</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">56</span></span></span></span></span></span></span></span></span></span></span><span style="top:-4.8859em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:1em;"></span><span class="mord text"><span class="mord">2. Divis</span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6679em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord">a</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">˜</span></span></span></span></span></span></span><span class="mord">o: </span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∥</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:1em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mopen">{</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mclose"><span class="mclose">}</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">28</span></span></span></span></span></span></span></span></span></span></span><span style="top:-2.8859em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:1em;"></span><span class="mord text"><span class="mord">3. Para cada rodada </span></span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">16</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span></span></span><span style="top:-1.3859em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:1em;"></span><span class="mspace" style="margin-right:1em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord text"><span class="mord">LeftShift</span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2083em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span><span style="top:0.1141em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:1em;"></span><span class="mspace" style="margin-right:1em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord text"><span class="mord">LeftShift</span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2083em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span><span style="top:1.6382em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:1em;"></span><span class="mspace" style="margin-right:1em;"></span><span class="mord text"><span class="mord">Subchave: </span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0315em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∥</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:1em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0315em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mopen">{</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mclose"><span class="mclose">}</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">48</span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:5.2982em;"><span></span></span></span></span></span></span></span></span></span></span></span></p>
-</blockquote>
-<p><img src="criptografia-simetrica/cifras-de-bloco/des.png" alt="DES" /></p>
-<p><img src="criptografia-simetrica/cifras-de-bloco/des-feistel.png" alt="DES" /></p>
+<p><img src="criptografia-simetrica/cifras-de-bloco/des-image.svg" alt="DES" /></p>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="limitações-e-abandono-do-des"><a class="header" href="#limitações-e-abandono-do-des">Limitações e abandono do DES</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
@@ -2701,25 +2763,21 @@ Bloco cifrado
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="armadilhas-e-boas-práticas"><a class="header" href="#armadilhas-e-boas-práticas">Armadilhas e boas práticas</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="comparação-cifras-de-fluxo-vs-cifras-de-bloco"><a class="header" href="#comparação-cifras-de-fluxo-vs-cifras-de-bloco">Comparação: cifras de fluxo vs. cifras de bloco</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="conclusão"><a class="header" href="#conclusão">Conclusão</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="algorítmos-de-criptografia"><a class="header" href="#algorítmos-de-criptografia">Algorítmos de Criptografia</a></h1>
-<h2 id="criptografia-simétrica-1"><a class="header" href="#criptografia-simétrica-1">Criptografia Simétrica</a></h2>
-<p>Neste capítulo, veremos como criptografar e descriptografar dados usando algoritmos de chave simétrica. Exploraremos os algoritmos DES (Data Encryption Standard) e AES (Advanced Encryption Standard), além de cifras anteriores que influenciaram esses padrões, como a estrutura de Feistel e suas variações. Também analisaremos, na prática, implementações de algoritmos da família RC (Rivest Cipher).</p>
+<h1 id="criptografia-assimétrica"><a class="header" href="#criptografia-assimétrica">Criptografia Assimétrica</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="des---data-encryption-standard"><a class="header" href="#des---data-encryption-standard">DES - Data Encryption Standard</a></h1>
+<h1 id="introdução-e-contexto-1"><a class="header" href="#introdução-e-contexto-1">Introdução e Contexto</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="3des---triple-des"><a class="header" href="#3des---triple-des">3DES - Triple DES</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="aes---advanced-encryption-standard"><a class="header" href="#aes---advanced-encryption-standard">AES - Advanced Encryption Standard</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="rsa---rivest-shamir-e-adleman"><a class="header" href="#rsa---rivest-shamir-e-adleman">RSA - Rivest, Shamir e Adleman</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="ecdsa---elliptic-curve-digital-signature-algorithm"><a class="header" href="#ecdsa---elliptic-curve-digital-signature-algorithm">ECDSA - Elliptic Curve Digital Signature Algorithm</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="hmac---assinaturas-seguras"><a class="header" href="#hmac---assinaturas-seguras">HMAC - Assinaturas Seguras</a></h1>
+<h1 id="breve-história-da-criptografia-moderna-1"><a class="header" href="#breve-história-da-criptografia-moderna-1">Breve história da criptografia moderna</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="criptografia-simétrica-vs-assimétrica"><a class="header" href="#criptografia-simétrica-vs-assimétrica">Criptografia Simétrica vs Assimétrica</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="rsa-arquitetura-e-funcionamento"><a class="header" href="#rsa-arquitetura-e-funcionamento">RSA: arquitetura e funcionamento</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="rsa-implementação-em-go"><a class="header" href="#rsa-implementação-em-go">RSA: implementação em Go</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="miscelânea"><a class="header" href="#miscelânea">Miscelânea</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
@@ -3130,7 +3188,7 @@ func main() {
   font-size: 1.5rem;
 }
 
-  
+
   </style>
 <div class="box definition">
 <p>O texto puro, o texto cifrado e o key stream consiste de bits individuais:</p>
@@ -3162,7 +3220,7 @@ func srand(seed uint8) *PRNG {
 // é como jogar uma moeda para escolher 0 ou 1, só que deterrminístico
 func (p *PRNG) nextBit() uint8 {
 	var feedback uint8
-	
+
 	for _, tap := range p.taps {
 		feedback ^= (p.state &gt;&gt; tap) &amp; 1
 	}
@@ -3177,7 +3235,7 @@ func (p *PRNG) nextBit() uint8 {
 // obtido a partir de 8 chamadas de nextBit()
 func (p *PRNG) rand() uint8 {
 	var b uint8
-	
+
 	for i := 0; i &lt; 8; i++ {
 		b |= p.nextBit() &lt;&lt; i
 	}
@@ -3288,14 +3346,14 @@ M = 1 &lt;&lt; 32
 <p>Miller’s LCG: variante pouco comum, mas citada por Knuth, com foco em evitar correlações entre bits.</p>
 <p>Apesar das melhorias, todos esses métodos compartilham a característica de linearidade sobre <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathbb">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, o que os torna inadequados para aplicações criptográficas. Essa linearidade permite a reconstrução de parâmetros internos ou do estado com relativamente pouca informação (ex: alguns termos consecutivos da sequência). Por esse motivo, LCGs são aceitáveis apenas em contextos não criptográficos, como simulações estatísticas ou algoritmos probabilísticos onde segurança não é uma exigência.</p>
 <h3 id="caso-de-uso-clássico-em-assembly"><a class="header" href="#caso-de-uso-clássico-em-assembly">Caso de uso clássico em Assembly</a></h3>
-<pre><code class="language-asm">Obs.: Essa implementação foi usada em um jogo 
+<pre><code class="language-asm">Obs.: Essa implementação foi usada em um jogo
 escrito em assembly é uma variação do método de
 Park-Miller (LCG multiplicativo), com constantes
-específicas (16807 e 2836) e otimização inspirada 
-no algoritmo de Schrage para evitar overflow.                                        
-                                                                                                
+específicas (16807 e 2836) e otimização inspirada
+no algoritmo de Schrage para evitar overflow.
+
 Esteja à vontade para converter para Go
-ou outra linguagem de alto nível. 
+ou outra linguagem de alto nível.
 
 
 ;---------------------------------------------------------;
@@ -3308,23 +3366,23 @@ Random:
     PUSH EBP
     MOV EBP, ESP
     SUB ESP, 4
-	
+
     PUSH EDX
-	
+
     CALL [GetTickCount]
     MOV DWORD [EBP - 4], EAX
-	
-    XOR EDX, EDX        
+
+    XOR EDX, EDX
     PUSH 127773
     DIV DWORD [ESP]
     PUSH EAX
-    MOV EAX, 16807    
+    MOV EAX, 16807
     MUL EDX
     POP EDX
-    PUSH EAX        
-    MOV EAX, 2836              
+    PUSH EAX
+    MOV EAX, 2836
     MUL EDX
-    POP EDX                
+    POP EDX
     SUB EDX, EAX
     MOV EAX, EDX
     MOV DWORD [EBP - 4], EDX
@@ -3333,27 +3391,13 @@ Random:
     DIV DWORD [ESP]
     ADD ESP, 8
     MOV EAX, EDX
-	
+
     POP EDX
-	
+
     MOV ESP, EBP
     POP EBP
     RET	4
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="s-des---simplified-des"><a class="header" href="#s-des---simplified-des">S-DES - Simplified DES</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="s-aes---simplified-aes"><a class="header" href="#s-aes---simplified-aes">S-AES - Simplified AES</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="minides---mini-data-encryption-standard"><a class="header" href="#minides---mini-data-encryption-standard">MiniDES - Mini Data Encryption Standard</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="miniaes---mini-advanced-encryption-standard"><a class="header" href="#miniaes---mini-advanced-encryption-standard">MiniAES - Mini Advanced Encryption Standard</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="minirsa---mini-rivest-shamir-e-adleman"><a class="header" href="#minirsa---mini-rivest-shamir-e-adleman">MiniRSA - Mini Rivest, Shamir e Adleman</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="miniecdsa---mini-elliptic-curve-digital-signature-algorithm"><a class="header" href="#miniecdsa---mini-elliptic-curve-digital-signature-algorithm">MiniECDSA - Mini Elliptic Curve Digital Signature Algorithm</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="minihmac---mini-assinaturas-seguras"><a class="header" href="#minihmac---mini-assinaturas-seguras">MiniHMAC - Mini Assinaturas Seguras</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
 <h1 id="bibliotecas-recomendadas"><a class="header" href="#bibliotecas-recomendadas">Bibliotecas Recomendadas</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Algorítmos de Criptografia - Criptografia para Desenvolvedores Go</title>
+        <title>Modos de operação e sua relação com cifras de fluxo - Criptografia para Desenvolvedores: Fundamentos e Prática</title>
 
 
         <!-- Custom HTML head -->
@@ -31,11 +31,10 @@
         <!-- Custom theme stylesheets -->
 
 
-        <!-- Provide site root and default themes to javascript -->
+        <!-- Provide site root to javascript -->
         <script>
-            const path_to_root = "../../";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc.js"></script>
@@ -45,8 +44,8 @@
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -60,8 +59,7 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -74,8 +72,8 @@
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -111,7 +109,6 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -123,7 +120,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Criptografia para Desenvolvedores Go</h1>
+                    <h1 class="menu-title">Criptografia para Desenvolvedores: Fundamentos e Prática</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -156,19 +153,17 @@
                 <div id="content" class="content">
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="algorítmos-de-criptografia"><a class="header" href="#algorítmos-de-criptografia">Algorítmos de Criptografia</a></h1>
-<h2 id="criptografia-simétrica"><a class="header" href="#criptografia-simétrica">Criptografia Simétrica</a></h2>
-<p>Neste capítulo, veremos como criptografar e descriptografar dados usando algoritmos de chave simétrica. Exploraremos os algoritmos DES (Data Encryption Standard) e AES (Advanced Encryption Standard), além de cifras anteriores que influenciaram esses padrões, como a estrutura de Feistel e suas variações. Também analisaremos, na prática, implementações de algoritmos da família RC (Rivest Cipher).</p>
+<h1 id="modos-de-operação-e-sua-relação-com-cifras-de-fluxo"><a class="header" href="#modos-de-operação-e-sua-relação-com-cifras-de-fluxo">Modos de operação e sua relação com cifras de fluxo</a></h1>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../criptografia-simetrica/conclusao.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../criptografia-simetrica/introducao-contexto/fluxo-vs-bloco.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../criptografia/crypto/des.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../criptografia-simetrica/cifras-de-fluxo/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -178,11 +173,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../criptografia-simetrica/conclusao.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../criptografia-simetrica/introducao-contexto/fluxo-vs-bloco.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../criptografia/crypto/des.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../criptografia-simetrica/cifras-de-fluxo/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
