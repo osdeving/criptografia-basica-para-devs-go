@@ -27,18 +27,18 @@
     - [Bit de Paridade](conceitos/checksum-crc/parity-bit.md)
     - [Checksum](conceitos/checksum-crc/checksum.md)
     - [CRC - Cyclic Redundancy Check](conceitos/checksum-crc/crc.md)
-- [Funções Hash Criptográficas](conceitos/hash/sha256.md)
+- [Funções Hash Criptográficas](conceitos/hash/intro.md)
     - [Funções Hash](conceitos/hash/sha256.md)
     - [Família de Algoritmos MD - Message Digest](conceitos/hash/message-digest.md)
     - [Família de Algoritmos DES - Data Encryption Standard](conceitos/hash/des.md)
     - [Família de Algoritmos SHA - Secure Hash Algorithms](conceitos/hash/sha.md)
     - [PBKDF2, Argon2 e Scrypt - Hash para Senhas](conceitos/hash/pbkdf2-argon2.md)
 - [Criptografia Simétrica](criptografia-simetrica/index.md)
-  
+
   - [Introdução e Contexto](criptografia-simetrica/introducao-contexto/index.md)
     - [Breve história da criptografia moderna](criptografia-simetrica/introducao-contexto/historia.md)
     - [Fluxo ou bloco: modos distintos de cifrar](criptografia-simetrica/introducao-contexto/fluxo-vs-bloco.md)
-    
+
   - [Cifras de Fluxo](criptografia-simetrica/cifras-de-fluxo/index.md)
     - [Conceito e aplicações](criptografia-simetrica/cifras-de-fluxo/conceito.md)
     - [Geradores de fluxo pseudoaleatório](criptografia-simetrica/cifras-de-fluxo/prng.md)
@@ -47,7 +47,7 @@
     - [Cifras modernas: ChaCha e Salsa](criptografia-simetrica/cifras-de-fluxo/chacha-salsa.md)
     - [RC4 em Go](criptografia-simetrica/cifras-de-fluxo/rc4-go.md)
     - [Segurança em cifras de fluxo](criptografia-simetrica/cifras-de-fluxo/seguranca.md)
-  
+
   - [Cifras de Bloco](criptografia-simetrica/cifras-de-bloco/index.md)
     - [O que é uma cifra de bloco](criptografia-simetrica/cifras-de-bloco/o-que-e.md)
     - [A estrutura de Feistel](criptografia-simetrica/cifras-de-bloco/feistel.md)
@@ -55,13 +55,13 @@
     - [Limitações e abandono do DES](criptografia-simetrica/cifras-de-bloco/queda-des.md)
     - [3DES: extensão temporária](criptografia-simetrica/cifras-de-bloco/3des.md)
     - [Modos de operação](criptografia-simetrica/cifras-de-bloco/modos-operacao.md)
-    - [RC5 e RC6](criptografia-simetrica/cifras-de-bloco/rc5-rc6.md)
+    - [RC2, RC5 e RC6](criptografia-simetrica/cifras-de-bloco/rc2-rc5-rc6.md)
     - [AES: concurso e escolha](criptografia-simetrica/cifras-de-bloco/aes-concurso.md)
     - [AES: funcionamento interno](criptografia-simetrica/cifras-de-bloco/aes-interno.md)
     - [AES em modos de operação](criptografia-simetrica/cifras-de-bloco/aes-modos.md)
     - [AES em Go](criptografia-simetrica/cifras-de-bloco/aes-go.md)
     - [Armadilhas e boas práticas](criptografia-simetrica/cifras-de-bloco/boas-praticas.md)
-  
+
   - [Conclusão](criptografia-simetrica/conclusao.md)
 
 - [Algorítmos de Criptografia](conceitos/crypto/crypto-algorithms.md)
