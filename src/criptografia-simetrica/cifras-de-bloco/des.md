@@ -1,22 +1,11 @@
-# Data Encryption Standard (DES)
+# DES: arquitetura, S-boxes e permutações
 
-> $$
-\begin{aligned}
-&\textbf{1. Permutação Inicial (IP)} \\
-&\quad X = IP(M), \quad \text{onde } M \in \{0,1\}^{64} \\
-&\quad X \rightarrow L_0 \parallel R_0, \quad L_0, R_0 \in \{0,1\}^{32} \\[1em]
+Esta seção apresenta em profundidade o funcionamento interno do **Data Encryption Standard (DES)**, uma das cifras simétricas mais influentes da criptografia moderna. Embora atualmente considerada obsoleta para aplicações seguras, sua estrutura serviu de base para o entendimento e desenvolvimento de diversos algoritmos posteriores — e continua sendo amplamente utilizada como ferramenta didática.
 
-&\textbf{2. Rodadas de Feistel (i = 1,\dots,16)} \\
-&\quad L_i = R_{i-1} \\
-&\quad R_i = L_{i-1} \oplus f(R_{i-1}, k_i) \\[1em]
+Começaremos com uma visão geral em [O que é o DES?](o-que-e-des.md), contextualizando sua origem como padrão federal nos Estados Unidos e suas principais características técnicas. Em seguida, em [História, Personagens e Controvérsias do DES](historia-contexto.md), exploraremos o processo de padronização conduzido pelo NBS, o envolvimento da IBM e da NSA, e as polêmicas que surgiram em torno da transparência e segurança do algoritmo.
 
-&\textbf{3. Troca final (Swap)} \\
-&\quad X' = R_{16} \parallel L_{16} \\[1em]
+Na parte técnica, analisaremos a estrutura da cifra em [Arquitetura Geral](arquitetura-geral.md), com foco nas 16 rodadas de transformação baseadas na **rede de Feistel**. Em [A Função f](funcao-f.md), estudaremos em detalhe a lógica interna da principal operação do DES, incluindo a expansão, substituição e permutação. Em seguida, nas seções [S-boxes](s-boxes.md) e [Key Schedule](key-schedule.md), veremos como são construídas as tabelas de substituição e como a chave principal de 64 bits dá origem às 16 subchaves utilizadas ao longo das rodadas.
 
-&\textbf{4. Permutação Final (IP}^{-1}\textbf{)} \\
-&\quad C = IP^{-1}(X') \quad \text{(bloco cifrado)}
-\end{aligned}
-$$
+Apresentaremos também uma [Implementação em Go](des-go.md), demonstrando como os conceitos são aplicados na prática, e encerraremos com uma análise sobre [Segurança e Ataques](seguranca.md), além de [Extensões e Substitutos](extensoes-substitutos.md) como o 3DES, Twofish e AES.
 
-![DES](des-image.svg)
-
+> A arquitetura do DES continua sendo uma das mais estudadas da história da criptografia. Entendê-la em profundidade é compreender o ponto de transição entre a criptografia clássica e a criptografia computacional moderna. >

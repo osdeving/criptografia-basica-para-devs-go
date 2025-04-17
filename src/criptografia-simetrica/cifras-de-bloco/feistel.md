@@ -1,21 +1,13 @@
 # A estrutura de Feistel
 
-Vimos que cifras de bloco transformam blocos de dados de tamanho fixo (e.g. 64 bits) em blocos cifrados de mesmo tamanho. A `estrutura de Feistel` é um padrão de construção de cifras de bloco que permite aplicar `confusão` e `difusão`. 
+Cifras de bloco transformam blocos de dados de tamanho fixo (por exemplo, 64 bits) em blocos cifrados do mesmo tamanho. A `estrutura de Feistel` é um padrão de construção para cifras de bloco que permite aplicar os princípios de `confusão` e `difusão`, mesmo quando a função usada internamente não é reversível.
 
-A estrutura de Feistel (chamada também de `Feistel Network`), proposta por Horst Feistel em 1970, é uma abordagem muito utilizada para construir cifras de bloco a partir de funções não necessariamente invertíveis. A ideia central dessa estrutura é dividir o bloco de entrada em duas partes iguais, aplicar uma função não invertível a uma das partes e combinar o resultado com a outra parte usando uma operação `XOR`.
+Proposta por `Horst Feistel` na década de 1970, essa estrutura permite construir cifras reversíveis a partir de funções simples. A ideia central é dividir o bloco de entrada em duas metades e, a cada rodada, aplicar uma função a uma das metades e combiná-la com a outra usando uma operação XOR. O resultado é uma cifra simétrica, ou seja, que pode ser `decifrada utilizando as mesmas operações em ordem inversa`.
 
 ## Estrutura Geral
 
-Dado um bloco de entrada de tamanho $2n$, ele é dividido em duas partes iguais, $L_0$ e $R_0$.
-
-$$
-\begin{aligned}
-L_0 &\leftarrow \text{parte esquerda do bloco} \\
-R_0 &\leftarrow \text{parte direita do bloco}
-\end{aligned}
-$$
-
-Cada rodada $i$ aplica a seguinte transformação:
+Dado um bloco de entrada de tamanho $2n$, ele é dividido em duas partes iguais, $L_0$ (metade esquerda) e $R_0$ (metade direita).
+A cada rodada $i$, aplica-se a seguinte transformação:
 
 $$
 \begin{aligned}
@@ -25,15 +17,14 @@ R_i &= L_{i-1} \oplus f(R_{i-1}, k_i)
 $$
 
 
-Aqui, $f$ é uma função que pode ser não invertível, e $k_i$ é a subchave da rodada $i$.
+Aqui, $f$ é uma função arbitrária que não precisa ser invertível, e $k_i$ é a subchave da rodada $i$.
 
-Ao final das rodadas, o par $(L_{n}, R_{n})$ é combinado e (em alguns casos) passado por uma permutação final.
+Após todas as rodadas, o par $(L_{n}, R_{n})$ forma o bloco cifrado. Em algumas cifras, há uma `permutação final` ou troca de posição entre as mates antes da saída.
+A `decifragem` é feita aplicando as mesmas operações, mas `com as subchaves na ordem inversa`.
 
-Uma característica importante da estrutura de Feistel é que a decifração é realizada aplicando as mesmas operações em ordem inversa, com as subchaves utilizadas na ordem inversa.
+### Exemplo Didático: `Rede de Feistel` com 2 rodadas
 
-### Exemplo simplificado (Rede de Feistel de 2 rodadas)
-
-Para ilustrar, considere uma rede de Feistel com 2 rodadas e blocos de 8 bits, divididos em duas metades de 4 bits.
+A seguir, apresentamos uma implementação simples em Go de uma rede de Feistel com blocos de 8 bits (divididos em duas metades de 4 bits) e duas rodadas com subchaves fixas.
 
 ```go
 package main
@@ -90,65 +81,54 @@ func main() {
 }
 ```
 
-Esse exemplo usa operações simples para fins didáticos. A ideia é mostrar como, mesmo com funções unilaterais simples, a estrutura de Feistel permite a construção de cifras reversíveis.
+Esse exemplo mostra como a estrutura de Feistel permite construir uma cifra reversível, mesmo que as operações internas (como a função F) não sejam reversíveis por si só.
 
-## Algoritmos que usam a estrutura de Feistel
+## Algoritmos Baseados na Estrutura de Feistel
 
-Esses algoritmos seguem a estrutura clássica ou variantes da rede de Feistel:
+A seguir, listamos exemplos de cifras de bloco que usam a rede de Feistel, agrupadas por época ou aplicação:
 
-Clássicos / Históricos
-Lucifer (IBM, 1973): primeiro a usar Feistel explicitamente.
+### Clássicos
 
-DES (1977): 16 rodadas de Feistel com S-boxes e permutações fixas.
+- **Lucifer** (IBM, 1973): primeira cifra baseada explicitamente em Feistel.
+- **DES** (1977): 16 rodadas de Feistel, com S-boxes e permutações fixas.
+- **3DES** (Triple DES): encadeamento de três aplicações do DES.
 
-3DES (Triple-DES): composição de DES, também baseado em Feistel.
+### Cifras Modernas Baseadas em Feistel
 
-Modernos (até anos 2000)
-Blowfish (Schneier, 1993): Feistel de 16 rodadas com chave variável.
+- **Blowfish** (1993): 16 rodadas, chave variável.
+- **Twofish** (1998): estrutura similar a Feistel com difusão aprimorada.
+- **CAST-128** / **CAST-256**: cifras com funções não lineares, também baseadas em Feistel.
+- **Camellia** (2000): cifra com estrutura Feistel e S-boxes inspiradas no AES.
+- **MARS** (IBM, finalista do AES): núcleo baseado em Feistel.
+- **GOST 28147-89**: cifra soviética com 32 rodadas e S-boxes configuráveis.
+- **RC5** / **RC6**: variantes com estrutura semelhante à de Feistel.
 
-Twofish (Schneier et al., 1998): usa uma estrutura pseudo-Feistel.
+### Cifras Leves e Aplicações Específicas
 
-CAST-128/CAST-256: cifras de Feistel com funções não lineares.
+- **ICE** (Information Concealment Engine)
+- **FEAL** (Fast Data Encipherment Algorithm)
+- **HIGHT**: projetada para dispositivos de baixo consumo.
+- **LEA**: cifra leve coreana, com estrutura semelhante a Feistel
 
-Camellia (NTT, Mitsubishi, 2000): estrutura Feistel com S-boxes inspiradas no AES.
 
-MARS (IBM, candidato AES): usa um núcleo do tipo Feistel.
+## Algoritmos que Não Utilizam Feistel
 
-GOST 28147-89 (União Soviética): 32 rodadas de Feistel com S-boxes configuráveis.
+Algumas cifras modernas utilizam outras estruturas, como as redes de **substituição-permutação (SPN)** ou construções baseadas em permutações.
 
-RC5 / RC6: estrutura Feistel modificada (dependendo da parametrização).
+### SPN (Substitution–Permutation Network)
 
-Outros exemplos notáveis
-ICE (Information Concealment Engine)
+- **AES (Rijndael)**: usa uma rede SPN com substituições via S-boxes e permutações lineares; não é baseado em Feistel.
+- **PRESENT**: cifra leve com estrutura SPN, amplamente usada em implementações de hardware.
+- **LED**: projetada para dispositivos de recursos extremamente limitados; também segue a estrutura SPN.
+- **NOEKEON**: cifra leve com estrutura SPN e foco em simplicidade algorítmica.
+- **PRINCE**: cifra otimizada para baixa latência, com estrutura reflexiva baseada em SPN.
 
-FEAL (Fast Data Encipherment Algorithm)
+### Outras Estruturas
 
-HIGHT (cifra leve baseada em Feistel, usada em IoT)
+- **SIMON / SPECK (NSA)**: cifras leves com estruturas alternativas; SIMON usa operações bit a bit, SPECK opera com adição, rotação e XOR. Nenhuma delas segue o modelo Feistel tradicional.
+- **ASCON**: cifra autenticada baseada em permutação, vencedora da competição NIST para criptografia leve (Lightweight Cryptography).
+- **Khazad / Anubis**: cifradores de bloco com estruturas SPN, fortemente influenciados pelo AES.
+- **Grain / Trivium**: cifras de fluxo, não baseadas em Feistel nem em SPN; operam em fluxo contínuo de bits.
 
-LEA (cifra leve coreana, com estrutura semelhante a Feistel)
 
-## Algoritmos que não usam rede de Feistel
-
-Esses usam redes de substituição-permutação (SPN) ou outras estruturas:
-
-AES e derivados
-AES (Rijndael): usa uma rede SPN (Substituição–Permutação Network), não é Feistel.
-
-PRESENT: cifra leve SPN, amplamente usada em hardware.
-
-LED (Lightweight Encryption Device): também SPN.
-
-Modernos e pós-quantum
-SIMON / SPECK (NSA): SIMON usa estrutura bitwise alternada, não exatamente Feistel.
-
-ASCON (padrão NIST para cifragem autenticada): SPN com permutação.
-
-NOEKEON: cifra leve, rede SPN.
-
-PRINCE: estrutura reflexiva, não Feistel.
-
-Outros exemplos
-Khazad / Anubis: SPN, baseados em ideias do AES.
-
-Grain / Trivium: cifras de fluxo (não são cifras de bloco, mas também não usam Feistel).
 
