@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Geradores de Números Pseudoaleatórios (PRNG) - Criptografia para Desenvolvedores: Fundamentos e Prática</title>
+        <title>Advanced Encryption Standard (AES) - Criptografia para Desenvolvedores: Fundamentos e Prática</title>
 
 
         <!-- Custom HTML head -->
@@ -153,17 +153,26 @@
                 <div id="content" class="content">
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="geradores-de-números-pseudoaleatórios-prng"><a class="header" href="#geradores-de-números-pseudoaleatórios-prng">Geradores de Números Pseudoaleatórios (PRNG)</a></h1>
+<h1 id="advanced-encryption-standard-aes"><a class="header" href="#advanced-encryption-standard-aes">Advanced Encryption Standard (AES)</a></h1>
+<p>O <strong>Advanced Encryption Standard (AES)</strong> é o algoritmo simétrico de cifra de bloco mais utilizado atualmente, adotado mundialmente como padrão de segurança para dados em repouso e em trânsito. Substituto do DES, o AES foi escolhido em um concurso público conduzido pelo NIST no final dos anos 1990, com critérios transparentes que marcaram uma nova era no desenvolvimento de algoritmos criptográficos.</p>
+<p>Começaremos com o contexto do processo seletivo em <a href="aes-concurso.html">AES: concurso e escolha</a>, onde será discutida a motivação para a substituição do DES, os critérios definidos pelo NIST, os candidatos finalistas e os motivos técnicos que levaram à vitória do algoritmo Rijndael, proposto por Vincent Rijmen e Joan Daemen.</p>
+<p>Em <a href="aes-interno.html">AES: funcionamento interno</a>, analisaremos a estrutura matemática da cifra — baseada em uma rede de substituição-permutação (SPN), em contraste com o modelo de Feistel —, detalhando os passos de SubBytes, ShiftRows, MixColumns e AddRoundKey. A seção também abordará a geração de subchaves por meio do processo de key schedule.</p>
+<p>Na sequência, em <a href="aes-modos.html">Modos de operação com AES</a>, exploraremos como o AES é aplicado na prática a blocos múltiplos de dados, incluindo modos como CBC, CTR e GCM, com ênfase nos impactos de cada modo sobre segurança e desempenho.</p>
+<p>Em <a href="boas-praticas.html">Armadilhas e boas práticas</a>, apresentaremos erros comuns de implementação e uso, como reutilização de IVs e escolha inadequada de modos, além de diretrizes para o uso seguro do algoritmo em sistemas reais.</p>
+<p>Por fim, em <a href="aes-go.html">Implementação de AES em Go</a>, demonstramos uma aplicação prática da cifra em código, consolidando os conceitos aprendidos.</p>
+<blockquote>
+<p>O AES é a base da criptografia simétrica moderna: sua compreensão é essencial para qualquer profissional que lide com segurança da informação, engenharia de software ou sistemas criptográficos.</p>
+</blockquote>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../conceitos/misc/permutacoes.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../criptografia-simetrica/cifras-de-bloco/rc2-rc5-rc6.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../conceitos/misc/lfsr.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../criptografia-simetrica/cifras-de-bloco/aes-concurso.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -173,11 +182,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../conceitos/misc/permutacoes.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../criptografia-simetrica/cifras-de-bloco/rc2-rc5-rc6.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../conceitos/misc/lfsr.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../criptografia-simetrica/cifras-de-bloco/aes-concurso.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

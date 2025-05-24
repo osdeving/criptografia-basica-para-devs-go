@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>AES: funcionamento interno - Criptografia para Desenvolvedores: Fundamentos e Prática</title>
+        <title>Estrutura interna (SPN) - Criptografia para Desenvolvedores: Fundamentos e Prática</title>
 
 
         <!-- Custom HTML head -->
@@ -153,7 +153,85 @@
                 <div id="content" class="content">
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="aes-funcionamento-interno"><a class="header" href="#aes-funcionamento-interno">AES: funcionamento interno</a></h1>
+<h1 id="estrutura-interna-spn"><a class="header" href="#estrutura-interna-spn">Estrutura interna (SPN)</a></h1>
+<h2 id="visão-geral-da-estrutura"><a class="header" href="#visão-geral-da-estrutura">Visão geral da estrutura</a></h2>
+<p>O <strong>Advanced Encryption Standard (AES)</strong> é uma cifra de bloco com bloco fixo de 128 bits e chaves de 128, 192 ou 256 bits. Seu projeto se baseia em uma rede de substituição-permutação (SPN), diferentemente do DES, que é estruturado como uma rede de Feistel.</p>
+<p>Cada operação no AES atua sobre uma matriz de bytes chamada <strong>State</strong>, com 4 linhas e 4 colunas (para bloco de 128 bits). O número de rodadas depende do tamanho da chave:</p>
+<div class="table-wrapper"><table><thead><tr><th>Tamanho da chave</th><th>Rodadas</th></tr></thead><tbody>
+<tr><td>128 bits</td><td>10</td></tr>
+<tr><td>192 bits</td><td>12</td></tr>
+<tr><td>256 bits</td><td>14</td></tr>
+</tbody></table>
+</div>
+<h2 id="representação-do-bloco"><a class="header" href="#representação-do-bloco">Representação do bloco</a></h2>
+<p>O bloco de 128 bits é representado como uma matriz 4×4 de bytes:</p>
+<pre><code class="language-plaintext">State =
+[ b0  b4  b8  b12 ]
+[ b1  b5  b9  b13 ]
+[ b2  b6  b10 b14 ]
+[ b3  b7  b11 b15 ]
+</code></pre>
+<h2 id="fases-da-cifra"><a class="header" href="#fases-da-cifra">Fases da cifra</a></h2>
+<p>Cada rodada (exceto a inicial e a final) realiza quatro operações fundamentais:</p>
+<ol>
+<li><strong>SubBytes:</strong> substituição não-linear byte a byte usando uma S-box baseada em inverso multiplicativo sobre <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8665em;vertical-align:-0.1776em;"></span><span class="mord"><span class="mord mathbb">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.5224em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7463em;"><span style="top:-2.786em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">8</span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1776em;"><span></span></span></span></span></span></span></span></span></span>.</li>
+<li><strong>ShiftRows:</strong> permutação cíclica das linhas da matriz.</li>
+<li><strong>MixColumns:</strong> transformação linear das colunas da matriz com multiplicações no campo <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8665em;vertical-align:-0.1776em;"></span><span class="mord"><span class="mord mathbb">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.5224em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7463em;"><span style="top:-2.786em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">8</span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1776em;"><span></span></span></span></span></span></span></span></span></span>.</li>
+<li><strong>AddRoundKey:</strong> operação XOR entre o <em>state</em> e uma subchave derivada da chave principal.</li>
+</ol>
+<p>A rodada inicial realiza apenas o AddRoundKey, e a rodada final omite o MixColumns.</p>
+<h3 id="exemplo-de-fluxo-para-aes-128"><a class="header" href="#exemplo-de-fluxo-para-aes-128">Exemplo de fluxo para AES-128</a></h3>
+<pre><code class="language-plaintext">Input Block
+↓
+AddRoundKey (Chave 0)
+↓
+[Rodada 1 a 9]
+   SubBytes → ShiftRows → MixColumns → AddRoundKey
+↓
+Rodada 10
+   SubBytes → ShiftRows → AddRoundKey
+↓
+Output Ciphertext
+</code></pre>
+<h2 id="subbytes"><a class="header" href="#subbytes">SubBytes</a></h2>
+<p>A S-box é construída combinando duas operações:</p>
+<ul>
+<li>Inverso multiplicativo no campo <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8665em;vertical-align:-0.1776em;"></span><span class="mord"><span class="mord mathbb">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.5224em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7463em;"><span style="top:-2.786em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">8</span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1776em;"><span></span></span></span></span></span></span></span></span></span>, com zero mapeado para zero.</li>
+<li>Transformação afim (operação linear sobre os bits).</li>
+</ul>
+<p>Essa estrutura proporciona não-linearidade e resistência a criptoanálise diferencial e linear.</p>
+<h2 id="shiftrows"><a class="header" href="#shiftrows">ShiftRows</a></h2>
+<p>As linhas da matriz são rotacionadas:</p>
+<ul>
+<li>Linha 0: sem mudança.</li>
+<li>Linha 1: desloca 1 byte à esquerda.</li>
+<li>Linha 2: desloca 2 bytes.</li>
+<li>Linha 3: desloca 3 bytes.</li>
+</ul>
+<p>Essa operação contribui para a difusão horizontal dos dados.</p>
+<h2 id="mixcolumns"><a class="header" href="#mixcolumns">MixColumns</a></h2>
+<p>Cada coluna da matriz é tratada como um vetor de 4 bytes e multiplicada por uma matriz fixa sobre <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8665em;vertical-align:-0.1776em;"></span><span class="mord"><span class="mord mathbb">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.5224em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7463em;"><span style="top:-2.786em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">8</span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1776em;"><span></span></span></span></span></span></span></span></span></span>:</p>
+<pre><code class="language-plaintext">[02 03 01 01]
+[01 02 03 01]
+[01 01 02 03]
+[03 01 01 02]
+</code></pre>
+<p>A operação assegura a difusão entre os bytes de cada coluna.</p>
+<h2 id="addroundkey"><a class="header" href="#addroundkey">AddRoundKey</a></h2>
+<p>Cada byte do <em>state</em> é combinado com o byte correspondente da subchave da rodada por meio de XOR. Essa é a única operação que introduz segredo na cifra.</p>
+<hr />
+<h2 id="geração-das-subchaves-key-schedule"><a class="header" href="#geração-das-subchaves-key-schedule">Geração das subchaves (Key Schedule)</a></h2>
+<p>O algoritmo de derivação de subchaves expande a chave principal em um número fixo de palavras de 32 bits. O número total de subchaves depende do tamanho da chave original:</p>
+<div class="table-wrapper"><table><thead><tr><th>Chave</th><th>Palavras derivadas</th></tr></thead><tbody>
+<tr><td>128</td><td>44</td></tr>
+<tr><td>192</td><td>52</td></tr>
+<tr><td>256</td><td>60</td></tr>
+</tbody></table>
+</div>
+<p>Cada nova palavra é construída a partir da anterior com operações como rotacionamento, substituição com S-box e XOR com constantes Rcon.</p>
+<hr />
+<h2 id="considerações-finais"><a class="header" href="#considerações-finais">Considerações finais</a></h2>
+<p>A estrutura interna do AES oferece forte segurança combinando <strong>não-linearidade, difusão e chaveamento dependente da rodada</strong>. Sua simetria matemática e clareza algorítmica tornam-no ideal tanto para análise teórica quanto para implementação prática em hardware e software.</p>
 
                     </main>
 
@@ -163,7 +241,7 @@
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../criptografia-simetrica/cifras-de-bloco/aes-modos.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../criptografia-simetrica/cifras-de-bloco/aes-matematica.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -177,13 +255,29 @@
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../criptografia-simetrica/cifras-de-bloco/aes-modos.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../criptografia-simetrica/cifras-de-bloco/aes-matematica.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

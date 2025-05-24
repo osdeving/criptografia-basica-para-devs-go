@@ -159,16 +159,31 @@
 <p>[3] D. Coppersmith, "The Data Encryption Standard (DES) and Its Strength Against Attacks," <em>IBM Journal of Research and Development</em>, vol. 38, no. 3, pp. 243-250, 1994.</p>
 <p>[4] M. E. Hellman and W. Diffie, "Exhaustive Cryptanalysis of the NBS Data Encryption Standard," <em>Computer</em>, vol. 10, no. 6, pp. 74-84, 1977.</p>
 <p>[5] Electronic Frontier Foundation, "Cracking DES: Secrets of Encryption Research, Wiretap Politics, and Chip Design," O'Reilly Media, 1998.</p>
+<p>[6] J. Nechvatal, E. Barker, L. Bassham, W. Burr, M. Dworkin, J. Foti, and E. Roback,
+"Report on the Development of the Advanced Encryption Standard (AES),"
+NIST Interagency Report 7600, National Institute of Standards and Technology,
+Gaithersburg, MD, Oct. 2000. [Online]. Available: https://csrc.nist.gov/publications/detail/nistir/7600/final
+[Accessed: May 24, 2025].</p>
+<p>[7] B. Schneier, <em>Applied Cryptography: Protocols, Algorithms, and Source Code in C</em>, 2nd ed., New York: Wiley, 1996.</p>
+<p>[8] NIST, "FIPS PUB 197: Advanced Encryption Standard (AES)," Nov. 2001. [Online]. Available: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.197.pdf</p>
+<p>[9] V. Rijmen and J. Daemen, <em>The Design of Rijndael: AES — The Advanced Encryption Standard</em>, Berlin: Springer, 2002.</p>
+<p>[10] D. J. Bernstein, "The Salsa20 family of stream ciphers," in <em>New Stream Cipher Designs</em>, LNCS 4986, Springer, 2008, pp. 84–97.</p>
+<p>[11] M. Matsui, "Linear cryptanalysis method for DES cipher," in <em>Advances in Cryptology — EUROCRYPT ’93</em>, LNCS 765, Springer, 1994, pp. 386–397.</p>
+<p>[12] E. Biham and A. Shamir, "Differential Cryptanalysis of DES-like Cryptosystems," <em>Journal of Cryptology</em>, vol. 4, no. 1, pp. 3–72, 1991.</p>
+<p>[13] M. Dworkin, "Recommendation for Block Cipher Modes of Operation: Methods and Techniques," NIST Special Publication 800-38A, Dec. 2001. [Online]. Available: https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38a.pdf</p>
+<p>[14] C. Paar and J. Pelzl, <em>Understanding Cryptography: A Textbook for Students and Practitioners</em>, Berlin: Springer, 2010.</p>
+<p>[15] V. Rijmen, "Cryptanalysis and Design of Iterated Block Ciphers," Ph.D. dissertation, Katholieke Universiteit Leuven, 1997.</p>
+<p>[16] W. Trappe and L. C. Washington, <em>Introduction to Cryptography with Coding Theory</em>, 2nd ed., Upper Saddle River, NJ: Pearson, 2006.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../criptografia-simetrica/cifras-de-bloco/extensoes-substitutos.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../criptografia-simetrica/conclusao.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../criptografia-simetrica/cifras-de-bloco/queda-des.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../criptografia-assimetrica/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -178,17 +193,33 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../criptografia-simetrica/cifras-de-bloco/extensoes-substitutos.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../criptografia-simetrica/conclusao.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../criptografia-simetrica/cifras-de-bloco/queda-des.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../criptografia-assimetrica/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

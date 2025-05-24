@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>AES: concurso e escolha - Criptografia para Desenvolvedores: Fundamentos e Prática</title>
+        <title>Concurso e escolha do AES - Criptografia para Desenvolvedores: Fundamentos e Prática</title>
 
 
         <!-- Custom HTML head -->
@@ -153,13 +153,103 @@
                 <div id="content" class="content">
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<h1 id="aes-concurso-e-escolha"><a class="header" href="#aes-concurso-e-escolha">AES: concurso e escolha</a></h1>
+<h1 id="concurso-e-escolha-do-aes"><a class="header" href="#concurso-e-escolha-do-aes">Concurso e escolha do AES</a></h1>
+<h2 id="motivação-para-um-novo-padrão"><a class="header" href="#motivação-para-um-novo-padrão">Motivação para um novo padrão</a></h2>
+<p>O <strong>Data Encryption Standard (DES)</strong> foi, por décadas, o principal algoritmo de cifra de bloco utilizado globalmente. Contudo, a limitação da chave de 56 bits tornou-o inseguro frente aos avanços computacionais. Em 1998, a Electronic Frontier Foundation (EFF) demonstrou que um ataque de força bruta contra o DES era factível com hardware dedicado.</p>
+<p>Como resposta, o <strong>National Institute of Standards and Technology (NIST)</strong> iniciou, em 1997, o processo público para a seleção de um novo padrão criptográfico — o <strong>Advanced Encryption Standard (AES)</strong>.</p>
+<hr />
+<h2 id="requisitos-estabelecidos-pelo-nist"><a class="header" href="#requisitos-estabelecidos-pelo-nist">Requisitos estabelecidos pelo NIST</a></h2>
+<p>O NIST definiu requisitos técnicos e políticos rigorosos:</p>
+<ul>
+<li>Bloco de dados fixo de <strong>128 bits</strong>.</li>
+<li>Suporte a chaves de <strong>128, 192 e 256 bits</strong>.</li>
+<li>Algoritmo seguro contra criptoanálise diferencial, linear e por chave relacionada.</li>
+<li>Eficiência em hardware e software, em diferentes arquiteturas.</li>
+<li>Clareza na descrição e ausência de propriedade intelectual.</li>
+<li><strong>Transparência no processo de avaliação</strong>.</li>
+</ul>
+<blockquote>
+<p>“Our intent is to evaluate these algorithms in an open and public process.”
+— <em>FIPS 197 Introduction</em></p>
+</blockquote>
+<hr />
+<h2 id="linha-do-tempo-do-concurso-aes"><a class="header" href="#linha-do-tempo-do-concurso-aes">Linha do tempo do concurso AES</a></h2>
+<pre><code class="language-plaintext">1997 ───────────── 1998 ───────────── 1999 ───────────── 2000 ───────────── 2001
+ ↓                  ↓                  ↓                  ↓                  ↓
+Chamada pública     15 candidatos      5 finalistas       Rijndael escolhido FIPS 197 publicado
+</code></pre>
+<hr />
+<h2 id="etapas-do-processo"><a class="header" href="#etapas-do-processo">Etapas do processo</a></h2>
+<h3 id="1-submissão-inicial"><a class="header" href="#1-submissão-inicial">1. Submissão inicial</a></h3>
+<p>15 algoritmos foram submetidos, incluindo candidatos com estruturas variadas como SPN, Feistel, redes híbridas e operações em campos finitos.</p>
+<h3 id="2-seleção-dos-finalistas"><a class="header" href="#2-seleção-dos-finalistas">2. Seleção dos finalistas</a></h3>
+<p>Com base em critérios técnicos, o NIST selecionou os seguintes algoritmos:</p>
+<div class="table-wrapper"><table><thead><tr><th>Algoritmo</th><th>Proponentes</th><th>Estrutura</th><th>Origem</th></tr></thead><tbody>
+<tr><td><strong>MARS</strong></td><td>IBM</td><td>Híbrida</td><td>EUA</td></tr>
+<tr><td><strong>RC6</strong></td><td>RSA Laboratories</td><td>Feistel mod.</td><td>EUA</td></tr>
+<tr><td><strong>Serpent</strong></td><td>Anderson, Biham, Knudsen</td><td>SPN</td><td>Europa</td></tr>
+<tr><td><strong>Twofish</strong></td><td>Schneier et al.</td><td>Feistel</td><td>EUA</td></tr>
+<tr><td><strong>Rijndael</strong></td><td>Daemen &amp; Rijmen</td><td>SPN</td><td>Europa</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="comparação-técnica-dos-finalistas"><a class="header" href="#comparação-técnica-dos-finalistas">Comparação técnica dos finalistas</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Algoritmo</th><th>Segurança</th><th>Desempenho (SW)</th><th>Simplicidade</th><th>Flexibilidade</th></tr></thead><tbody>
+<tr><td>MARS</td><td>Alta</td><td>Baixo</td><td>Média</td><td>Alta</td></tr>
+<tr><td>RC6</td><td>Média</td><td>Alta</td><td>Média</td><td>Média</td></tr>
+<tr><td>Serpent</td><td>Muito alta</td><td>Média</td><td>Baixa</td><td>Baixa</td></tr>
+<tr><td>Twofish</td><td>Alta</td><td>Alta</td><td>Média</td><td>Alta</td></tr>
+<tr><td><strong>Rijndael</strong></td><td>Alta</td><td><strong>Muito alta</strong></td><td><strong>Alta</strong></td><td>Alta</td></tr>
+</tbody></table>
+</div>
+<blockquote>
+<p>“Rijndael offers an elegant design with strong security and excellent performance on a wide range of platforms.”
+— <em>NIST AES Report, 2000</em></p>
+</blockquote>
+<hr />
+<h2 id="razões-para-a-escolha-do-rijndael"><a class="header" href="#razões-para-a-escolha-do-rijndael">Razões para a escolha do Rijndael</a></h2>
+<ul>
+<li>Base matemática sobre <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8665em;vertical-align:-0.1776em;"></span><span class="mord"><span class="mord mathbb">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.5224em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7463em;"><span style="top:-2.786em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">8</span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1776em;"><span></span></span></span></span></span></span></span></span></span>, com operações bem definidas e eficientes.</li>
+<li>Baixa complexidade computacional: nenhuma operação condicional nem tabelas grandes.</li>
+<li>Boa escalabilidade em chaves e blocos.</li>
+<li>Alta paralelizabilidade: operações em bytes independentes.</li>
+<li>Performance superior em CPUs de 8, 16, 32 e 64 bits.</li>
+<li>Estrutura modular que facilita implementação segura.</li>
+</ul>
+<hr />
+<h2 id="formalização"><a class="header" href="#formalização">Formalização</a></h2>
+<p>O algoritmo Rijndael foi oficializado como <strong>AES</strong> em outubro de 2000, sendo padronizado como:</p>
+<blockquote>
+<p><strong>FIPS PUB 197 – Specification for the Advanced Encryption Standard (AES)</strong>
+Publicado em 26 de novembro de 2001. Disponível em:
+<a href="https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.197.pdf">https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.197.pdf</a></p>
+</blockquote>
+<hr />
+<h2 id="impacto-e-legado"><a class="header" href="#impacto-e-legado">Impacto e legado</a></h2>
+<p>O concurso AES estabeleceu um novo modelo para a seleção de algoritmos criptográficos:</p>
+<ul>
+<li>Processo aberto e auditável, com participação da comunidade.</li>
+<li>Documentação formal e ampla revisão científica.</li>
+<li>Iniciativa replicada posteriormente em concursos como o SHA-3 e post-quantum (NIST PQC).</li>
+</ul>
+<p>O AES é hoje a cifra padrão em protocolos como:</p>
+<ul>
+<li>TLS (HTTPS)</li>
+<li>IPsec</li>
+<li>SSH</li>
+<li>WPA2/WPA3</li>
+<li>OpenPGP</li>
+</ul>
+<hr />
+<blockquote>
+<p>O processo de seleção do AES consolidou um novo paradigma na criptografia: algoritmos públicos, seguros por design, e legitimados pela revisão científica.</p>
+</blockquote>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../criptografia-simetrica/cifras-de-bloco/rc2-rc5-rc6.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../criptografia-simetrica/cifras-de-bloco/aes.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
@@ -173,7 +263,7 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../criptografia-simetrica/cifras-de-bloco/rc2-rc5-rc6.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../criptografia-simetrica/cifras-de-bloco/aes.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
@@ -184,6 +274,22 @@
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 
