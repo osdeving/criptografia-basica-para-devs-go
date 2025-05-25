@@ -34,9 +34,9 @@ Portanto, $2$ não tem inverso: é um **divisor de zero**.
 
 ## Extensão de Corpos
 
-Vimos que, apesar de conveniente computacionalmente (8, 16, 32 bits), ${Z}_{2^n}$ **não é um corpo**. Então, para permitir inversão e garantir as propriedades de um corpo, o AES usa uma extensão de corpo finito, ${F}_{2^8}$.
+Vimos que, apesar de conveniente computacionalmente (8, 16, 32 bits), $Z_{2^n}$ **não é um corpo**. Então, para permitir inversão e garantir as propriedades de um corpo, o AES usa uma extensão de corpo finito, $F_{2^8}$.
 
-Esse corpo é construído usando **polinômios sobre ${F}_2$** (isto é, coeficientes binários: 0 ou 1), reduzidos módulo um **polinômio irredutível** de grau 8. No AES, esse polinômio é:
+Esse corpo é construído usando **polinômios sobre $F_2$** (isto é, coeficientes binários: 0 ou 1), reduzidos módulo um **polinômio irredutível** de grau 8. No AES, esse polinômio é:
 
 $$
 m(x) = x^8 + x^4 + x^3 + x + 1
