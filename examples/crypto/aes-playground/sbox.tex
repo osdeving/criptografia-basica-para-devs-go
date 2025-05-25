@@ -1,0 +1,275 @@
+\documentclass[12pt]{book}
+
+% Pacotes essenciais
+\usepackage[utf8]{inputenc}   % Suporte a acentuação
+\usepackage[T1]{fontenc}      % Codificação de fontes
+\usepackage[portuguese]{babel}    % Idioma
+\usepackage{lmodern}          % Fonte moderna
+\usepackage{amsmath,amssymb,amsthm} % Matemática
+\usepackage{graphicx}         % Imagens
+\usepackage{hyperref}         % Links
+\usepackage{fancyhdr}         % Cabeçalho/rodapé
+\usepackage{geometry}         % Margens
+\usepackage{color}            % Cores
+\usepackage{quotchap}         % Estilo para citações de capítulo
+\usepackage{csquotes}         % Citações
+\usepackage{listings}         % Código-fonte
+\usepackage{xcolor}
+\usepackage{makeidx}          % Índice remissivo
+\usepackage{tcolorbox}        % Quadros estilizados
+\usepackage{framed}           % Caixas simples
+\usepackage{enumitem}         % Listas customizáveis
+\usepackage{longtable}        % Tabelas longas
+
+\makeindex
+
+% Configurações visuais
+\geometry{a4paper, margin=3cm}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+    citecolor=blue
+}
+\setlength{\headheight}{15pt} % Corrige aviso de fancyhdr
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\leftmark}
+\lhead{\thepage}
+
+% Definições e Teoremas
+\newtheorem{definition}{Definição}[chapter]
+\newtheorem{theorem}{Teorema}[chapter]
+\newtheorem{example}{Exemplo}[chapter]
+
+% Capa personalizada
+\title{\Huge\textbf{Manual de Matemática Moderna\\para Desenvolvedores}}
+\author{Willams Sousa}
+\date{\today}
+
+\begin{document}
+
+% Capa
+\maketitle
+\thispagestyle{empty}
+\newpage
+
+% Folha de rosto
+\begin{titlepage}
+  \centering
+  \vspace*{4cm}
+  {\Large Este é um livro de demonstração criado em LaTeX no VSCode.}\\[1cm]
+  {\large Todos os direitos reservados ao autor.}\\[1cm]
+  {\small \url{https://github.com/osdeving/}}
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+\chapter{Introdução}
+\section{Motivação}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus porta, purus eget laoreet scelerisque, neque libero tincidunt odio, at consequat magna justo id arcu.
+
+Suspendisse potenti. Curabitur ac ligula nec nunc facilisis varius. Donec ut ligula id enim efficitur convallis. Sed euismod, nunc in facilisis tincidunt, nisi nisl aliquet nunc, a bibendum justo nunc non nisi.
+
+\section{Objetivos}
+\begin{itemize}
+    \item Objetivo 1
+    \item Objetivo 2
+    \item Objetivo 3
+    \item Objetivo 4
+\end{itemize}
+
+\section{Sobre o Livro}
+Este livro está estruturado em capítulos independentes que exploram teoria e aplicações matemáticas.
+
+\chapter{Máximo Divisor Comum (MDC)}
+
+\section*{Definição}
+Seja $b \neq 0$. Dizemos que $b$ é um divisor de $a$ se existe um inteiro $m$ tal que $a = mb$. Neste caso:
+
+- $b$ é divisor de $a$;
+- $a$ é múltiplo de $b$.
+
+Utilizamos $\gcd(a, b)$ para denotar o “maior divisor comum” entre $a$ e $b$: o maior inteiro que divide ambos. Por convenção:
+\begin{itemize}
+  \item $\gcd(0, 0) = 0$;
+  \item $\gcd(a, 0) = |a|$ para $a \neq 0$.
+\end{itemize}
+
+\section*{Definição formal}
+Sejam $a$ e $b$ inteiros, e $c$ um inteiro positivo. Dizemos que $c = \gcd(a, b)$ se:
+\begin{enumerate}
+  \item $c$ divide $a$ e $b$;
+  \item Qualquer outro inteiro que divide $a$ e $b$ também divide $c$.
+\end{enumerate}
+
+Outra forma equivalente:
+\[
+\gcd(a, b) = \max\{k \in \mathbb{Z}^+ \mid k \mid a \land k \mid b\}
+\]
+
+\paragraph{Propriedades:}
+\begin{itemize}
+  \item $\gcd(a, b) = \gcd(a, -b) = \gcd(-a, b) = \gcd(|a|, |b|)$;
+  \item $\gcd(60, 24) = \gcd(60, -24) = 12$.
+\end{itemize}
+
+\paragraph{Relativamente primos:} Dois inteiros $a$ e $b$ são relativamente primos se $\gcd(a, b) = 1$.
+\begin{itemize}
+  \item Exemplos: $\gcd(8, 15) = 1$, pois os divisores positivos de 8 são $\{1,2,4,8\}$, e de 15 são $\{1,3,5,15\}$. O único em comum é 1.
+\end{itemize}
+
+\section*{Algoritmo de Euclides}
+Para encontrar $\gcd(a, b)$, utilizamos divisões sucessivas:
+
+\begin{enumerate}
+  \item Suponha $a \geq b > 0$.
+  \item Divida $a$ por $b$: \quad $a = q_1b + r_1$, \quad com $0 \leq r_1 < b$.
+  \item Se $r_1 = 0$, então $\gcd(a, b) = b$.
+  \item Caso contrário, divida $b$ por $r_1$: \quad $b = q_2r_1 + r_2$.
+  \item Continue dividindo: $r_1 = q_3r_2 + r_3$, etc.
+  \item O processo termina quando $r_n = 0$. Então:
+  \[
+  \gcd(a, b) = r_{n-1}
+  \]
+\end{enumerate}
+
+\paragraph{Forma geral (sequência de divisões):}
+\begin{align*}
+  a &= q_1b + r_1 \\
+  b &= q_2r_1 + r_2 \\
+  r_1 &= q_3r_2 + r_3 \\
+      &\vdots \\
+  r_{n-2} &= q_nr_{n-1} + r_n \\
+  r_{n-1} &= q_{n+1}r_n + 0
+\end{align*}
+\[
+\therefore\quad \gcd(a, b) = r_n
+\]
+
+\paragraph{Validação:}
+- O algoritmo é válido porque $r_n$ divide $r_{n-1}$, que divide $r_{n-2}$, e assim por diante até $a$ e $b$.
+- Qualquer outro divisor comum também divide todos os $r_i$, então $r_n$ é o maior divisor comum.
+
+\section*{Exemplo numérico (valores grandes)}
+Queremos calcular $\gcd(1160718174,\ 316258250)$.
+
+\begin{align*}
+1160718174 &= 3 \cdot 316258250 + 211943424 \\
+316258250  &= 1 \cdot 211943424 + 104314826 \\
+211943424  &= 2 \cdot 104314826 + 33237872 \\
+104314826  &= 3 \cdot 33237872 + 46701210 \\
+\vdots & \\
+...     &= ... + 1078 \\
+\therefore\quad \gcd(1160718174,\ 316258250) &= 1078
+\end{align*}
+
+\paragraph{Resumo do processo:}
+Cada linha da divisão segue o formato:
+\[
+  r_{i-2} = q_ir_{i-1} + r_i
+\]
+E termina quando $r_n = 0$, sendo que $r_{n-1}$ é o resultado.
+
+\paragraph{Importância:} O algoritmo de Euclides é simples e extremamente eficiente, sendo fundamental para aplicações em criptografia, especialmente na teoria dos números e em algoritmos de chave pública como RSA.
+
+
+\chapter{Fundamentos Matemáticos}
+\section{Conjuntos e Funções}
+
+\begin{definition}[Conjunto]
+Um \textbf{conjunto} é uma coleção de objetos bem definidos.
+\end{definition}
+
+\begin{theorem}[União de conjuntos]
+Se $A$ e $B$ são conjuntos, então $A \cup B$ também é um conjunto.
+\end{theorem}
+
+\begin{example}
+Considere $A = \{1,2\}$ e $B = \{2,3\}$. Então $A \cup B = \{1,2,3\}$.
+\end{example}
+
+\section{Fórmulas matemáticas}
+\begin{equation}
+  \int_{0}^{\infty} e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
+\end{equation}
+
+\chapter{Elementos Avançados}
+\section{Listas}
+\begin{enumerate}
+    \item Item numerado 1
+    \item Item numerado 2
+\end{enumerate}
+
+\section{Quadros}
+\begin{framed}
+Texto em destaque com quadro simples.
+\end{framed}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!80!black,title=Nota]
+Destaque visual com tcolorbox.
+\end{tcolorbox}
+
+\section{Código-fonte}
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{orange},
+  breaklines=true,
+  frame=single,
+  language=Python
+}
+
+\begin{lstlisting}
+def fatorial(n):
+    if n == 0:
+        return 1
+    return n * fatorial(n-1)
+\end{lstlisting}
+
+\section{Tabelas}
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|r|}
+\hline
+Coluna A & Coluna B & Coluna C \\ \hline
+Esq     & Centro    & Dir \\ \hline
+\end{tabular}
+\caption{Exemplo de tabela simples}
+\label{tab:exemplo}
+\end{table}
+
+\section{Inserção de Imagens}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.4\textwidth]{img/capa.jpg}
+    \caption{Exemplo de imagem}
+    \label{fig:exemplo}
+\end{figure}
+
+\section{Links externos e citações}
+Veja o repositório do projeto em: \url{https://github.com/osdeving/}
+
+\begin{displayquote}
+"A matemática é o alfabeto com o qual Deus escreveu o universo." \textemdash{} Galileu Galilei
+\end{displayquote}
+
+Blah blah \cite{knuth1984}.
+
+Este é um exemplo de nota\footnote{Aqui está a nota de rodapé.}.
+
+Texto com palavra\index{palavra importante} marcada.
+
+\appendix
+\chapter{Códigos-fonte}
+Conteúdo adicional ou implementações completas.
+
+\chapter{Documentos adicionais}
+Documentos de apoio, tabelas extensas ou materiais externos.
+
+\printindex
+
+\end{document}

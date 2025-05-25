@@ -1,0 +1,24 @@
+\babel@toc {portuguese}{}\relax 
+\contentsline {chapter}{\numberline {1}Introdução}{5}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Motivação}{5}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Objetivos}{5}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Sobre o Livro}{5}{section.1.3}%
+\contentsline {chapter}{\numberline {2}Máximo Divisor Comum (MDC)}{7}{chapter.2}%
+\contentsline {paragraph}{Propriedades:}{7}{section*.4}%
+\contentsline {paragraph}{Relativamente primos:}{8}{section*.5}%
+\contentsline {paragraph}{Forma geral (sequência de divisões):}{8}{section*.7}%
+\contentsline {paragraph}{Validação:}{8}{section*.8}%
+\contentsline {paragraph}{Resumo do processo:}{9}{section*.10}%
+\contentsline {paragraph}{Importância:}{9}{section*.11}%
+\contentsline {chapter}{\numberline {3}Fundamentos Matemáticos}{11}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Conjuntos e Funções}{11}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Fórmulas matemáticas}{11}{section.3.2}%
+\contentsline {chapter}{\numberline {4}Elementos Avançados}{13}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Listas}{13}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Quadros}{13}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Código-fonte}{13}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Tabelas}{14}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Inserção de Imagens}{14}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Links externos e citações}{14}{section.4.6}%
+\contentsline {chapter}{\numberline {A}Códigos-fonte}{15}{appendix.A}%
+\contentsline {chapter}{\numberline {B}Documentos adicionais}{17}{appendix.B}%
