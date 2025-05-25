@@ -51,7 +51,7 @@ Na aritmética modular de inteiros (como ${Z}_7$), operamos com restos de divis�
 Já na aritmética de ${F}_{2^8}$, operamos com **polinômios binários**. Por exemplo, o byte:
 
 $$
-\texttt{0x57} = 0101\,0111
+\texttt{0x57} = 01010111
 $$
 
 representa o polinômio:
@@ -60,7 +60,7 @@ $$
 0\cdot x^7 + 1\cdot x^6 + 0\cdot x^5 + 1\cdot x^4 + 0\cdot x^3 + 1\cdot x^2 + 1\cdot x^1 + 1\cdot x^0 = x^6 + x^4 + x^2 + x + 1
 $$
 
-O valor binário indica a presença (1) ou ausência (0) de cada termo de grau correspondente.
+O valor binário indica a presença (1) ou ausência (0) de cada termo de grau correspondente de acordo com a posição do bit no byte.
 
 ### Exemplo de Multiplicação em ${F}_{2^8}$
 
