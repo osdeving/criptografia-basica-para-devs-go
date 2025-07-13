@@ -1,7 +1,7 @@
 # Matemática para Criptografia
 
 ## 1. Introdução
-A criptografia moderna depende fortemente de estruturas matemáticas abstratas como grupos, anéis, corpos, polinômios e aritmética modular. Estas ferramentas fornecem a base teórica para algoritmos amplamente utilizados, como o DES, AES e curvas elípticas (ECC). Este documento oferece uma abordagem gradual e didática da matemática por trás dessas construções, com definições, propriedades e aplicações práticas.
+A criptografia moderna depende de estruturas matemáticas abstratas como grupos, anéis, corpos, polinômios e aritmética modular. Estas ferramentas fornecem a base teórica para os algoritmos, como o DES, AES e curvas elípticas (ECC). Esta seção oferece uma abordagem gradual e didática da matemática por trás dessas construções, com definições, propriedades e aplicações práticas.
 
 ## 1. Aritmética Modular
 
