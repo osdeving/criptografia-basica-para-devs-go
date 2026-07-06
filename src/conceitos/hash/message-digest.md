@@ -2,17 +2,21 @@
 
 ## MD2
 
-O primeiro algoritmo amplamente publicado da família MD (Message Digest) foi o MD2 e foi desenvolvido por Ronald Rivest em 1989 (não achei nenhuma publicação do MD1 nem do MD3). Ele foi projetado especificamente para computadores de 8 bits. Apesar de ter sido uma inovação importante, o MD2 se tornou obsoleto com o tempo devido a ataques criptográficos bem-sucedidos. Suas principais características eram:
+A familia MD foi criada por Ronald Rivest. O primeiro algoritmo publicado da família foi o MD2, publicado em 1989 e especificado na RFC 1319. Ele foi projetado especificamente para computadores de 8 bits. Apesar de ter sido uma inovação importante, o MD2 se tornou obsoleto com o tempo devido a ataques criptográficos bem-sucedidos. Suas principais características eram:
 
 * Tamanho da saída: 128 bits (16 bytes)
 * Entrada de tamanho variável
 * Projetado para máquinas de 8 bits
-* Inseguro desde 2004 devido a ataques práticos
-* Lento em hardware moderno devido à otimização para 8 bits
+* Inseguro desde 2004 devido a ataques práticos viáveis
+* Lento em hardware moderno devido à otimização específica para 8 bits
 
-### Como o MD2 Funciona?
+O algorítmo MD possui 3 etapas principais:
 
-A especificação do MD2 pode ser encontrada na RFC 1319. Esse algorítmo transforma qualquer entrada em um hash de 128bits. Ele faz isso seguindo 3 etapas principais:
+1. Padding
+2. checksum
+3. transformação principal
+
+Veremos cada uma delas a seguir.
 
 #### 1 - Padding
 
@@ -23,7 +27,7 @@ Para garantir que o tamanho da entrada seja um múltiplo de 16 bytes, adicionamo
 
 Exemplo:
 
-![Padding MD2](images/padding-md2.png)
+![Padding MD2](../images/padding-md2.png)
 
 Ou seja:
 

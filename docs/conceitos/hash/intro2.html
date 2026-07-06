@@ -1,0 +1,390 @@
+<!DOCTYPE HTML>
+<html lang="pt_BR" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Introdução - Criptografia para Desenvolvedores: Fundamentos e Prática</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Criptografia para Desenvolvedores: Fundamentos e Prática</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="introdução"><a class="header" href="#introdução">Introdução</a></h1>
+<p>Uma função hash transforma uma entrada de tamanho variável em uma saída de tamanho fixo.</p>
+<pre><code class="language-text">entrada qualquer -&gt; função hash -&gt; saída de tamanho fixo
+</code></pre>
+<p>Exemplo:</p>
+<pre><code class="language-text">"abc" -&gt; SHA-256 -&gt; ba7816bf8f01cfea414140de5dae2223...
+</code></pre>
+<p>Essa saída também recebe nomes como:</p>
+<pre><code class="language-text">digest
+message digest
+hash value
+fingerprint
+</code></pre>
+<p>Também conhecidas como funções <em>one-way</em>, as funções hash criptográficas não são cifras. Uma cifra precisa permitir a volta, isto é, precisa ser reversível e retornar à mensagem original.</p>
+<pre><code class="language-text">encrypt(plaintext, key) -&gt; gera um ciphertext
+decrypt(ciphertext, key) -&gt; gera novamente a mensagem original plaintext
+</code></pre>
+<p>Com funções hash, não é possível voltar à mensagem original:</p>
+<pre><code class="language-text">hash(message) -&gt; digest
+digest -&gt; não é possível obter a mensagem original a partir do digest
+</code></pre>
+<h2 id="propriedades"><a class="header" href="#propriedades">Propriedades</a></h2>
+<p>Funções hash criptográficas devem ter as seguintes propriedades:</p>
+<pre><code class="language-text">determinística:
+  mesma entrada, mesma saída
+
+saída fixa:
+  digest sempre tem o mesmo tamanho
+
+resistente à pré-imagem:
+  dado um digest, deve ser inviável encontrar uma mensagem que gere esse digest
+
+resistente à segunda pré-imagem:
+  dada uma mensagem M1, deve ser inviável encontrar M2 diferente com o mesmo digest
+
+resistente à colisão:
+  deve ser inviável encontrar qualquer par M1 != M2 com o mesmo digest
+
+efeito avalanche:
+  uma pequena mudança na entrada deve causar uma mudança ampla na saída
+</code></pre>
+<p>Essas propriedades existem para aumentar a confiança no algoritmo.</p>
+<p>Quando dizemos que uma função hash é <strong>determinística</strong>, estamos dizendo que a mesma mensagem precisa gerar exatamente o mesmo digest hoje, amanhã, no seu notebook, no servidor, em Go, Rust, C ou qualquer outra implementação correta. Isso é o que permite comparar hashes. Se você baixa uma ISO do Linux e compara o SHA-256 com o valor publicado no site, está confiando nisso: os mesmos bytes precisam produzir o mesmo resultado.</p>
+<p>Nesse uso, o digest funciona como uma <strong>impressão digital</strong> do arquivo, também chamada de <strong>fingerprint</strong>: um identificador compacto derivado do conteúdo. Se a função tivesse qualquer aleatoriedade interna, o digest deixaria de ser essa impressão digital estável e não poderia ser usado para verificar se dois arquivos são exatamente iguais.</p>
+<p>É importante separar alguns termos relacionados. O <strong>digest</strong> é o valor produzido pela função hash. A <strong>fingerprint</strong> é o uso desse digest como uma impressão digital do conteúdo. Um <strong>checksum</strong> também serve para detectar alteração, mas normalmente é pensado para erros acidentais, não para resistência criptográfica. Já uma <strong>assinatura digital</strong> é outra coisa: ela normalmente assina um hash usando uma chave privada, permitindo verificar autoria e integridade com uma chave pública. Hash pode ser parte de uma assinatura, mas hash sozinho não prova quem produziu o arquivo.</p>
+<p>A <strong>saída fixa</strong> permite transformar uma entrada potencialmente enorme em algo manuseável, como no exemplo da imagem ISO do Linux mencionado acima. Assim, um contrato de duas páginas, um vídeo de 4 GB ou uma string vazia podem virar, por exemplo, apenas 32 bytes no SHA-256.</p>
+<p>Essa compactação não significa que a função hash <em>guardou</em> a mensagem inteira dentro dela; isso é matematicamente impossível. O digest funciona mais como uma impressão digital matemática: pequeno o bastante para comparar, transmitir e armazenar, mas sensível o bastante para denunciar mudanças na entrada.</p>
+<p>A <strong>resistência à pré-imagem</strong> é a propriedade que sustenta a ideia de mão única. A palavra vem da linguagem matemática das funções: se <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mopen">(</span><span class="mord mathnormal">m</span><span class="mord mathnormal">e</span><span class="mord mathnormal">n</span><span class="mord mathnormal">s</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal">e</span><span class="mord mathnormal">m</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal">es</span><span class="mord mathnormal">t</span></span></span></span>, então o digest é a imagem daquela mensagem, e a mensagem é uma pré-imagem daquele digest.</p>
+<p>Em uma função hash, o domínio é o conjunto de todas as entradas possíveis: arquivos, textos ou sequências de bytes. O contradomínio é o conjunto de todos os digests possíveis, por exemplo, todos os valores de 256 bits no caso do SHA-256.</p>
+<p>Portanto, se eu te dou apenas um digest, você não deveria conseguir encontrar uma mensagem que produza exatamente aquele mesmo valor. Em uma hash criptográfica boa, o digest não deve entregar pistas úteis para reconstruir a entrada original.</p>
+<p>Em notação matemática, o problema de pré-imagem pode ser descrito assim:</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">dado </span></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord"> encontrar </span></span><span class="mord mathnormal">x</span><span class="mord text"><span class="mord"> tal que </span></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span></span></p>
+<p>O armazenamento de senhas ilustra bem o problema, embora não represente necessariamente uma quebra da propriedade de pré-imagem. Se o banco armazena <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mopen">(</span><span class="mord text"><span class="mord">"senha123"</span></span><span class="mclose">)</span></span></span></span>, isto é, a hash da string <code>"senha123"</code>, então <code>"senha123"</code> é uma pré-imagem daquele digest.</p>
+<p>Um atacante que tenha acesso ao banco pode tentar adivinhar entradas comuns e calcular seus hashes até encontrar um digest igual. O uso de <em>rainbow tables</em> acelera esse processo usando hashes pré-computados de senhas prováveis. Isso não significa que a função hash foi invertida matematicamente; significa que o atacante explorou o fato de senhas humanas virem de um espaço pequeno e previsível.</p>
+<p>Como ainda veremos neste livro, para senhas, não se usa SHA-256 puro. Usa-se <em>salt</em> e funções próprias para senha, como Argon2, bcrypt ou scrypt, justamente para tornar ataques de tentativa, dicionário e <em>rainbow table</em> muito mais caros.</p>
+<p>A <strong>resistência à segunda pré-imagem</strong> é parecida com a resistência à pré-imagem, mas o ponto de partida muda. Na pré-imagem, o atacante recebe apenas um digest e tenta encontrar alguma mensagem que produza aquele valor. Na segunda pré-imagem, ele já conhece uma mensagem legítima <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> e tenta fabricar outra mensagem <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, diferente, tal que:</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span></p>
+<p>com:</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel"><span class="mrel"><span class="mord vbox"><span class="thinbox"><span class="rlap"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="inner"><span class="mord"><span class="mrel"></span></span></span><span class="fix"></span></span></span></span></span><span class="mrel">=</span></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></p>
+<p>Ou seja, o atacante não quer apenas encontrar qualquer entrada para um digest desconhecido; ele quer substituir uma mensagem específica por outra que preserve exatamente o mesmo resumo.</p>
+<p>Isso seria perigoso em cenários como documentos, contratos, backups, ISOs e binários de software. Imagine que alguém publica o hash de um binário legítimo. Se um atacante consegue criar um binário malicioso com o mesmo digest, o hash continuaria batendo, mas o conteúdo já não seria o mesmo.</p>
+<p>Portanto, não basta ser difícil voltar do digest para alguma mensagem. Também precisa ser difícil, dado um conteúdo específico, fabricar um substituto com o mesmo resumo.</p>
+<p>A <strong>resistência à colisão</strong> é a propriedade que torna computacionalmente inviável encontrar quaisquer duas mensagens diferentes, <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> e <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, que produzam o mesmo digest:</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel"><span class="mrel"><span class="mord vbox"><span class="thinbox"><span class="rlap"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="inner"><span class="mord"><span class="mrel"></span></span></span><span class="fix"></span></span></span></span></span><span class="mrel">=</span></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></p>
+<p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span></p>
+<p>Há muito mais mensagens possíveis do que digests possíveis. No caso do SHA-256, por exemplo, qualquer entrada é comprimida para um valor de 256 bits. Pelo princípio da casa dos pombos, mensagens diferentes podem cair no mesmo digest. A segurança não depende de colisões serem impossíveis; depende de elas serem computacionalmente inviáveis de encontrar.</p>
+<p>Diferente da segunda pré-imagem, na colisão o requisito é mais geral: a função deve resistir à tentativa de encontrar qualquer par de mensagens distintas que colidam.</p>
+<p>A resistência à colisão é uma propriedade central em contextos como assinaturas digitais, certificados, integridade de pacotes e documentos. Se colisões se tornam práticas, passa a ser possível construir dois conteúdos diferentes com o mesmo digest, enfraquecendo a confiança no digest como identificador criptográfico daquele conteúdo.</p>
+<p>Foi por esse caminho que algoritmos como MD5 e SHA-1 perderam credibilidade em aplicações sensíveis. Eles continuaram determinísticos, continuaram produzindo saída fixa e continuaram parecendo funções hash no formato. O problema é que se tornou viável encontrar colisões, e isso quebra a confiança necessária para usos criptográficos.</p>
+<p>O <strong>efeito avalanche</strong> é o comportamento visualmente mais interessante. Você muda uma letra, um bit, uma vírgula, e a saída deveria mudar de forma ampla, sem preservar uma relação óbvia com o digest anterior.</p>
+<p>Uma boa hash não deve funcionar como uma proporção que muda um pouquinho quando a entrada muda um pouquinho. Ela deve se comportar como um sistema de mistura: uma alteração local entra nas rodadas internas e se espalha pelo estado interno do algoritmo. Esse efeito não é apenas estética matemática; ele dificulta inferir a estrutura da entrada olhando diferenças entre digests.</p>
+<p>Essas propriedades trabalham juntas. Uma função hash pode ser determinística e ter saída fixa, como uma soma de bytes, e ainda assim ser inútil para criptografia. O que torna a função criptográfica é o conjunto: digest fixo, difícil de inverter, difícil de substituir, difícil de colidir e com boa difusão. Quando uma dessas peças falha, o algoritmo não serve como base confiável para segurança.</p>
+<h2 id="colisão-é-inevitável"><a class="header" href="#colisão-é-inevitável">Colisão é inevitável</a></h2>
+<p>Uma hash recebe entradas de tamanho variável e gera saídas de tamanho fixo. Isso significa que colisões existem inevitavelmente.</p>
+<p>Como já vimos, o que a criptografia exige não é:</p>
+<pre><code class="language-text">colisão impossível
+</code></pre>
+<p>O requisito é:</p>
+<pre><code class="language-text">colisão deve ser inviável de encontrar na prática
+</code></pre>
+<p>Se uma hash tem saída de <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> bits, o custo ideal para achar uma colisão por busca genérica é da ordem de:</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.938em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.938em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mord mtight">/2</span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p>Isso vem do paradoxo do aniversário.</p>
+<p>Alguns exemplos:</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mord">5</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8641em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">64</span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mord mathnormal">A</span><span class="mord text"><span class="mord">-</span></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8641em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">80</span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mord mathnormal">A</span><span class="mord text"><span class="mord">-</span></span><span class="mord">256</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8641em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">128</span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p>Isso parece muito, mas ataques criptanalíticos podem reduzir muito esse custo. Foi isso que aconteceu com MD4, MD5 e SHA-1.</p>
+<h2 id="funções-hash-não-criptográficas"><a class="header" href="#funções-hash-não-criptográficas">Funções Hash Não Criptográficas</a></h2>
+<p>Nem toda função hash é uma função hash criptográfica. Muitas funções hash existem para outros objetivos: distribuir dados em tabelas hash, identificar registros, particionar mensagens em sistemas distribuídos, detectar erros simples ou produzir identificadores rápidos.</p>
+<p>Uma função hash não criptográfica pode ser perfeitamente útil nesses contextos e, ao mesmo tempo, ser completamente inadequada para segurança.</p>
+<p>Considere uma função didática simples:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn simple_hash(input: &amp;[u8]) -&gt; u8 {
+    input.iter().fold(0u8, |acc, byte| acc.wrapping_add(*byte))
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Ela soma os bytes da entrada e devolve apenas um byte como resultado. Como a saída é <code>u8</code>, existem apenas 256 valores possíveis.</p>
+<p>Essa função tem algumas características de uma hash:</p>
+<pre><code class="language-text">é determinística:
+  a mesma entrada sempre gera a mesma saída
+
+tem saída fixa:
+  qualquer entrada gera um resultado de 8 bits
+
+é rápida:
+  basta percorrer os bytes e somar
+</code></pre>
+<p>Mas ela viola praticamente tudo que esperamos de uma hash criptográfica.</p>
+<p>Por exemplo:</p>
+<pre><code class="language-text">"abc" e "acb" colidem
+</code></pre>
+<p>Isso acontece porque a função só soma os bytes. A ordem dos caracteres não importa. Portanto, qualquer permutação dos mesmos bytes gera o mesmo resultado.</p>
+<p>Também é fácil fabricar colisões:</p>
+<pre><code class="language-text">qualquer conjunto de bytes com a mesma soma colide
+</code></pre>
+<p>Além disso, como existem apenas 256 saídas possíveis, colisões são não apenas inevitáveis, mas extremamente fáceis de encontrar.</p>
+<p>Essa função também não tem efeito avalanche real. Se você muda um byte da entrada de forma pequena, a saída tende a mudar de forma pequena e previsível. A alteração não se espalha por um estado interno complexo, não passa por várias rodadas de mistura e não destrói relações simples entre entrada e saída.</p>
+<p>Podemos analisar essa função usando as propriedades que acabamos de estudar:</p>
+<pre><code class="language-text">determinismo:
+  sim, a função é determinística
+
+saída fixa:
+  sim, a saída sempre tem 8 bits
+
+resistência à pré-imagem:
+  não, é fácil procurar entradas que gerem um valor específico
+
+resistência à segunda pré-imagem:
+  não, dada uma entrada, é fácil construir outra com a mesma soma
+
+resistência à colisão:
+  não, colisões são triviais
+
+efeito avalanche:
+  não, mudanças pequenas produzem efeitos previsíveis
+</code></pre>
+<p>Esse exemplo mostra a diferença entre uma <code>função hash não criptográfica</code> e uma <code>função hash criptograficamente segura</code>. Uma função pode transformar entrada variável em saída fixa e ainda assim não servir para criptografia.</p>
+<p>Hashes criptográficas reais usam estruturas muito mais complexas. Em geral, elas seguem o seguinte modelo:</p>
+<pre><code class="language-text">1. aplicar padding
+2. dividir a mensagem em blocos
+3. manter um estado interno
+4. processar cada bloco com uma função de compressão ou permutação
+5. emitir o estado final como digest
+</code></pre>
+<p>Esse modelo aparece na família MD e em SHA-1/SHA-2. Já o SHA-3 usa uma construção diferente, baseada em esponja, mas a intenção geral continua parecida: absorver a entrada, misturar o estado interno e produzir uma saída que pareça imprevisível para quem tenta controlar a entrada.</p>
+<h2 id="confusão-e-difusão"><a class="header" href="#confusão-e-difusão">Confusão e difusão</a></h2>
+<p>Como já vimos no capítulo 1, Claude Shannon introduziu dois conceitos que ajudam a ler qualquer algoritmo criptográfico moderno:</p>
+<pre><code class="language-text">confusão:
+  esconder relações simples entre entrada, chave e saída
+
+difusão:
+  espalhar a influência de cada bit da entrada por muitos bits da saída
+</code></pre>
+<p>Em hashes, a difusão aparece quando um bit alterado na mensagem mexe em muitas palavras, rodadas e bits do digest.</p>
+<p>MD2 usa S-box e XOR. MD4, MD5, SHA-1 e SHA-2 usam funções booleanas, somas modulares e rotações. SHA-3 usa uma esponja baseada em permutação.</p>
+<p>O objetivo é sempre parecido: misturar localmente várias vezes até que a saída pareça imprevisível para quem tenta controlar a entrada.</p>
+<p>Nas próximas seções, veremos de perto os algoritmos da família MD e da família SHA.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../conceitos/hash/intro-sumario.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../conceitos/hash/message-digest-v2.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../conceitos/hash/intro-sumario.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../conceitos/hash/message-digest-v2.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

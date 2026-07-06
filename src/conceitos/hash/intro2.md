@@ -1,4 +1,4 @@
-# Funções Hash Criptográficas
+# Introdução
 
 Uma função hash transforma uma entrada de tamanho variável em uma saída de tamanho fixo.
 
